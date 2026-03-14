@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Age Verification - Fogin</title>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../../fogin-shared/css/main.css">
+  </head>
+  <body>
+    <!-- AGE GATE (only this!) -->
+    <div class="age-gate">
+      <div class="age-gate__content">
+        <div class="age-gate__logo">
+          <div class="age-gate__logo-text">FOGIN.PH</div>
+        </div>
+
+        <h2 class="age-gate__title">Age Verification Required</h2>
+
+        <p class="age-gate__description">
+          You must be of legal age to enter this website. This site contains
+          vape and tobacco products.
+        </p>
+
+        <div class="age-gate__warning">
+          <svg
+            class="age-gate__warning-icon"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+            />
+          </svg>
+          <span>You must be 18 years or older</span>
+        </div>
+
+        <form class="age-gate__form">
+          <div class="age-gate__input-group">
+            <div class="age-gate__date-input">
+              <label for="age-month">Month</label>
+              <select id="age-month" >
+                <option value="" disabled selected>Month</option>
+              </select>
+            </div>
+
+            <div class="age-gate__date-input">
+              <label for="age-day">Day</label>
+              <select id="age-day" >
+                <option value="" disabled selected>Day</option>
+              </select>
+            </div>
+
+            <div class="age-gate__date-input">
+              <label for="age-year">Year</label>
+              <select id="age-year" >
+                <option value="" disabled selected>Year</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Legal Certification -->
+          <div class="age-gate__checkbox">
+            <label class="checkbox">
+              <input
+                type="checkbox"
+                id="age-certify"
+                class="checkbox__input"
+                
+              />
+              <span class="checkbox__custom"></span>
+              <span class="checkbox__label">
+                I certify under penalty of perjury that I am 18 years or older
+                and that all information provided is true and accurate.
+              </span>
+            </label>
+          </div>
+
+          <!-- Remember Me -->
+          <div class="age-gate__checkbox">
+            <label class="checkbox">
+              <input
+                type="checkbox"
+                id="age-remember"
+                class="checkbox__input"
+              />
+              <span class="checkbox__custom"></span>
+              <span class="checkbox__label">Remember me</span>
+            </label>
+          </div>
+
+          <!-- Error Message -->
+          <div class="age-gate__error"></div>
+
+          <!-- Buttons -->
+          <div class="age-gate__buttons">
+            <button
+              type="button"
+              class="btn btn-secondary age-gate__button"
+              data-age-gate-exit
+            >
+              Exit
+            </button>
+            <button type="submit" class="btn btn-primary age-gate__button">
+              Enter
+            </button>
+          </div>
+
+          <!-- Legal -->
+          <div class="age-gate__legal">
+            By entering this site, you agree to our
+            <a href="../terms.html">Terms of Service</a> and
+            <a href="../privacy.html">Privacy Policy</a>.
+          </div>
+        </form>
+
+        <!-- Exit Screen -->
+        <div class="age-gate__exit">
+          <div class="age-gate__exit-icon">🚫</div>
+          <h2 class="age-gate__exit-title">Sorry!</h2>
+          <p class="age-gate__exit-text">
+            You must be 18 years or older to access this website.
+          </p>
+          <a href="../auth/age-gate.html" class="btn btn-secondary">Leave Site</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScript (with type="module") -->
+    <script type="module" src="../../fogin-shared/js/public/auth/age-gate-onboarding.js"></script>
+  </body>
+</html>

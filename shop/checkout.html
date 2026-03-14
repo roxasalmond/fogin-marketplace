@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout — Fogin</title>
+  <meta name="description" content="Complete your order on Fogin.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../../fogin-shared/css/main.css">
+  
+</head>
+<body>
+
+  <!-- Navbar -->
+  <div id="navbar-placeholder"></div>
+
+  <main class="checkout-page">
+    <div class="checkout-container">
+
+      <!-- ─── PAGE HEADER ─── -->
+      <div class="checkout-header">
+        <a href="cart.html" class="checkout-back-btn">
+          <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+            <path fill-rule="evenodd" d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z" clip-rule="evenodd"/>
+          </svg>
+          Back to Cart
+        </a>
+        <h1 class="checkout-title">Checkout</h1>
+
+        <!-- Steps indicator -->
+        <div class="checkout-steps">
+          <div class="checkout-step checkout-step--active" data-step="1">
+            <div class="checkout-step__num">1</div>
+            <span>Delivery</span>
+          </div>
+          <div class="checkout-step__line"></div>
+          <div class="checkout-step" data-step="2">
+            <div class="checkout-step__num">2</div>
+            <span>Payment</span>
+          </div>
+          <div class="checkout-step__line"></div>
+          <div class="checkout-step" data-step="3">
+            <div class="checkout-step__num">3</div>
+            <span>Review</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── MAIN LAYOUT ─── -->
+      <div class="checkout-layout">
+
+        <!-- LEFT: Form sections -->
+        <div class="checkout-form-col">
+
+          <!-- ══ SECTION 1: DELIVERY ADDRESS ══ -->
+          <section class="checkout-section" id="sectionDelivery">
+            <div class="checkout-section__header">
+              <div class="checkout-section__num">1</div>
+              <div>
+                <h2 class="checkout-section__title">Delivery Address</h2>
+                <p class="checkout-section__subtitle">Where should we send your order?</p>
+              </div>
+              <button class="checkout-section__edit" id="editAddress" hidden>Edit</button>
+            </div>
+
+            <div class="checkout-section__body" id="addressForm">
+              <div class="co-form-grid">
+
+            <!-- First Name -->
+            <div class="co-field co-field--half">
+              <label class="co-label" for="firstName">First Name <span class="co-required">*</span></label>
+              <input type="text" id="firstName" name="firstName" class="co-input" placeholder="Juan" autocomplete="given-name">
+              <span class="co-error" id="firstNameError"></span>
+            </div>
+
+            <!-- Last Name -->
+            <div class="co-field co-field--half">
+              <label class="co-label" for="lastName">Last Name <span class="co-required">*</span></label>
+              <input type="text" id="lastName" name="lastName" class="co-input" placeholder="dela Cruz" autocomplete="family-name">
+              <span class="co-error" id="lastNameError"></span>
+            </div>
+
+                <!-- Phone -->
+                <div class="co-field co-field--half">
+                  <label class="co-label" for="phone">Phone Number <span class="co-required">*</span></label>
+                  <div class="co-input-prefix">
+                    <span class="co-input-prefix__flag">🇵🇭 +63</span>
+                    <input type="tel" id="phone" name="phone" class="co-input co-input--prefixed" placeholder="9XX XXX XXXX" autocomplete="tel" required>
+                  </div>
+                  <span class="co-error" id="phoneError"></span>
+                </div>
+
+                <!-- Email -->
+                <div class="co-field co-field--half">
+                  <label class="co-label" for="email">Email Address <span class="co-required">*</span></label>
+                  <input type="email" id="email" name="email" class="co-input" placeholder="juan@email.com" autocomplete="email" required>
+                  <span class="co-error" id="emailError"></span>
+                </div>
+
+                <!-- Street Address -->
+                <div class="co-field co-field--full">
+                  <label class="co-label" for="streetAddress">Street Address <span class="co-required">*</span></label>
+                  <input type="text" id="streetAddress" name="streetAddress" class="co-input" placeholder="House no., Building, Street name" autocomplete="street-address" required>
+                  <span class="co-error" id="streetAddressError"></span>
+                </div>
+
+                <!-- Barangay -->
+                <div class="co-field co-field--half">
+                  <label class="co-label" for="barangay">Barangay <span class="co-required">*</span></label>
+                  <input type="text" id="barangay" name="barangay" class="co-input" placeholder="Barangay name" required>
+                  <span class="co-error" id="barangayError"></span>
+                </div>
+
+                <!-- City / Municipality -->
+                <div class="co-field co-field--half">
+                  <label class="co-label" for="city">City / Municipality <span class="co-required">*</span></label>
+                  <input type="text" id="city" name="city" class="co-input" placeholder="City or Municipality" autocomplete="address-level2" required>
+                  <span class="co-error" id="cityError"></span>
+                </div>
+
+                <!-- Province -->
+                <div class="co-field co-field--half">
+                  <label class="co-label" for="province">Province <span class="co-required">*</span></label>
+                  <select id="province" name="province" class="co-input co-select" required>
+                    <option value="" disabled selected>Select province</option>
+                    <option value="Metro Manila">Metro Manila (NCR)</option>
+                    <option value="Abra">Abra</option>
+                    <option value="Agusan del Norte">Agusan del Norte</option>
+                    <option value="Agusan del Sur">Agusan del Sur</option>
+                    <option value="Aklan">Aklan</option>
+                    <option value="Albay">Albay</option>
+                    <option value="Antique">Antique</option>
+                    <option value="Apayao">Apayao</option>
+                    <option value="Aurora">Aurora</option>
+                    <option value="Basilan">Basilan</option>
+                    <option value="Bataan">Bataan</option>
+                    <option value="Batanes">Batanes</option>
+                    <option value="Batangas">Batangas</option>
+                    <option value="Benguet">Benguet</option>
+                    <option value="Biliran">Biliran</option>
+                    <option value="Bohol">Bohol</option>
+                    <option value="Bukidnon">Bukidnon</option>
+                    <option value="Bulacan">Bulacan</option>
+                    <option value="Cagayan">Cagayan</option>
+                    <option value="Camarines Norte">Camarines Norte</option>
+                    <option value="Camarines Sur">Camarines Sur</option>
+                    <option value="Camiguin">Camiguin</option>
+                    <option value="Capiz">Capiz</option>
+                    <option value="Catanduanes">Catanduanes</option>
+                    <option value="Cavite">Cavite</option>
+                    <option value="Cebu">Cebu</option>
+                    <option value="Compostela Valley">Compostela Valley</option>
+                    <option value="Cotabato">Cotabato</option>
+                    <option value="Davao del Norte">Davao del Norte</option>
+                    <option value="Davao del Sur">Davao del Sur</option>
+                    <option value="Davao Occidental">Davao Occidental</option>
+                    <option value="Davao Oriental">Davao Oriental</option>
+                    <option value="Dinagat Islands">Dinagat Islands</option>
+                    <option value="Eastern Samar">Eastern Samar</option>
+                    <option value="Guimaras">Guimaras</option>
+                    <option value="Ifugao">Ifugao</option>
+                    <option value="Ilocos Norte">Ilocos Norte</option>
+                    <option value="Ilocos Sur">Ilocos Sur</option>
+                    <option value="Iloilo">Iloilo</option>
+                    <option value="Isabela">Isabela</option>
+                    <option value="Kalinga">Kalinga</option>
+                    <option value="La Union">La Union</option>
+                    <option value="Laguna">Laguna</option>
+                    <option value="Lanao del Norte">Lanao del Norte</option>
+                    <option value="Lanao del Sur">Lanao del Sur</option>
+                    <option value="Leyte">Leyte</option>
+                    <option value="Maguindanao">Maguindanao</option>
+                    <option value="Marinduque">Marinduque</option>
+                    <option value="Masbate">Masbate</option>
+                    <option value="Misamis Occidental">Misamis Occidental</option>
+                    <option value="Misamis Oriental">Misamis Oriental</option>
+                    <option value="Mountain Province">Mountain Province</option>
+                    <option value="Negros Occidental">Negros Occidental</option>
+                    <option value="Negros Oriental">Negros Oriental</option>
+                    <option value="Northern Samar">Northern Samar</option>
+                    <option value="Nueva Ecija">Nueva Ecija</option>
+                    <option value="Nueva Vizcaya">Nueva Vizcaya</option>
+                    <option value="Occidental Mindoro">Occidental Mindoro</option>
+                    <option value="Oriental Mindoro">Oriental Mindoro</option>
+                    <option value="Palawan">Palawan</option>
+                    <option value="Pampanga">Pampanga</option>
+                    <option value="Pangasinan">Pangasinan</option>
+                    <option value="Quezon">Quezon</option>
+                    <option value="Quirino">Quirino</option>
+                    <option value="Rizal">Rizal</option>
+                    <option value="Romblon">Romblon</option>
+                    <option value="Samar">Samar</option>
+                    <option value="Sarangani">Sarangani</option>
+                    <option value="Siquijor">Siquijor</option>
+                    <option value="Sorsogon">Sorsogon</option>
+                    <option value="South Cotabato">South Cotabato</option>
+                    <option value="Southern Leyte">Southern Leyte</option>
+                    <option value="Sultan Kudarat">Sultan Kudarat</option>
+                    <option value="Sulu">Sulu</option>
+                    <option value="Surigao del Norte">Surigao del Norte</option>
+                    <option value="Surigao del Sur">Surigao del Sur</option>
+                    <option value="Tarlac">Tarlac</option>
+                    <option value="Tawi-Tawi">Tawi-Tawi</option>
+                    <option value="Zambales">Zambales</option>
+                    <option value="Zamboanga del Norte">Zamboanga del Norte</option>
+                    <option value="Zamboanga del Sur">Zamboanga del Sur</option>
+                    <option value="Zamboanga Sibugay">Zamboanga Sibugay</option>
+                  </select>
+                  <span class="co-error" id="provinceError"></span>
+                </div>
+
+                <!-- ZIP -->
+                <div class="co-field co-field--half">
+                  <label class="co-label" for="zipCode">ZIP Code <span class="co-required">*</span></label>
+                  <input type="text" id="zipCode" name="zipCode" class="co-input" placeholder="1234" maxlength="4" autocomplete="postal-code" required>
+                  <span class="co-error" id="zipCodeError"></span>
+                </div>
+
+                <!-- Delivery notes -->
+                <div class="co-field co-field--full">
+                  <label class="co-label" for="deliveryNotes">Delivery Notes <span class="co-optional">(optional)</span></label>
+                  <textarea id="deliveryNotes" name="deliveryNotes" class="co-input co-textarea" placeholder="Gate code, landmark, special instructions…" rows="2"></textarea>
+                </div>
+
+              </div>
+
+              <button class="co-section-next-btn" id="continueToShipping">
+                Continue to Shipping
+                <svg viewBox="0 0 20 20" fill="currentColor" width="16">
+                  <path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd"/>
+                </svg>
+              </button>
+            </div>
+
+            <!-- Collapsed summary (shown after completing) -->
+            <div class="checkout-section__summary" id="addressSummary" hidden>
+              <p id="addressSummaryText" class="checkout-section__summary-text"></p>
+            </div>
+          </section>
+
+          <!-- ══ SECTION 2: SHIPPING METHOD ══ -->
+          <section class="checkout-section checkout-section--locked" id="sectionShipping">
+            <div class="checkout-section__header">
+              <div class="checkout-section__num">2</div>
+              <div>
+                <h2 class="checkout-section__title">Shipping Method</h2>
+                <p class="checkout-section__subtitle">Choose how you want your order delivered.</p>
+              </div>
+              <button class="checkout-section__edit" id="editShipping" hidden>Edit</button>
+            </div>
+
+            <div class="checkout-section__body" id="shippingForm">
+              <div class="co-shipping-options">
+
+                <!-- Standard -->
+                <label class="co-shipping-option">
+                  <input type="radio" name="shipping" value="standard" class="co-shipping-option__radio" checked>
+                  <div class="co-shipping-option__card">
+                    <div class="co-shipping-option__icon">🚚</div>
+                    <div class="co-shipping-option__info">
+                      <span class="co-shipping-option__name">Standard Delivery</span>
+                      <span class="co-shipping-option__eta">3–5 business days</span>
+                    </div>
+                    <span class="co-shipping-option__price" data-base-price="150">₱150</span>
+                  </div>
+                </label>
+
+                <!-- Express -->
+                <label class="co-shipping-option">
+                  <input type="radio" name="shipping" value="express" class="co-shipping-option__radio">
+                  <div class="co-shipping-option__card">
+                    <div class="co-shipping-option__icon">⚡</div>
+                    <div class="co-shipping-option__info">
+                      <span class="co-shipping-option__name">Express Delivery</span>
+                      <span class="co-shipping-option__eta">1–2 business days</span>
+                    </div>
+                    <span class="co-shipping-option__price" data-base-price="299">₱299</span>
+                  </div>
+                </label>
+
+                <!-- Same Day -->
+                <label class="co-shipping-option">
+                  <input type="radio" name="shipping" value="sameday" class="co-shipping-option__radio">
+                  <div class="co-shipping-option__card">
+                    <div class="co-shipping-option__icon">🏃</div>
+                    <div class="co-shipping-option__info">
+                      <span class="co-shipping-option__name">Same Day Delivery</span>
+                      <span class="co-shipping-option__eta">Delivered today (order before 12PM)</span>
+                    </div>
+                    <span class="co-shipping-option__price" data-base-price="199">₱199</span>
+                  </div>
+                </label>
+
+                <!-- Scheduled (FREE) -->
+                <label class="co-shipping-option">
+                  <input type="radio" name="shipping" value="scheduled" class="co-shipping-option__radio">
+                  <div class="co-shipping-option__card">
+                    <div class="co-shipping-option__icon">📅</div>
+                    <div class="co-shipping-option__info">
+                      <span class="co-shipping-option__name">
+                        Scheduled Delivery
+                        <span class="co-shipping-option__badge co-shipping-option__badge--free">FREE</span>
+                        <span class="co-shipping-option__badge co-shipping-option__badge--limited">Selected stores only</span>
+                      </span>
+                      <span class="co-shipping-option__eta">Order before 2PM · Delivered 5–6PM today</span>
+                    </div>
+                    <span class="co-shipping-option__price co-shipping-option__price--free">FREE</span>
+                  </div>
+                </label>
+
+                <!-- Pick up in store -->
+                <label class="co-shipping-option">
+                  <input type="radio" name="shipping" value="pickup" class="co-shipping-option__radio">
+                  <div class="co-shipping-option__card">
+                    <div class="co-shipping-option__icon">🏪</div>
+                    <div class="co-shipping-option__info">
+                      <span class="co-shipping-option__name">Pick Up In Store</span>
+                      <span class="co-shipping-option__eta">Ready in 1–2 hours</span>
+                    </div>
+                    <span class="co-shipping-option__price co-shipping-option__price--free">FREE</span>
+                  </div>
+                </label>
+
+              </div>
+
+              <!-- Store picker (shown when pickup is selected) -->
+              <div class="co-store-picker" id="storePicker" hidden>
+                <label class="co-label" for="storeSelect">Select Pickup Store <span class="co-required">*</span></label>
+                <select id="storeSelect" class="co-input co-select">
+                  <option value="" disabled selected>Choose a store near you</option>
+                  <option value="s1">VapeHub Manila — Makati City</option>
+                  <option value="s2">CloudChasers PH — BGC, Taguig</option>
+                  <option value="s3">LiquidLab PH — Quezon City</option>
+                  <option value="s4">VapeHub Manila — Pasig City</option>
+                </select>
+              </div>
+
+              <button class="co-section-next-btn" id="continueToPayment">
+                Continue to Payment
+                <svg viewBox="0 0 20 20" fill="currentColor" width="16">
+                  <path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd"/>
+                </svg>
+              </button>
+            </div>
+
+            <div class="checkout-section__summary" id="shippingSummary" hidden>
+              <p id="shippingSummaryText" class="checkout-section__summary-text"></p>
+            </div>
+          </section>
+
+          <!-- ══ SECTION 3: PAYMENT METHOD ══ -->
+          <section class="checkout-section checkout-section--locked" id="sectionPayment">
+            <div class="checkout-section__header">
+              <div class="checkout-section__num">3</div>
+              <div>
+                <h2 class="checkout-section__title">Payment Method</h2>
+                <p class="checkout-section__subtitle">All transactions are secured and encrypted.</p>
+              </div>
+              <button class="checkout-section__edit" id="editPayment" hidden>Edit</button>
+            </div>
+
+            <div class="checkout-section__body" id="paymentForm">
+              <div class="co-payment-options">
+
+                <!-- GCash -->
+                <label class="co-payment-option">
+                  <input type="radio" name="payment" value="gcash" class="co-payment-option__radio" checked>
+                  <div class="co-payment-option__card">
+                    <div class="co-payment-option__logo co-payment-option__logo--gcash">G</div>
+                    <div class="co-payment-option__info">
+                      <span class="co-payment-option__name">GCash</span>
+                      <span class="co-payment-option__desc">Pay via GCash e-wallet</span>
+                    </div>
+                    <div class="co-payment-option__check">
+                      <svg viewBox="0 0 20 20" fill="currentColor" width="16">
+                        <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd"/>
+                      </svg>
+                    </div>
+                  </div>
+                </label>
+
+                <!-- Maya -->
+                <label class="co-payment-option">
+                  <input type="radio" name="payment" value="maya" class="co-payment-option__radio">
+                  <div class="co-payment-option__card">
+                    <div class="co-payment-option__logo co-payment-option__logo--maya">M</div>
+                    <div class="co-payment-option__info">
+                      <span class="co-payment-option__name">Maya</span>
+                      <span class="co-payment-option__desc">Pay via Maya e-wallet</span>
+                    </div>
+                    <div class="co-payment-option__check">
+                      <svg viewBox="0 0 20 20" fill="currentColor" width="16">
+                        <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd"/>
+                      </svg>
+                    </div>
+                  </div>
+                </label>
+
+                <!-- Credit / Debit Card -->
+                <label class="co-payment-option">
+                  <input type="radio" name="payment" value="card" class="co-payment-option__radio">
+                  <div class="co-payment-option__card">
+                    <div class="co-payment-option__logo co-payment-option__logo--card">💳</div>
+                    <div class="co-payment-option__info">
+                      <span class="co-payment-option__name">Credit / Debit Card</span>
+                      <span class="co-payment-option__desc">Visa, Mastercard, JCB</span>
+                    </div>
+                    <div class="co-payment-option__check">
+                      <svg viewBox="0 0 20 20" fill="currentColor" width="16">
+                        <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd"/>
+                      </svg>
+                    </div>
+                  </div>
+                </label>
+
+                <!-- COD -->
+                <label class="co-payment-option">
+                  <input type="radio" name="payment" value="cod" class="co-payment-option__radio">
+                  <div class="co-payment-option__card">
+                    <div class="co-payment-option__logo co-payment-option__logo--cod">💵</div>
+                    <div class="co-payment-option__info">
+                      <span class="co-payment-option__name">Cash on Delivery</span>
+                      <span class="co-payment-option__desc">Pay when your order arrives</span>
+                    </div>
+                    <div class="co-payment-option__check">
+                      <svg viewBox="0 0 20 20" fill="currentColor" width="16">
+                        <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd"/>
+                      </svg>
+                    </div>
+                  </div>
+                </label>
+
+              </div>
+
+              <!-- Card form (shown when card is selected) -->
+              <div class="co-card-form" id="cardForm" hidden>
+                <div class="co-form-grid">
+                  <div class="co-field co-field--full">
+                    <label class="co-label" for="cardNumber">Card Number</label>
+                    <input type="text" id="cardNumber" class="co-input" placeholder="1234 5678 9012 3456" maxlength="19" autocomplete="cc-number">
+                  </div>
+                  <div class="co-field co-field--half">
+                    <label class="co-label" for="cardExpiry">Expiry Date</label>
+                    <input type="text" id="cardExpiry" class="co-input" placeholder="MM / YY" maxlength="7" autocomplete="cc-exp">
+                  </div>
+                  <div class="co-field co-field--half">
+                    <label class="co-label" for="cardCvv">CVV</label>
+                    <input type="text" id="cardCvv" class="co-input" placeholder="123" maxlength="4" autocomplete="cc-csc">
+                  </div>
+                  <div class="co-field co-field--full">
+                    <label class="co-label" for="cardName">Name on Card</label>
+                    <input type="text" id="cardName" class="co-input" placeholder="JUAN DELA CRUZ" autocomplete="cc-name">
+                  </div>
+                </div>
+              </div>
+
+              <!-- COD notice -->
+              <div class="co-cod-notice" id="codNotice" hidden>
+                <svg viewBox="0 0 20 20" fill="currentColor" width="16">
+                  <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z" clip-rule="evenodd"/>
+                </svg>
+                Please prepare the exact amount upon delivery. Our riders cannot provide change.
+              </div>
+
+              <button class="co-section-next-btn" id="continueToReview">
+                Review Order
+                <svg viewBox="0 0 20 20" fill="currentColor" width="16">
+                  <path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd"/>
+                </svg>
+              </button>
+            </div>
+
+            <div class="checkout-section__summary" id="paymentSummary" hidden>
+              <p id="paymentSummaryText" class="checkout-section__summary-text"></p>
+            </div>
+          </section>
+
+          <!-- ══ SECTION 4: ORDER REVIEW ══ -->
+          <section class="checkout-section checkout-section--locked" id="sectionReview">
+            <div class="checkout-section__header">
+              <div class="checkout-section__num">4</div>
+              <div>
+                <h2 class="checkout-section__title">Review & Confirm</h2>
+                <p class="checkout-section__subtitle">Double-check your order before placing it.</p>
+              </div>
+            </div>
+
+            <div class="checkout-section__body" id="reviewBody">
+
+              <!-- Review details filled by JS -->
+              <div class="co-review-grid" id="reviewDetails"></div>
+
+              <!-- Age confirmation -->
+              <div class="co-age-confirm">
+                <label class="co-checkbox-label">
+                  <input type="checkbox" id="ageConfirm" class="co-checkbox">
+                  <span class="co-checkbox__custom"></span>
+                  <span>I confirm I am <strong>18 years of age or older</strong> and legally allowed to purchase vaping products.</span>
+                </label>
+                <label class="co-checkbox-label" style="margin-top: 10px;">
+                  <input type="checkbox" id="termsConfirm" class="co-checkbox">
+                  <span class="co-checkbox__custom"></span>
+                  <span>I agree to the <a href="#" class="co-link">Terms of Service</a> and <a href="#" class="co-link">Privacy Policy</a>.</span>
+                </label>
+              </div>
+
+              <!-- Place order button -->
+              <button class="co-place-order-btn" id="placeOrderBtn" disabled>
+                <svg viewBox="0 0 20 20" fill="currentColor" width="18">
+                  <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd"/>
+                </svg>
+                Place Order · <span id="reviewTotal">₱0</span>
+              </button>
+
+              <p class="co-place-order-note">
+                By placing your order you agree to Fogin's terms. Payment will be processed securely.
+              </p>
+
+            </div>
+          </section>
+
+        </div>
+
+        <!-- RIGHT: Order Summary -->
+        <aside class="checkout-summary" aria-label="Order summary">
+
+          <h2 class="checkout-summary__title">Order Summary</h2>
+
+          <!-- Items -->
+          <div class="checkout-summary__items" id="summaryItems">
+            <!-- Injected by JS -->
+          </div>
+
+          <div class="checkout-summary__divider"></div>
+
+          <!-- Totals -->
+          <div class="checkout-summary__rows">
+            <div class="checkout-summary__row">
+              <span>Subtotal</span>
+              <span id="coSubtotal">₱0</span>
+            </div>
+            <div class="checkout-summary__row" id="coShippingRow">
+              <span>Shipping</span>
+              <span id="coShipping">₱150</span>
+            </div>
+            <div class="checkout-summary__row checkout-summary__row--discount" id="coDiscountRow" hidden>
+              <span>Discount</span>
+              <span id="coDiscount">-₱0</span>
+            </div>
+            <div class="checkout-summary__divider"></div>
+            <div class="checkout-summary__row checkout-summary__row--total">
+              <span>Total</span>
+              <span id="coTotal">₱0</span>
+            </div>
+          </div>
+
+          <!-- Trust badges -->
+          <div class="checkout-summary__trust">
+            <div class="co-trust-badge">
+              <svg viewBox="0 0 20 20" fill="currentColor" width="14">
+                <path fill-rule="evenodd" d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z" clip-rule="evenodd"/>
+              </svg>
+              SSL Secured
+            </div>
+            <div class="co-trust-badge">
+              <svg viewBox="0 0 20 20" fill="currentColor" width="14">
+                <path fill-rule="evenodd" d="M9.661 2.237a.531.531 0 01.678 0 11.5 11.5 0 007.79 3.696.75.75 0 01.61.75v2.565c0 5.275-3.68 9.541-8.43 10.963a.75.75 0 01-.618 0C4.919 18.795 1.25 14.528 1.25 9.25V6.685a.75.75 0 01.61-.75 11.5 11.5 0 007.8-3.698z" clip-rule="evenodd"/>
+              </svg>
+              Buyer Protected
+            </div>
+            <div class="co-trust-badge">
+              <svg viewBox="0 0 20 20" fill="currentColor" width="14">
+                <path d="M10.75 10.818v2.614A3.13 3.13 0 0011.888 13c.482-.315.612-.648.612-.875 0-.227-.13-.56-.612-.875a3.13 3.13 0 00-1.138-.432zM8.33 8.62c.053.055.115.11.184.164.208.16.46.284.736.363V6.603a2.45 2.45 0 00-.35.13c-.14.065-.27.143-.386.233-.377.292-.514.627-.514.909 0 .184.058.39.33.615z"/>
+                <path fill-rule="evenodd" d="M9.99 1.875C5.522 1.875 1.875 5.522 1.875 9.99c0 4.467 3.647 8.115 8.115 8.115 4.467 0 8.115-3.648 8.115-8.115 0-4.468-3.648-8.115-8.115-8.115zM9.24 5.375a.75.75 0 011.5 0v.56c.733.145 1.385.497 1.838.998.374.415.592.925.592 1.442 0 .84-.5 1.52-1.06 1.974a4.368 4.368 0 01-1.37.738v2.803c.484-.11.928-.32 1.273-.6.45-.366.677-.787.677-1.163a.75.75 0 011.5 0c0 .897-.523 1.704-1.215 2.267-.576.47-1.334.782-2.235.895v.56a.75.75 0 01-1.5 0v-.56c-.733-.146-1.385-.498-1.838-.998-.374-.415-.592-.926-.592-1.443 0-.84.5-1.519 1.06-1.973a4.368 4.368 0 011.37-.738V7.56a3.353 3.353 0 00-1.273.6c-.45.365-.677.786-.677 1.162a.75.75 0 01-1.5 0c0-.897.523-1.703 1.215-2.266.576-.47 1.334-.782 2.235-.895v-.786z" clip-rule="evenodd"/>
+              </svg>
+              Safe Payment
+            </div>
+          </div>
+
+        </aside>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ─── ORDER SUCCESS OVERLAY ─── -->
+  <div class="co-success-overlay" id="successOverlay" hidden>
+    <div class="co-success-card">
+      <div class="co-success-icon">✓</div>
+      <h2 class="co-success-title">Order Placed!</h2>
+      <p class="co-success-subtitle">Thank you for your order.</p>
+      <div class="co-success-order-num" id="successOrderNum">Order #FG-000000</div>
+      <p class="co-success-msg">We've sent a confirmation to your email. You can track your order in your account.</p>
+      <div class="co-success-actions">
+        <a href="../index.html" class="co-success-btn co-success-btn--primary">Continue Shopping</a>
+        <a href="../customer/orders.html" class="co-success-btn co-success-btn--ghost">Track Order</a>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="../../fogin-shared/js/public/components/navbar.js"></script>
+  <script type="module" src="../../fogin-shared/js/public/init.js"></script>
+  <script type="module" src="../../fogin-shared/js/public/shop/checkout.js"></script>
+</body>
+</html>

@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Account — Fogin</title>
+  <meta name="description" content="Manage your Fogin account, orders, and profile.">
+  <!-- Styles -->
+  <link rel="stylesheet" href="../../fogin-shared/css/main.css">
+  
+</head>
+<body>
+
+  <div id="navbar-placeholder"></div>
+
+  <main class="acc-page">
+    <div class="acc-container">
+
+      <!-- ─── PROFILE HERO ─── -->
+      <div class="acc-hero">
+        <div class="acc-avatar" id="accAvatar">JD</div>
+        <div class="acc-hero-info">
+          <h1 class="acc-hero-name" id="accHeroName">Juan dela Cruz</h1>
+          <p class="acc-hero-email" id="accHeroEmail">juan@email.com</p>
+          <span class="acc-hero-badge">Verified Buyer</span>
+        </div>
+        <button class="btn btn-sm btn-reject" id="logoutBtn">
+          <svg viewBox="0 0 20 20" fill="currentColor" width="15">
+            <path fill-rule="evenodd" d="M3 4.25A2.25 2.25 0 015.25 2h5.5A2.25 2.25 0 0113 4.25v2a.75.75 0 01-1.5 0v-2a.75.75 0 00-.75-.75h-5.5a.75.75 0 00-.75.75v11.5c0 .414.336.75.75.75h5.5a.75.75 0 00.75-.75v-2a.75.75 0 011.5 0v2A2.25 2.25 0 0110.75 18h-5.5A2.25 2.25 0 013 15.75V4.25z" clip-rule="evenodd"/>
+            <path fill-rule="evenodd" d="M19 10a.75.75 0 00-.75-.75H8.704l1.048-1.04a.75.75 0 10-1.056-1.062l-2.5 2.5a.75.75 0 000 1.062l2.5 2.5a.75.75 0 101.056-1.061l-1.048-1.04h9.546A.75.75 0 0019 10z" clip-rule="evenodd"/>
+          </svg>
+          Sign Out
+        </button>
+      </div>
+
+      <!-- ─── TABS ─── -->
+      <div class="acc-tabs" role="tablist">
+        <button class="acc-tab acc-tab--active" role="tab" data-tab="dashboard" aria-selected="true">
+          <svg viewBox="0 0 20 20" fill="currentColor" width="16"><path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"/><path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"/></svg>
+          Overview
+        </button>
+        <button class="acc-tab" role="tab" data-tab="orders" aria-selected="false">
+          <svg viewBox="0 0 20 20" fill="currentColor" width="16"><path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm2 10a1 1 0 10-2 0v3a1 1 0 102 0v-3zm2-3a1 1 0 011 1v5a1 1 0 11-2 0v-5a1 1 0 011-1zm4-1a1 1 0 10-2 0v7a1 1 0 102 0V8z" clip-rule="evenodd"/></svg>
+          Orders
+          <span class="acc-tab-badge" id="ordersBadge">3</span>
+        </button>
+        <button class="acc-tab" role="tab" data-tab="profile" aria-selected="false">
+          <svg viewBox="0 0 20 20" fill="currentColor" width="16"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-5.5-2.5a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0zM10 12a5.99 5.99 0 00-4.793 2.39A6.483 6.483 0 0010 16.5a6.483 6.483 0 004.793-2.11A5.99 5.99 0 0010 12z" clip-rule="evenodd"/></svg>
+          Profile
+        </button>
+        <button class="acc-tab" role="tab" data-tab="addresses" aria-selected="false">
+          <svg viewBox="0 0 20 20" fill="currentColor" width="16"><path fill-rule="evenodd" d="M9.69 18.933l.003.001C9.89 19.02 10 19 10 19s.11.02.308-.066l.002-.001.006-.003.018-.008a5.741 5.741 0 00.281-.14c.186-.096.446-.24.757-.433.62-.384 1.445-.966 2.274-1.765C15.302 14.988 17 12.493 17 9A7 7 0 103 9c0 3.492 1.698 5.988 3.355 7.584a13.731 13.731 0 002.273 1.765 11.842 11.842 0 00.757.433 5.7 5.7 0 00.28.14l.018.008.006.003zM10 11.25a2.25 2.25 0 100-4.5 2.25 2.25 0 000 4.5z" clip-rule="evenodd"/></svg>
+          Addresses
+        </button>
+        <button class="acc-tab" role="tab" data-tab="wishlist" aria-selected="false">
+          <svg viewBox="0 0 20 20" fill="currentColor" width="16"><path d="M9.653 16.915l-.005-.003-.019-.01a20.759 20.759 0 01-1.162-.682 22.045 22.045 0 01-2.582-2.09c-1.11-1.076-2.077-2.27-2.432-3.353C3.226 10.15 3 9.45 3 9c0-2.176 1.682-4 4-4 .829 0 1.612.26 2.248.698L10 6.577l.752-.879A3.997 3.997 0 0113 5c2.318 0 4 1.824 4 4 0 .45-.226 1.15-.453 1.777-.355 1.083-1.322 2.277-2.432 3.353a22.045 22.045 0 01-2.582 2.09 20.758 20.758 0 01-1.18.692l-.005.003-.002.001-.001.001a.752.752 0 01-.69 0l-.001-.001z"/></svg>
+          Wishlist
+          <span class="acc-tab-badge acc-tab-badge--red" id="wishlistBadge">4</span>
+        </button>
+      </div>
+
+      <!-- ─── TAB PANELS ─── -->
+
+      <!-- ══ DASHBOARD ══ -->
+      <div class="acc-panel" id="tab-dashboard" role="tabpanel">
+
+        <div class="acc-stats-row">
+          <div class="acc-stat-card">
+            <div class="acc-stat-card__icon">📦</div>
+            <div class="acc-stat-card__body">
+              <div class="acc-stat-card__value" id="statTotalOrders">12</div>
+              <div class="acc-stat-card__label">Total Orders</div>
+            </div>
+          </div>
+          <div class="acc-stat-card">
+            <div class="acc-stat-card__icon">🚚</div>
+            <div class="acc-stat-card__body">
+              <div class="acc-stat-card__value" id="statPending">3</div>
+              <div class="acc-stat-card__label">In Transit</div>
+            </div>
+          </div>
+          <div class="acc-stat-card">
+            <div class="acc-stat-card__icon">❤️</div>
+            <div class="acc-stat-card__body">
+              <div class="acc-stat-card__value" id="statWishlist">4</div>
+              <div class="acc-stat-card__label">Wishlist Items</div>
+            </div>
+          </div>
+          <div class="acc-stat-card">
+            <div class="acc-stat-card__icon">💰</div>
+            <div class="acc-stat-card__body">
+              <div class="acc-stat-card__value" id="statSpent">₱18,450</div>
+              <div class="acc-stat-card__label">Total Spent</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent orders -->
+        <div class="acc-section">
+          <div class="acc-section-header">
+            <h2 class="acc-section-title">Recent Orders</h2>
+            <button class="btn btn-sm btn-tertiary" data-goto="orders">View all</button>
+          </div>
+          <div id="dashRecentOrders"></div>
+        </div>
+
+        <!-- Wishlist preview -->
+        <div class="acc-section">
+          <div class="acc-section-header">
+            <h2 class="acc-section-title">Wishlist</h2>
+            <button class="btn btn-sm btn-tertiary" data-goto="orders">View all</button>
+          </div>
+          <div class="acc-wishlist-preview" id="dashWishlistPreview"></div>
+        </div>
+
+      </div>
+
+      <!-- ══ ORDERS ══ -->
+      <div class="acc-panel" id="tab-orders" role="tabpanel" hidden>
+
+        <!-- Filter bar -->
+        <div class="acc-orders-filter">
+          <button class="acc-filter-btn acc-filter-btn--active" data-status="all">All Orders</button>
+          <button class="acc-filter-btn" data-status="processing">Processing</button>
+          <button class="acc-filter-btn" data-status="shipped">Shipped</button>
+          <button class="acc-filter-btn" data-status="delivered">Delivered</button>
+          <button class="acc-filter-btn" data-status="cancelled">Cancelled</button>
+        </div>
+
+        <div id="ordersList"></div>
+
+      </div>
+
+      <!-- ══ PROFILE ══ -->
+      <div class="acc-panel" id="tab-profile" role="tabpanel" hidden>
+
+        <div class="acc-profile-layout">
+
+          <!-- Avatar section -->
+          <div class="acc-profile-avatar-section">
+            <div class="acc-profile-avatar" id="profileAvatar">JD</div>
+            <button class="btn btn-sm btn-secondary-dark">Change Photo</button>
+            <p class="acc-avatar-hint">JPG, PNG up to 2MB</p>
+          </div>
+
+          <!-- Form -->
+          <div class="acc-profile-form">
+            <div class="acc-form-section">
+              <h3 class="acc-form-section-title">Personal Information</h3>
+              <div class="acc-form-grid">
+                <div class="acc-field acc-field--half">
+                <label class="acc-label" for="pFirstName">First Name</label>
+                <input type="text" id="pFirstName" class="acc-input" value="Juan">
+                <span class="acc-error" id="pFirstNameError"></span>
+              </div>
+
+              <div class="acc-field acc-field--half">
+                <label class="acc-label" for="pLastName">Last Name</label>
+                <input type="text" id="pLastName" class="acc-input" value="dela Cruz">
+                <span class="acc-error" id="pLastNameError"></span>
+              </div>
+
+              <div class="acc-field acc-field--half">
+                <label class="acc-label" for="pEmail">Email Address</label>
+                <input type="email" id="pEmail" class="acc-input" value="juan@email.com">
+                <span class="acc-error" id="pEmailError"></span>
+              </div>
+
+              <div class="acc-field acc-field--half">
+                <label class="acc-label" for="pPhone">Phone Number</label>
+                <div class="acc-input-prefix">
+                  <span class="acc-input-prefix__flag">🇵🇭 +63</span>
+                  <input type="tel" id="pPhone" class="acc-input acc-input--prefixed" value="9171234567">
+                </div>
+                <span class="acc-error" id="pPhoneError"></span>
+              </div>
+                <div class="acc-field acc-field--half">
+                  <label class="acc-label" for="pBirthdate">Date of Birth</label>
+                  <input type="date" id="pBirthdate" class="acc-input" value="1995-06-15">
+                </div>
+                <div class="acc-field acc-field--half">
+                  <label class="acc-label" for="pGender">Gender</label>
+                  <select id="pGender" class="acc-input acc-select">
+                    <option value="">Prefer not to say</option>
+                    <option value="male" selected>Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="acc-field acc-field--full">
+              <label class="acc-label" for="pCurrentPass">Current Password</label>
+              <div class="rg-input-icon-wrap">
+                <input type="password" id="pCurrentPass" class="acc-input rg-input--icon" placeholder="Enter current password">
+                <button type="button" class="rg-toggle-pass" data-target="pCurrentPass" tabindex="-1">
+                  <svg class="eye-show" viewBox="0 0 20 20" fill="currentColor" width="16"><path d="M10 12.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z"/><path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 010-1.186A10.004 10.004 0 0110 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0110 17c-4.257 0-7.893-2.66-9.336-6.41zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/></svg>
+                  <svg class="eye-hide" viewBox="0 0 20 20" fill="currentColor" width="16" style="display:none"><path fill-rule="evenodd" d="M3.28 2.22a.75.75 0 00-1.06 1.06l14.5 14.5a.75.75 0 101.06-1.06l-1.745-1.745a10.029 10.029 0 003.3-4.38 1.651 1.651 0 000-1.185A10.004 10.004 0 009.999 3a9.956 9.956 0 00-4.744 1.194L3.28 2.22zM7.752 6.69l1.092 1.092a2.5 2.5 0 013.374 3.373l1.091 1.092a4 4 0 00-5.557-5.557z" clip-rule="evenodd"/><path d="M10.748 13.93l2.523 2.523a10.003 10.003 0 01-3.27.547c-4.258 0-7.894-2.66-9.337-6.41a1.651 1.651 0 010-1.186A10.007 10.007 0 012.839 6.02L6.07 9.252a4 4 0 004.678 4.678z"/></svg>
+                </button>
+              </div>
+              <span class="acc-error" id="pCurrentPassError"></span>
+            </div>
+
+            <div class="acc-field acc-field--half">
+              <label class="acc-label" for="pNewPass">New Password</label>
+              <div class="rg-input-icon-wrap">
+                <input type="password" id="pNewPass" class="acc-input rg-input--icon" placeholder="Min. 8 characters">
+                <button type="button" class="rg-toggle-pass" data-target="pNewPass" tabindex="-1">
+                  <svg class="eye-show" viewBox="0 0 20 20" fill="currentColor" width="16"><path d="M10 12.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z"/><path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 010-1.186A10.004 10.004 0 0110 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0110 17c-4.257 0-7.893-2.66-9.336-6.41zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/></svg>
+                  <svg class="eye-hide" viewBox="0 0 20 20" fill="currentColor" width="16" style="display:none"><path fill-rule="evenodd" d="M3.28 2.22a.75.75 0 00-1.06 1.06l14.5 14.5a.75.75 0 101.06-1.06l-1.745-1.745a10.029 10.029 0 003.3-4.38 1.651 1.651 0 000-1.185A10.004 10.004 0 009.999 3a9.956 9.956 0 00-4.744 1.194L3.28 2.22zM7.752 6.69l1.092 1.092a2.5 2.5 0 013.374 3.373l1.091 1.092a4 4 0 00-5.557-5.557z" clip-rule="evenodd"/><path d="M10.748 13.93l2.523 2.523a10.003 10.003 0 01-3.27.547c-4.258 0-7.894-2.66-9.337-6.41a1.651 1.651 0 010-1.186A10.007 10.007 0 012.839 6.02L6.07 9.252a4 4 0 004.678 4.678z"/></svg>
+                </button>
+              </div>
+              <span class="acc-error" id="pNewPassError"></span>
+            </div>
+
+            <div class="acc-field acc-field--half">
+              <label class="acc-label" for="pConfirmPass">Confirm New Password</label>
+              <div class="rg-input-icon-wrap">
+                <input type="password" id="pConfirmPass" class="acc-input rg-input--icon" placeholder="Repeat new password">
+                <button type="button" class="rg-toggle-pass" data-target="pConfirmPass" tabindex="-1">
+                  <svg class="eye-show" viewBox="0 0 20 20" fill="currentColor" width="16"><path d="M10 12.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z"/><path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 010-1.186A10.004 10.004 0 0110 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0110 17c-4.257 0-7.893-2.66-9.336-6.41zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/></svg>
+                  <svg class="eye-hide" viewBox="0 0 20 20" fill="currentColor" width="16" style="display:none"><path fill-rule="evenodd" d="M3.28 2.22a.75.75 0 00-1.06 1.06l14.5 14.5a.75.75 0 101.06-1.06l-1.745-1.745a10.029 10.029 0 003.3-4.38 1.651 1.651 0 000-1.185A10.004 10.004 0 009.999 3a9.956 9.956 0 00-4.744 1.194L3.28 2.22zM7.752 6.69l1.092 1.092a2.5 2.5 0 013.374 3.373l1.091 1.092a4 4 0 00-5.557-5.557z" clip-rule="evenodd"/><path d="M10.748 13.93l2.523 2.523a10.003 10.003 0 01-3.27.547c-4.258 0-7.894-2.66-9.337-6.41a1.651 1.651 0 010-1.186A10.007 10.007 0 012.839 6.02L6.07 9.252a4 4 0 004.678 4.678z"/></svg>
+                </button>
+              </div>
+              <span class="acc-error" id="pConfirmPassError"></span>
+            </div>
+
+            <div class="acc-form-actions">
+              <button class="btn btn-primary" id="saveProfileBtn">Save Changes</button>
+              <button class="btn btn-secondary" id="cancelProfileBtn">Cancel</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ══ ADDRESSES ══ -->
+      <div class="acc-panel" id="tab-addresses" role="tabpanel" hidden>
+
+        <div class="acc-addresses-header">
+          <h2 class="acc-section-title">Saved Addresses</h2>
+          <button class="btn btn-secondary" id="addAddressBtn">
+            <svg viewBox="0 0 20 20" fill="currentColor" width="15"><path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z"/></svg>
+            Add New Address
+          </button>
+        </div>
+
+        <div class="acc-addresses-grid" id="addressesGrid"></div>
+
+        <!-- Add/Edit address modal -->
+        <div class="acc-modal" id="addressModal" hidden>
+          <div class="acc-modal-backdrop" id="addressModalBackdrop"></div>
+          <div class="acc-modal-card">
+            <div class="acc-modal-header">
+              <h3 class="acc-modal-title" id="addressModalTitle">Add New Address</h3>
+              <button class="btn btn-icon-only btn-secondary-dark" id="closeAddressModal">
+                <svg viewBox="0 0 20 20" fill="currentColor" width="18"><path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z"/></svg>
+              </button>
+            </div>
+            <div class="acc-modal-body">
+              <div class="acc-form-grid">
+            <div class="acc-field acc-field--full">
+              <label class="acc-label" for="addrLabel">Address Label</label>
+              <input type="text" id="addrLabel" class="acc-input" placeholder="e.g. Home, Work, Parents">
+              <span class="acc-error" id="addrLabelError"></span>
+            </div>
+
+            <div class="acc-field acc-field--full">
+              <label class="acc-label" for="addrStreet">Street Address</label>
+              <input type="text" id="addrStreet" class="acc-input" placeholder="House no., Building, Street">
+              <span class="acc-error" id="addrStreetError"></span>
+            </div>
+
+            <div class="acc-field acc-field--half">
+              <label class="acc-label" for="addrBarangay">Barangay</label>
+              <input type="text" id="addrBarangay" class="acc-input" placeholder="Barangay">
+              <span class="acc-error" id="addrBarangayError"></span>
+            </div>
+
+            <div class="acc-field acc-field--half">
+              <label class="acc-label" for="addrCity">City / Municipality</label>
+              <input type="text" id="addrCity" class="acc-input" placeholder="City">
+              <span class="acc-error" id="addrCityError"></span>
+            </div>
+
+            <div class="acc-field acc-field--half">
+              <label class="acc-label" for="addrProvince">Province</label>
+              <input type="text" id="addrProvince" class="acc-input" placeholder="Province">
+              <span class="acc-error" id="addrProvinceError"></span>
+            </div>
+
+            <div class="acc-field acc-field--half">
+              <label class="acc-label" for="addrZip">ZIP Code</label>
+              <input type="text" id="addrZip" class="acc-input" placeholder="1234" maxlength="4">
+              <span class="acc-error" id="addrZipError"></span>
+            </div>
+                <div class="acc-field acc-field--full">
+                  <label class="acc-checkbox-label">
+                    <input type="checkbox" id="addrDefault" class="acc-checkbox">
+                    <span class="acc-checkbox-custom"></span>
+                    Set as default address
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="acc-modal-footer">
+              <button class="btn btn-secondary-dark" id="cancelAddressModal">Cancel</button>
+              <button class="btn btn-primary" id="saveAddressBtn">Save Address</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ══ WISHLIST ══ -->
+      <div class="acc-panel" id="tab-wishlist" role="tabpanel" hidden>
+        <div class="acc-wishlist-header">
+          <h2 class="acc-section-title">My Wishlist <span class="acc-wishlist-count" id="wishlistCount">(4 items)</span></h2>
+          <button class="btn btn-secondary" id="addAllToCartBtn">
+            <svg viewBox="0 0 20 20" fill="currentColor" width="15"><path d="M6 4.75A.75.75 0 016.75 4h.75v-.25a2.5 2.5 0 015 0V4h.75A.75.75 0 0114 4.75v.5A.75.75 0 0113.25 6h-6.5A.75.75 0 016 5.25v-.5zM4.868 7.5A1 1 0 003.87 8.62l.555 5A1 1 0 005.42 14.5h9.16a1 1 0 00.994-.88l.555-5A1 1 0 0015.132 7.5H4.868z"/></svg>
+            Add All to Cart
+          </button>
+        </div>
+        <div class="acc-wishlist-grid" id="wishlistGrid"></div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ─── Order detail modal ─── -->
+  <div class="acc-modal" id="orderModal" hidden>
+    <div class="acc-modal-backdrop" id="orderModalBackdrop"></div>
+    <div class="acc-modal-card acc-modal-card--wide">
+      <div class="acc-modal-header">
+        <h3 class="acc-modal-title" id="orderModalTitle">Order Details</h3>
+        <button class="btn btn-icon-only btn-secondary-dark" id="closeOrderModal">
+          <svg viewBox="0 0 20 20" fill="currentColor" width="18"><path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z"/></svg>
+        </button>
+      </div>
+      <div class="acc-modal-body" id="orderModalBody"></div>
+    </div>
+  </div>
+
+  <!-- ─── Toast ─── -->
+  <div class="acc-toast" id="accToast" hidden>
+    <svg viewBox="0 0 20 20" fill="currentColor" width="15"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd"/></svg>
+    <span id="accToastMsg">Done</span>
+  </div>
+
+  <!-- Footer -->
+  <footer id="footer-placeholder" class="footer"></footer>
+
+  <script type="module" src="../../fogin-shared/js/public/components/navbar.js"></script>
+  <script type="module" src="../../fogin-shared/js/public/init.js"></script>
+  <script type="module" src="../../fogin-shared/js/public/customer/account.js"></script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In — Fogin</title>
+  <!-- Styles -->
+  <link rel="stylesheet" href="../../fogin-shared/css/main.css">
+  
+</head>
+<body>
+
+  <!-- ─── BACKGROUND ─── -->
+  <div class="rg-bg">
+    <div class="rg-bg__orb rg-bg__orb--1"></div>
+    <div class="rg-bg__orb rg-bg__orb--2"></div>
+  </div>
+
+  <div class="rg-layout">
+
+    <!-- ─── LEFT PANEL ─── -->
+    <aside class="rg-aside">
+      <a href="../index.html" class="rg-logo">FOGIN<span>.</span></a>
+      <div class="rg-aside__content">
+        <h2 class="rg-aside__heading">Philippines' leading vape marketplace.</h2>
+        <ul class="rg-aside__perks">
+          <li>
+            <span class="rg-aside__perk-icon">🛒</span>
+            <div>
+              <strong>Wide Selection</strong>
+              <p>Shop from hundreds of verified vendors across the country.</p>
+            </div>
+          </li>
+          <li>
+            <span class="rg-aside__perk-icon">🚚</span>
+            <div>
+              <strong>Fast Delivery</strong>
+              <p>Get your orders delivered straight to your door.</p>
+            </div>
+          </li>
+          <li>
+            <span class="rg-aside__perk-icon">🔒</span>
+            <div>
+              <strong>Secure Payments</strong>
+              <p>GCash, Maya, card, and COD — all protected.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <p class="rg-aside__footer">🔞 For adults 18+ only. Fogin complies with DTI regulations.</p>
+    </aside>
+
+    <!-- ─── MAIN ─── -->
+    <main class="rg-main">
+
+      <div class="rg-card">
+
+        <div class="rg-card__header">
+          <h1 class="rg-title">Welcome Back</h1>
+          <p class="rg-subtitle">Don't have an account? <a href="register.html" class="rg-link">Create one</a></p>
+        </div>
+
+        <!-- Login Form -->
+        <form class="rg-form" id="loginForm" novalidate>
+
+          <!-- Email -->
+          <div class="rg-field">
+            <label class="rg-label" for="email">Email Address <span class="rg-required">*</span></label>
+            <input type="email" id="email" name="email" class="rg-input"
+              placeholder="juan@email.com" required autocomplete="email"
+              data-error-message="Enter a valid email address.">
+            <span class="rg-error" id="err-email"></span>
+          </div>
+
+          <!-- Password -->
+          <div class="rg-field">
+            <label class="rg-label" for="password">Password <span class="rg-required">*</span></label>
+            <div class="rg-input-icon-wrap">
+              <input type="password" id="password" name="password" class="rg-input rg-input--icon"
+                placeholder="Enter your password" required autocomplete="current-password"
+                data-error-message="Password is required.">
+              <button type="button" class="rg-toggle-pass" data-target="password" tabindex="-1">
+                <svg class="eye-show" viewBox="0 0 20 20"  width="16" height="16"><path d="M10 12.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z"/><path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 010-1.186A10.004 10.004 0 0110 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0110 17c-4.257 0-7.893-2.66-9.336-6.41zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/></svg>
+                <svg class="eye-hide" viewBox="0 0 20 20" fill="currentColor" width="16" height="16" style="display:none"><path fill-rule="evenodd" d="M3.28 2.22a.75.75 0 00-1.06 1.06l14.5 14.5a.75.75 0 101.06-1.06l-1.745-1.745a10.029 10.029 0 003.3-4.38 1.651 1.651 0 000-1.185A10.004 10.004 0 009.999 3a9.956 9.956 0 00-4.744 1.194L3.28 2.22zM7.752 6.69l1.092 1.092a2.5 2.5 0 013.374 3.373l1.091 1.092a4 4 0 00-5.557-5.557z" clip-rule="evenodd"/><path d="M10.748 13.93l2.523 2.523a10.003 10.003 0 01-3.27.547c-4.258 0-7.894-2.66-9.337-6.41a1.651 1.651 0 010-1.186A10.007 10.007 0 012.839 6.02L6.07 9.252a4 4 0 004.678 4.678z"/></svg>
+              </button>
+            </div>
+            <span class="rg-error" id="err-password"></span>
+          </div>
+
+          <!-- Remember me & Forgot password -->
+          <div class="rg-form__options">
+            <label class="rg-check-label" for="rememberMe">
+              <input type="checkbox" id="rememberMe" name="rememberMe" class="rg-check-input">
+              <span class="rg-check-box"></span>
+              <span>Remember me</span>
+            </label>
+            <a href="forgot-password.html" class="rg-link">Forgot password?</a>
+          </div>
+
+          <!-- Error alert -->
+          <div class="rg-alert rg-alert--error" id="loginAlert" hidden>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <span id="loginAlertMessage">Invalid email or password.</span>
+          </div>
+
+          <!-- Submit -->
+          <button type="submit" class="btn btn-primary btn-submit" id="loginBtn">
+            <span id="loginBtnText">Sign In</span>
+            <span class="rg-spinner" id="loginSpinner" hidden></span>
+          </button>
+
+        </form>
+
+        <!-- Age notice -->
+        <div class="rg-notice rg-notice--info" style="margin-top: var(--spacing-lg);">
+          <svg viewBox="0 0 20 20" fill="currentColor" width="16"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z" clip-rule="evenodd"/></svg>
+          You must be 18 years or older to access this site.
+        </div>
+
+      </div>
+
+    </main>
+  </div>
+
+  <!-- JavaScript -->
+  <script type="module" src="../../fogin-shared/js/public/auth/login.js"></script>
+</body>
+</html>

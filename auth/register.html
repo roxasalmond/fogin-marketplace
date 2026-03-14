@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Account — Fogin</title>
+  <!-- Styles -->
+  <link rel="stylesheet" href="../../fogin-shared/css/main.css">
+
+</head>
+<body>
+
+  <!-- ─── BACKGROUND ─── -->
+  <div class="rg-bg">
+    <div class="rg-bg__orb rg-bg__orb--1"></div>
+    <div class="rg-bg__orb rg-bg__orb--2"></div>
+  </div>
+
+  <div class="rg-layout">
+
+    <!-- ─── LEFT PANEL ─── -->
+    <aside class="rg-aside">
+      <a href="../index.html" class="rg-logo">FOGIN<span>.PH</span></a>
+      <div class="rg-aside__content">
+        <h2 class="rg-aside__heading">Join the Philippines' leading vape marketplace.</h2>
+        <ul class="rg-aside__perks">
+          <li>
+            <span class="rg-aside__perk-icon">🛒</span>
+            <div>
+              <strong>Customers</strong>
+              <p>Shop from verified vendors across the country.</p>
+            </div>
+          </li>
+          <li>
+            <span class="rg-aside__perk-icon">🏪</span>
+            <div>
+              <strong>Vendors</strong>
+              <p>List your products and reach thousands of buyers.</p>
+            </div>
+          </li>
+          <li>
+            <span class="rg-aside__perk-icon">🔧</span>
+            <div>
+              <strong>Vendor Admins</strong>
+              <p>Manage your shop's inventory and orders.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <p class="rg-aside__footer">🔞 For adults 18+ only. Fogin complies with DTI regulations.</p>
+    </aside>
+
+    <!-- ─── MAIN ─── -->
+    <main class="rg-main">
+
+      <!-- ── STEP 1: REGISTRATION FORM ── -->
+      <div class="rg-card" id="stepRegister">
+
+        <div class="rg-card__header">
+          <h1 class="rg-title">Create Account</h1>
+          <p class="rg-subtitle">Already have an account? <a href="login.html" class="rg-link">Sign in</a></p>
+        </div>
+
+        <!-- Account type selector -->
+        <div class="rg-role-section">
+          <p class="rg-role-label">I am registering as a</p>
+          <div class="rg-role-cards" role="radiogroup" aria-label="Account type">
+
+            <label class="rg-role-card rg-role-card--active" for="roleCustomer">
+              <input type="radio" id="roleCustomer" name="accountType" value="customer" class="rg-role-input" checked>
+              <span class="rg-role-card__icon">🛒</span>
+              <span class="rg-role-card__title">Customer</span>
+              <span class="rg-role-card__desc">Shop products</span>
+              <span class="rg-role-card__check">
+                <svg viewBox="0 0 16 16" fill="currentColor" width="10"><path fill-rule="evenodd" d="M12.416 3.376a.75.75 0 01.208 1.04l-5 7.5a.75.75 0 01-1.154.114l-3-3a.75.75 0 011.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 011.04-.207z" clip-rule="evenodd"/></svg>
+              </span>
+            </label>
+
+            <label class="rg-role-card" for="roleVendor">
+              <input type="radio" id="roleVendor" name="accountType" value="vendor" class="rg-role-input">
+              <span class="rg-role-card__icon">🏪</span>
+              <span class="rg-role-card__title">Vendor</span>
+              <span class="rg-role-card__desc">Sell products</span>
+              <span class="rg-role-card__check">
+                <svg viewBox="0 0 16 16" fill="currentColor" width="10"><path fill-rule="evenodd" d="M12.416 3.376a.75.75 0 01.208 1.04l-5 7.5a.75.75 0 01-1.154.114l-3-3a.75.75 0 011.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 011.04-.207z" clip-rule="evenodd"/></svg>
+              </span>
+            </label>
+
+            <label class="rg-role-card" for="roleVendorAdmin">
+              <input type="radio" id="roleVendorAdmin" name="accountType" value="vendor_admin" class="rg-role-input">
+              <span class="rg-role-card__icon">🔧</span>
+              <span class="rg-role-card__title">Vendor Admin</span>
+              <span class="rg-role-card__desc">Manage a shop</span>
+              <span class="rg-role-card__check">
+                <svg viewBox="0 0 16 16" fill="currentColor" width="10"><path fill-rule="evenodd" d="M12.416 3.376a.75.75 0 01.208 1.04l-5 7.5a.75.75 0 01-1.154.114l-3-3a.75.75 0 011.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 011.04-.207z" clip-rule="evenodd"/></svg>
+              </span>
+            </label>
+
+          </div>
+        </div>
+
+        <!-- Form -->
+        <form class="rg-form" id="registerForm" novalidate>
+
+          <!-- ─ COMMON FIELDS ─ -->
+          <fieldset class="rg-fieldset" id="fieldsCommon">
+            <legend class="rg-fieldset__legend">Personal Information</legend>
+
+            <div class="rg-row">
+              <div class="rg-field">
+                <label class="rg-label" for="firstName">First Name <span class="rg-required">*</span></label>
+                <input type="text" id="firstName" name="firstName" class="rg-input" placeholder="Juan" required minlength="2"
+                  data-error-message="First name is required.">
+                <span class="rg-error" id="err-firstName"></span>
+              </div>
+              <div class="rg-field">
+                <label class="rg-label" for="lastName">Last Name <span class="rg-required">*</span></label>
+                <input type="text" id="lastName" name="lastName" class="rg-input" placeholder="dela Cruz" required minlength="2"
+                  data-error-message="Last name is required.">
+                <span class="rg-error" id="err-lastName"></span>
+              </div>
+            </div>
+
+            <div class="rg-field">
+              <label class="rg-label" for="email">Email Address <span class="rg-required">*</span></label>
+              <input type="email" id="email" name="email" class="rg-input" placeholder="juan@email.com" required
+                data-error-message="Enter a valid email address.">
+              <span class="rg-error" id="err-email"></span>
+            </div>
+
+            <div class="rg-field">
+              <label class="rg-label" for="phone">Phone Number <span class="rg-required">*</span></label>
+              <div class="rg-input-prefix">
+                <span class="rg-prefix-badge">🇵🇭 +63</span>
+                <input type="tel" id="phone" name="phone" class="rg-input rg-input--prefixed"
+                  placeholder="9171234567" 
+                  minlength="10" maxlength="10" 
+                  pattern="[0-9]{10}" required
+                  data-error-message="Numbers only, must be 10 digits (e.g. 9171234567).">
+              </div>
+              <span class="rg-error" id="err-phone"></span>
+            </div>
+
+            <div class="rg-row">
+              <div class="rg-field">
+                <label class="rg-label" for="password">Password <span class="rg-required">*</span></label>
+                <div class="rg-input-icon-wrap">
+                  <input type="password" id="password" name="password" class="rg-input rg-input--icon"
+                    placeholder="Min. 8 characters" required
+                    data-error-message="Password must be at least 8 characters.">
+                  <button type="button" class="rg-toggle-pass" data-target="password" tabindex="-1">
+                    <svg class="eye-show" viewBox="0 0 20 20"  width="16"><path d="M10 12.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z"/><path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 010-1.186A10.004 10.004 0 0110 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0110 17c-4.257 0-7.893-2.66-9.336-6.41zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/></svg>
+                    <svg class="eye-hide" viewBox="0 0 20 20" fill="currentColor" width="16" height="16" style="display:none"><path fill-rule="evenodd" d="M3.28 2.22a.75.75 0 00-1.06 1.06l14.5 14.5a.75.75 0 101.06-1.06l-1.745-1.745a10.029 10.029 0 003.3-4.38 1.651 1.651 0 000-1.185A10.004 10.004 0 009.999 3a9.956 9.956 0 00-4.744 1.194L3.28 2.22zM7.752 6.69l1.092 1.092a2.5 2.5 0 013.374 3.373l1.091 1.092a4 4 0 00-5.557-5.557z" clip-rule="evenodd"/><path d="M10.748 13.93l2.523 2.523a10.003 10.003 0 01-3.27.547c-4.258 0-7.894-2.66-9.337-6.41a1.651 1.651 0 010-1.186A10.007 10.007 0 012.839 6.02L6.07 9.252a4 4 0 004.678 4.678z"/></svg>
+                  </button>
+                </div>
+                <span class="rg-error" id="err-password"></span>
+                <div class="rg-password-strength" id="passwordStrength" hidden>
+                <div class="rg-strength-bar">
+                  <div class="rg-strength-fill" id="strengthFill"></div>
+                </div>
+                <span class="rg-strength-label" id="strengthLabel"></span>
+              </div>
+              </div>
+              <div class="rg-field">
+                <label class="rg-label" for="confirmPassword">Confirm Password <span class="rg-required">*</span></label>
+                <div class="rg-input-icon-wrap">
+                  <input type="password" id="confirmPassword" name="confirmPassword" class="rg-input rg-input--icon"
+                    placeholder="Repeat password" required
+                    data-error-message="Passwords do not match.">
+                  <button type="button" class="rg-toggle-pass" data-target="confirmPassword" tabindex="-1">
+                    <svg class="eye-show" viewBox="0 0 20 20" fill="currentColor" width="16"><path d="M10 12.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z"/><path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 010-1.186A10.004 10.004 0 0110 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0110 17c-4.257 0-7.893-2.66-9.336-6.41zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/></svg>
+                    <svg class="eye-hide" viewBox="0 0 20 20" fill="currentColor" width="16" height="16" style="display:none"><path fill-rule="evenodd" d="M3.28 2.22a.75.75 0 00-1.06 1.06l14.5 14.5a.75.75 0 101.06-1.06l-1.745-1.745a10.029 10.029 0 003.3-4.38 1.651 1.651 0 000-1.185A10.004 10.004 0 009.999 3a9.956 9.956 0 00-4.744 1.194L3.28 2.22zM7.752 6.69l1.092 1.092a2.5 2.5 0 013.374 3.373l1.091 1.092a4 4 0 00-5.557-5.557z" clip-rule="evenodd"/><path d="M10.748 13.93l2.523 2.523a10.003 10.003 0 01-3.27.547c-4.258 0-7.894-2.66-9.337-6.41a1.651 1.651 0 010-1.186A10.007 10.007 0 012.839 6.02L6.07 9.252a4 4 0 004.678 4.678z"/></svg>
+                  </button>
+                </div>
+                <span class="rg-error" id="err-confirmPassword"></span>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- ─ VENDOR FIELDS ─ -->
+          <fieldset class="rg-fieldset rg-fieldset--hidden" id="fieldsVendor">
+            <legend class="rg-fieldset__legend">
+              Business Information
+              <span class="rg-fieldset__badge">Vendor</span>
+            </legend>
+
+            <div class="rg-field">
+              <label class="rg-label" for="businessName">Business / Shop Name <span class="rg-required">*</span></label>
+              <input type="text" id="businessName" name="businessName" class="rg-input"
+                placeholder="e.g. VapeHub Manila"
+                data-error-message="Business name is required.">
+              <span class="rg-error" id="err-businessName"></span>
+            </div>
+
+            <div class="rg-field">
+              <label class="rg-label" for="businessAddress">Business Address <span class="rg-required">*</span></label>
+              <input type="text" id="businessAddress" name="businessAddress" class="rg-input"
+                placeholder="Street, Barangay, City, Province"
+                data-error-message="Business address is required.">
+              <span class="rg-error" id="err-businessAddress"></span>
+            </div>
+
+            <div class="rg-row">
+              <div class="rg-field">
+                <label class="rg-label" for="dtiNumber">
+                  DTI Registration No.
+                  <span class="rg-optional">optional</span>
+                </label>
+                <input type="text" id="dtiNumber" name="dtiNumber" class="rg-input"
+                  placeholder="e.g. DTI-123456">
+                <span class="rg-hint">Required for account verification</span>
+              </div>
+              <div class="rg-field">
+                <label class="rg-label" for="birNumber">
+                  BIR TIN
+                  <span class="rg-optional">optional</span>
+                </label>
+                <input type="text" id="birNumber" name="birNumber" class="rg-input"
+                  placeholder="e.g. 123-456-789-000">
+                <span class="rg-hint">9 or 12-digit TIN</span>
+              </div>
+            </div>
+
+            <div class="rg-notice rg-notice--info">
+              <svg viewBox="0 0 20 20" fill="currentColor" width="16"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z" clip-rule="evenodd"/></svg>
+              Your vendor account will be reviewed by our admin team before activation. This typically takes 1–2 business days.
+            </div>
+          </fieldset>
+
+          <!-- ─ VENDOR ADMIN FIELDS ─ -->
+          <fieldset class="rg-fieldset rg-fieldset--hidden" id="fieldsVendorAdmin">
+            <legend class="rg-fieldset__legend">
+              Shop Assignment
+              <span class="rg-fieldset__badge rg-fieldset__badge--blue">Vendor Admin</span>
+            </legend>
+
+            <div class="rg-field">
+              <label class="rg-label" for="shopCode">Shop Invite Code <span class="rg-required">*</span></label>
+              <input type="text" id="shopCode" name="shopCode" class="rg-input rg-input--code"
+                placeholder="e.g. SHOP-A3KX2Q"
+                data-error-message="A valid shop invite code is required."
+                autocomplete="off" spellcheck="false">
+              <span class="rg-error" id="err-shopCode"></span>
+              <span class="rg-hint">Get this code from your vendor/shop owner.</span>
+            </div>
+
+            <div class="rg-field">
+              <label class="rg-label" for="jobTitle">Job Title / Role <span class="rg-required">*</span></label>
+              <input type="text" id="jobTitle" name="jobTitle" class="rg-input"
+                placeholder="e.g. Store Manager, Cashier"
+                data-error-message="Job title is required.">
+              <span class="rg-error" id="err-jobTitle"></span>
+            </div>
+
+            <div class="rg-notice rg-notice--info">
+              <svg viewBox="0 0 20 20" fill="currentColor" width="16"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z" clip-rule="evenodd"/></svg>
+              Your account will be verified against the shop's records before activation.
+            </div>
+          </fieldset>
+
+          <!-- ─ AGE + TERMS ─ -->
+          <div class="rg-checks">
+            <label class="rg-check-label" for="ageCheck">
+              <input 
+              type="checkbox" 
+              id="ageCheck" 
+              name="ageCheck" 
+              class="rg-check-input" 
+              required
+              data-error-message="You must confirm you are 18 years or older.">
+              
+              <span class="rg-check-box"></span>
+              <span>I confirm I am <strong>18 years of age or older</strong> and legally allowed to purchase vaping products in the Philippines.</span>
+            </label>
+            <span class="rg-error" id="err-ageCheck"></span>
+
+            <label class="rg-check-label" for="termsCheck">
+              <input 
+              type="checkbox" 
+              id="termsCheck" 
+              name="termsCheck" 
+              class="rg-check-input" 
+              required
+              data-error-message="You must agree to the Terms of Service and Privacy Policy.">
+              <span class="rg-check-box"></span>
+              <span>I agree to Fogin's <a href="#" class="rg-link">Terms of Service</a> and <a href="#" class="rg-link">Privacy Policy</a>.</span>
+            </label>
+            <span class="rg-error" id="err-termsCheck"></span>
+          </div>
+
+          <!-- Submit -->
+          <button type="submit" class="btn btn-primary btn-submit" id="loginBtn">
+            <span id="submitBtnText">Create Account</span>
+            <span class="rg-spinner" id="submitSpinner" hidden></span>
+          </button>
+
+        </form>
+
+      </div>
+
+      <!-- ── STEP 2: PENDING APPROVAL SCREEN ── -->
+      <div class="rg-card rg-card--pending" id="stepPending" hidden>
+        <div class="rg-pending-icon">⏳</div>
+        <h2 class="rg-pending-title">Application Submitted!</h2>
+        <p class="rg-pending-body" id="pendingBody">
+          Your <strong id="pendingRole">Vendor</strong> account application has been received.
+          Our admin team will review your details and get back to you within <strong>1–2 business days</strong>.
+        </p>
+        <div class="rg-pending-info" id="pendingInfo">
+          <div class="rg-pending-info-row">
+            <span class="rg-pending-info-label">Name</span>
+            <span class="rg-pending-info-value" id="pendingName">—</span>
+          </div>
+          <div class="rg-pending-info-row">
+            <span class="rg-pending-info-label">Email</span>
+            <span class="rg-pending-info-value" id="pendingEmail">—</span>
+          </div>
+          <div class="rg-pending-info-row" id="pendingBusinessRow">
+            <span class="rg-pending-info-label">Business</span>
+            <span class="rg-pending-info-value" id="pendingBusiness">—</span>
+          </div>
+          <div class="rg-pending-info-row" id="pendingShopRow" hidden>
+            <span class="rg-pending-info-label">Shop Code</span>
+            <span class="rg-pending-info-value" id="pendingShop">—</span>
+          </div>
+        </div>
+        <div class="rg-pending-notice">
+          <svg viewBox="0 0 20 20" fill="currentColor" width="15"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-11.25a.75.75 0 00-1.5 0v4.59L7.3 9.24a.75.75 0 00-1.1 1.02l3.25 3.5a.75.75 0 001.1 0l3.25-3.5a.75.75 0 10-1.1-1.02l-1.95 2.1V6.75z" clip-rule="evenodd"/></svg>
+          A confirmation email has been sent to <strong id="pendingEmailConfirm">—</strong>
+        </div>
+        <a href="login.html" class="btn btn-primary btn-block">Back to Login</a>
+      </div>
+
+    </main>
+  </div>
+  
+  <!-- JavaScript -->
+  <script type="module" src="../../fogin-shared/js/public/auth/register.js"></script>
+</body>
+</html>

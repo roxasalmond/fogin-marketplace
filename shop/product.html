@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product — Fogin</title>
+  <meta name="description" content="Shop premium vaping products on Fogin.">
+  <!-- Styles -->
+  <link rel="stylesheet" href="../../fogin-shared/css/main.css">
+  
+</head>
+<body>
+
+  <div id="navbar-placeholder"></div>
+
+  <main class="pdp">
+    <div class="pdp-container">
+
+      <!-- Breadcrumb -->
+      <nav class="pdp-breadcrumb" aria-label="Breadcrumb">
+        <a href="../index.html">Home</a>
+        <span>/</span>
+        <a href="catalog.html">Shop</a>
+        <span>/</span>
+        <a href="catalog.html" id="breadcrumbCategory">Pod Systems</a>
+        <span>/</span>
+        <span id="breadcrumbName">Vaporesso XROS 3</span>
+      </nav>
+
+      <!-- ─── MAIN PRODUCT SECTION ─── -->
+      <div class="pdp-main">
+
+        <!-- LEFT: Image Gallery -->
+        <div class="pdp-gallery">
+
+          <!-- Thumbnail strip -->
+          <div class="pdp-thumbs" id="thumbStrip" role="list">
+            <!-- Injected by JS -->
+          </div>
+
+          <!-- Main image -->
+          <div class="pdp-main-image-wrap" id="mainImageWrap">
+            <div class="pdp-main-image-inner" id="mainImageInner">
+              <div class="pdp-image-placeholder" id="mainImagePlaceholder">📦</div>
+            </div>
+
+            <!-- Zoom lens -->
+            <div class="pdp-zoom-lens" id="zoomLens" hidden></div>
+
+            <!-- Badges -->
+            <div class="pdp-image-badges" id="imageBadges"></div>
+
+            <!-- Angle nav -->
+            <button class="pdp-gallery-nav pdp-gallery-nav--prev" id="prevImage" aria-label="Previous image">
+              <svg viewBox="0 0 20 20" fill="currentColor" width="18"><path fill-rule="evenodd" d="M11.78 5.22a.75.75 0 010 1.06L8.06 10l3.72 3.72a.75.75 0 11-1.06 1.06l-4.25-4.25a.75.75 0 010-1.06l4.25-4.25a.75.75 0 011.06 0z" clip-rule="evenodd"/></svg>
+            </button>
+            <button class="pdp-gallery-nav pdp-gallery-nav--next" id="nextImage" aria-label="Next image">
+              <svg viewBox="0 0 20 20" fill="currentColor" width="18"><path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 011.06 0l4.25 4.25a.75.75 0 010 1.06l-4.25 4.25a.75.75 0 01-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 010-1.06z" clip-rule="evenodd"/></svg>
+            </button>
+
+            <!-- Dot indicators -->
+            <div class="pdp-gallery-dots" id="galleryDots"></div>
+          </div>
+
+          <!-- Zoom preview -->
+          <div class="pdp-zoom-preview" id="zoomPreview" hidden></div>
+
+        </div>
+
+        <!-- RIGHT: Product Info -->
+        <div class="pdp-info">
+
+          <!-- Vendor + category -->
+          <div class="pdp-meta">
+            <span class="pdp-category" id="pdpCategory">Pod System</span>
+            <span class="pdp-meta-sep">·</span>
+            <a href="#vendorSection" class="pdp-vendor-link" id="pdpVendor">VapeHub Manila</a>
+          </div>
+
+          <!-- Title -->
+          <h1 class="pdp-title" id="pdpTitle">Vaporesso XROS 3</h1>
+
+          <!-- Rating -->
+          <div class="pdp-rating">
+            <div class="pdp-stars" id="pdpStars" aria-label="4.5 out of 5 stars">
+              <!-- Injected by JS -->
+            </div>
+            <a href="#reviewsSection" class="pdp-rating-count" id="pdpRatingCount">128 reviews</a>
+            <span class="pdp-meta-sep">·</span>
+            <span class="pdp-sold-count" id="pdpSoldCount">342 sold</span>
+          </div>
+
+          <!-- Price -->
+          <div class="pdp-price-block">
+            <span class="pdp-price" id="pdpPrice">₱2,499</span>
+            <span class="pdp-original-price" id="pdpOriginalPrice" hidden>₱2,999</span>
+            <span class="pdp-discount-badge" id="pdpDiscountBadge" hidden>-17%</span>
+          </div>
+
+          <!-- Stock -->
+          <div class="pdp-stock" id="pdpStock">
+            <span class="pdp-stock-dot pdp-stock-dot--in"></span>
+            In stock · <span id="pdpStockQty">24 units</span>
+          </div>
+
+          <div class="pdp-divider"></div>
+
+          <!-- Variants -->
+          <div class="pdp-variants" id="pdpVariants">
+            <!-- Injected by JS based on product type -->
+          </div>
+
+          <!-- Quantity -->
+          <div class="pdp-qty-row">
+            <span class="pdp-qty-label">Quantity</span>
+            <div class="pdp-qty">
+              <button class="pdp-qty__btn" id="qtyDec" aria-label="Decrease quantity">−</button>
+              <span class="pdp-qty__val" id="qtyVal">1</span>
+              <button class="pdp-qty__btn" id="qtyInc" aria-label="Increase quantity">+</button>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="pdp-actions">
+            <button class="pdp-btn-cart" id="addToCartBtn">
+              <svg viewBox="0 0 20 20" fill="currentColor" width="18">
+                <path d="M6 4.75A.75.75 0 016.75 4h.75v-.25a2.5 2.5 0 015 0V4h.75A.75.75 0 0114 4.75v.5A.75.75 0 0113.25 6h-6.5A.75.75 0 016 5.25v-.5zM4.868 7.5A1 1 0 003.87 8.62l.555 5A1 1 0 005.42 14.5h9.16a1 1 0 00.994-.88l.555-5A1 1 0 0015.132 7.5H4.868z"/>
+              </svg>
+              Add to Cart
+            </button>
+            <button class="pdp-btn-buy" id="buyNowBtn">Buy Now</button>
+            <button class="pdp-btn-wishlist" id="wishlistBtn" aria-label="Add to wishlist">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" width="20">
+                <path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"/>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Delivery estimate -->
+          <div class="pdp-delivery">
+            <div class="pdp-delivery-row">
+              <svg viewBox="0 0 20 20" fill="currentColor" width="16"><path d="M6.5 3c-1.051 0-2.093.04-3.125.117A1.49 1.49 0 002 4.607V10.5h9V3H6.5zM14 9.5v-5.5c0-.828.672-1.5 1.5-1.5h.5a2.5 2.5 0 012.5 2.5v1.5h-4.5zM2 11.5v.5c0 .552.448 1 1 1h1a2 2 0 004 0h4a2 2 0 004 0h1c.552 0 1-.448 1-1v-.5H2z"/></svg>
+              <span>Standard delivery <strong>₱150</strong> · 3–5 days</span>
+            </div>
+            <div class="pdp-delivery-row">
+              <svg viewBox="0 0 20 20" fill="currentColor" width="16"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-13a.75.75 0 00-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 000-1.5h-3.25V5z" clip-rule="evenodd"/></svg>
+              <span>Order before <strong>12PM</strong> for same-day delivery</span>
+            </div>
+            <div class="pdp-delivery-row">
+              <svg viewBox="0 0 20 20" fill="currentColor" width="16"><path fill-rule="evenodd" d="M9.661 2.237a.531.531 0 01.678 0 11.5 11.5 0 007.79 3.696.75.75 0 01.61.75v2.565c0 5.275-3.68 9.541-8.43 10.963a.75.75 0 01-.618 0C4.919 18.795 1.25 14.528 1.25 9.25V6.685a.75.75 0 01.61-.75 11.5 11.5 0 007.8-3.698z" clip-rule="evenodd"/></svg>
+              <span>Buyer protection guaranteed</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ─── TABS SECTION ─── -->
+      <div class="pdp-tabs-section">
+
+        <div class="pdp-tabs" role="tablist">
+          <button class="pdp-tab pdp-tab--active" role="tab" data-tab="description" aria-selected="true">Description</button>
+          <button class="pdp-tab" role="tab" data-tab="specs" aria-selected="false">Specifications</button>
+          <button class="pdp-tab" role="tab" data-tab="reviews" aria-selected="false">Reviews <span class="pdp-tab-badge" id="reviewTabBadge">128</span></button>
+          <button class="pdp-tab" role="tab" data-tab="vendor" aria-selected="false">Vendor Info</button>
+        </div>
+
+        <!-- Description -->
+        <div class="pdp-tab-panel" id="tab-description" role="tabpanel">
+          <div class="pdp-description" id="pdpDescription">
+            <!-- Injected by JS -->
+          </div>
+        </div>
+
+        <!-- Specifications -->
+        <div class="pdp-tab-panel" id="tab-specs" role="tabpanel" hidden>
+          <div class="pdp-specs" id="pdpSpecs">
+            <!-- Injected by JS -->
+          </div>
+        </div>
+
+        <!-- Reviews -->
+        <div class="pdp-tab-panel" id="tab-reviews" role="tabpanel" hidden>
+          <div class="pdp-reviews" id="reviewsSection">
+
+            <!-- Summary -->
+            <div class="pdp-reviews-summary">
+              <div class="pdp-reviews-score">
+                <span class="pdp-reviews-big-score" id="bigScore">4.5</span>
+                <div class="pdp-reviews-stars-lg" id="bigStars"></div>
+                <span class="pdp-reviews-total" id="reviewTotal">128 reviews</span>
+              </div>
+              <div class="pdp-reviews-bars" id="reviewBars"></div>
+            </div>
+
+            <!-- Individual reviews -->
+            <div class="pdp-reviews-list" id="reviewsList"></div>
+
+            <!-- Load more -->
+            <button class="pdp-reviews-more" id="loadMoreReviews">Load more reviews</button>
+
+          </div>
+        </div>
+
+        <!-- Vendor -->
+        <div class="pdp-tab-panel" id="tab-vendor" role="tabpanel" hidden>
+          <div class="pdp-vendor-card" id="vendorSection">
+            <!-- Injected by JS -->
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ─── FREQUENTLY BOUGHT TOGETHER ─── -->
+      <section class="pdp-fbt-section">
+        <h2 class="pdp-section-title">Frequently Bought Together</h2>
+        <div class="pdp-fbt" id="fbtContainer">
+          <!-- Injected by JS -->
+        </div>
+      </section>
+
+      <!-- ─── RELATED PRODUCTS ─── -->
+      <section class="pdp-related-section">
+        <h2 class="pdp-section-title">Related Products</h2>
+        <div class="pdp-related-grid" id="relatedGrid">
+          <!-- Injected by JS -->
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ─── ADD TO CART TOAST ─── -->
+  <div class="pdp-toast" id="pdpToast" hidden>
+    <svg viewBox="0 0 20 20" fill="currentColor" width="16"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd"/></svg>
+    <span id="pdpToastMsg">Added to cart</span>
+    <a href="cart.html" class="pdp-toast-link">View Cart</a>
+  </div>
+
+  <!-- ─── FOOTER JS INJECTED───────────────────────────────────── -->
+  <footer id="footer-placeholder"></footer>
+
+  <script type="module" src="../../fogin-shared/js/public/components/navbar.js"></script>
+  <script type="module" src="../../fogin-shared/js/public/init.js"></script>
+  <script type="module" src="../../fogin-shared/js/public/pages/product.js"></script>
+</body>
+</html>

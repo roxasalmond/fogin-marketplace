@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop All Products — Fogin Vape Marketplace</title>
+  <meta name="description" content="Browse 5,000+ vape products from verified vendors. Pod systems, mods, e-liquids, and accessories.">
+  <!-- Styles -->
+  <link rel="stylesheet" href="../../fogin-shared/css/main.css">
+  
+</head>
+<body>
+
+  <!-- ─── NAVBAR DYNAMICALLY INJECTED──────────────────────────────────── -->
+  <div id="navbar-placeholder"></div>
+
+  <!-- ─── MAIN ─── -->
+  <main class="catalog-page">
+
+    <!-- Breadcrumb -->
+    <div class="catalog-breadcrumb">
+      <div class="section-container">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="../index.html" class="breadcrumb__link">Home</a>
+          <span class="breadcrumb__sep">/</span>
+          <span class="breadcrumb__current" id="breadcrumbCurrent">All Products</span>
+        </nav>
+      </div>
+    </div>
+
+    <div class="catalog-layout section-container">
+
+      <!-- ─── SIDEBAR FILTERS ────────────────── -->
+      <aside class="catalog-sidebar" id="catalogSidebar">
+
+        <div class="sidebar-section">
+          <h3 class="sidebar-section__title">Categories</h3>
+          <ul class="sidebar-filter-list" id="categoryFilters">
+            <li>
+              <button class="sidebar-filter-btn sidebar-filter-btn--active" data-filter-cat="all">
+                All Products <span class="sidebar-filter-count">5,200</span>
+              </button>
+            </li>
+            <li>
+              <button class="sidebar-filter-btn" data-filter-cat="pod-systems">
+                Pod Systems <span class="sidebar-filter-count">240</span>
+              </button>
+            </li>
+            <li>
+              <button class="sidebar-filter-btn" data-filter-cat="mods">
+                Mods & Kits <span class="sidebar-filter-count">180</span>
+              </button>
+            </li>
+            <li>
+              <button class="sidebar-filter-btn" data-filter-cat="eliquids">
+                E-Liquids <span class="sidebar-filter-count">500</span>
+              </button>
+            </li>
+            <li>
+              <button class="sidebar-filter-btn" data-filter-cat="disposables">
+                Disposables <span class="sidebar-filter-count">120</span>
+              </button>
+            </li>
+            <li>
+              <button class="sidebar-filter-btn" data-filter-cat="coils">
+                Coils & Tanks <span class="sidebar-filter-count">300</span>
+              </button>
+            </li>
+            <li>
+              <button class="sidebar-filter-btn" data-filter-cat="accessories">
+                Accessories <span class="sidebar-filter-count">150</span>
+              </button>
+            </li>
+          </ul>
+        </div>
+
+        <div class="sidebar-section">
+          <h3 class="sidebar-section__title">Price Range</h3>
+          <div class="price-range">
+            <div class="price-range__inputs">
+              <div class="price-range__field">
+                <label for="priceMin">Min</label>
+                <input type="number" id="priceMin" class="price-range__input" placeholder="₱0" min="0">
+              </div>
+              <span class="price-range__dash">—</span>
+              <div class="price-range__field">
+                <label for="priceMax">Max</label>
+                <input type="number" id="priceMax" class="price-range__input" placeholder="₱50,000" min="0">
+              </div>
+            </div>
+            <button class="price-range__apply btn btn-secondary" id="applyPrice">Apply</button>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <h3 class="sidebar-section__title">Brands</h3>
+          <ul class="sidebar-check-list" id="brandFilters">
+            <li><label class="sidebar-check"><input type="checkbox" data-brand="vaporesso"> Vaporesso</label></li>
+            <li><label class="sidebar-check"><input type="checkbox" data-brand="smok"> SMOK</label></li>
+            <li><label class="sidebar-check"><input type="checkbox" data-brand="uwell"> Uwell</label></li>
+            <li><label class="sidebar-check"><input type="checkbox" data-brand="voopoo"> Voopoo</label></li>
+            <li><label class="sidebar-check"><input type="checkbox" data-brand="geekvape"> Geekvape</label></li>
+            <li><label class="sidebar-check"><input type="checkbox" data-brand="relx"> Relx</label></li>
+            <li><label class="sidebar-check"><input type="checkbox" data-brand="aspire"> Aspire</label></li>
+            <li><label class="sidebar-check"><input type="checkbox" data-brand="innokin"> Innokin</label></li>
+          </ul>
+        </div>
+
+        <div class="sidebar-section">
+          <h3 class="sidebar-section__title">Rating</h3>
+          <ul class="sidebar-filter-list" id="ratingFilters">
+            <li><button class="sidebar-filter-btn" data-filter-rating="4.5">⭐ 4.5 & above</button></li>
+            <li><button class="sidebar-filter-btn" data-filter-rating="4">⭐ 4.0 & above</button></li>
+            <li><button class="sidebar-filter-btn" data-filter-rating="3">⭐ 3.0 & above</button></li>
+          </ul>
+        </div>
+
+        <div class="sidebar-section">
+          <h3 class="sidebar-section__title">Availability</h3>
+          <label class="sidebar-check">
+            <input type="checkbox" id="inStockOnly"> In Stock Only
+          </label>
+          <label class="sidebar-check">
+            <input type="checkbox" id="saleOnly"> On Sale
+          </label>
+        </div>
+
+        <button class="btn btn-secondary-dark btn-block" id="clearFilters">
+          Clear All Filters
+        </button>
+
+      </aside>
+
+      <!-- ─── CATALOG MAIN ────────────────────── -->
+      <div class="catalog-main">
+
+        <!-- Toolbar -->
+        <div class="catalog-toolbar">
+          <div class="catalog-toolbar__left">
+            <p class="catalog-result-count" id="resultCount">Showing <strong>5,200</strong> products</p>
+
+            <!-- Mobile filter toggle -->
+            <button class="btn btn-secondary btn-sm" id="filterToggle">
+              <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+                <path fill-rule="evenodd" d="M2.628 1.601C5.028 1.206 7.49 1 10 1s4.973.206 7.372.601a.75.75 0 01.628.74v2.288a2.25 2.25 0 01-.659 1.59l-4.682 4.683a2.25 2.25 0 00-.659 1.59v3.037c0 .684-.31 1.33-.844 1.757l-1.937 1.55A.75.75 0 018 18.25v-5.757a2.25 2.25 0 00-.659-1.591L2.659 6.22A2.25 2.25 0 012 4.629V2.34a.75.75 0 01.628-.74z" clip-rule="evenodd"/>
+              </svg>
+              Filters
+            </button>
+          </div>
+
+          <div class="catalog-toolbar__right">
+            <!-- Active filter tags -->
+            <div class="active-filters" id="activeFilters"></div>
+
+            <!-- View toggle -->
+            <div class="view-toggle">
+              <button class="btn btn-icon-only btn-secondary-dark view-toggle__btn--active" data-view="grid">
+                <svg viewBox="0 0 20 20" fill="currentColor" width="16">
+                  <path fill-rule="evenodd" d="M4.25 2A2.25 2.25 0 002 4.25v2.5A2.25 2.25 0 004.25 9h2.5A2.25 2.25 0 009 6.75v-2.5A2.25 2.25 0 006.75 2h-2.5zm0 9A2.25 2.25 0 002 13.25v2.5A2.25 2.25 0 004.25 18h2.5A2.25 2.25 0 009 15.75v-2.5A2.25 2.25 0 006.75 11h-2.5zm6.5-9A2.25 2.25 0 008.5 4.25v2.5A2.25 2.25 0 0010.75 9h2.5A2.25 2.25 0 0015.5 6.75v-2.5A2.25 2.25 0 0013.25 2h-2.5zm0 9a2.25 2.25 0 00-2.25 2.25v2.5A2.25 2.25 0 0010.75 18h2.5a2.25 2.25 0 002.25-2.25v-2.5a2.25 2.25 0 00-2.25-2.25h-2.5z" clip-rule="evenodd"/>
+                </svg>
+              </button>
+              <button class="btn btn-icon-only btn-secondary-dark" data-view="list">
+                <svg viewBox="0 0 20 20" fill="currentColor" width="16">
+                  <path fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10zm0 5.25a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75a.75.75 0 01-.75-.75z" clip-rule="evenodd"/>
+                </svg>
+              </button>
+            </div>
+
+            <!-- Sort -->
+            <div class="sort-select-wrap">
+              <label for="sortSelect" class="sr-only">Sort by</label>
+              <select class="sort-select" id="sortSelect">
+                <option value="popular">Most Popular</option>
+                <option value="newest">Newest First</option>
+                <option value="price-asc">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+                <option value="rating">Highest Rated</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product grid -->
+        <div class="catalog-product-grid" id="catalogGrid">
+          <!-- Rendered by JS -->
+        </div>
+
+        <!-- Pagination -->
+        <div class="catalog-pagination">
+          <div class="data-table__info" id="paginationInfo">Showing 1 to 20 of 5,200 products</div>
+          <div class="data-table__pagination" id="paginationContainer" data-total="5200" data-per-page="20"></div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- ─── FOOTER JS INJECTED───────────────────────────────────── -->
+  <footer id="footer-placeholder"></footer>
+
+  <script type="module" src="../../fogin-shared/js/public/init.js"></script>
+  <script type="module" src="../../fogin-shared/js/public/shop/catalog.js"></script>
+</body>
+</html>

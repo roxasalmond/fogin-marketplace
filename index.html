@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>fogin.ph — Philippines' Vape Marketplace</title>
+  <meta name="description" content="Fogin is the Philippines' leading vape marketplace. Shop pod systems, mods, e-liquids and accessories from verified vendors.">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="../fogin-shared/css/main.css">
+
+</head>
+<body>
+
+  <!-- ─── AGE GATE (loaded via JS if needed) ─────── -->
+
+  <!-- ─── STICKY WARNING BANNER ──────────────────── -->
+  <div class="site-notice warning-banner warning-banner--lime warning-banner--full" id="siteNotice" role="alert">
+    <div class="site-notice__inner">
+      <div class="warning-banner__icon">
+        <svg viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 5zm0 9a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/>
+        </svg>
+      </div>
+      <p class="warning-banner__message">
+        <strong>18+ Only.</strong> This site sells vaping products. You must be of legal age to purchase. <a href="#">Learn more</a>
+      </p>
+    </div>
+    <button class="warning-banner__close" id="dismissNotice" aria-label="Dismiss">
+      <svg viewBox="0 0 20 20" fill="currentColor">
+        <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- ─── NAVBAR DYNAMICALLY INJECTED ─────────────── -->
+  <div id="navbar-placeholder"></div>
+
+  <!-- ─── MAIN CONTENT ─────────────────────────────── -->
+  <main>
+    <!-- ═══════════════════════════════════════════
+         HERO SECTION
+    ══════════════════════════════════════════════ -->
+    <section class="hero" id="home">
+      <div class="hero__container">
+        <div class="hero__content">
+          <div class="hero__eyebrow">
+            <span class="hero__eyebrow-dot"></span>
+            Philippines' #1 Vape Marketplace
+          </div>
+
+          <h1 class="hero__title">
+            Find the perfect vaping
+            <br><span class="hero__title-accent">experience</span>
+            <br>for you.
+          </h1>
+
+          <p class="hero__subtitle">
+            Shop from **+ verified vendors. Pod systems, mods, e-liquids, 
+            and accessories — all in one place, delivered to your door.
+          </p>
+
+          <div class="hero__actions">
+            <a href="./shop/catalog.html" class="btn btn-primary btn-lg">
+              Shop Now
+              <svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18">
+                <path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd"/>
+              </svg>
+            </a>
+            <a href="#categories" class="btn btn-secondary btn-lg">Browse Categories</a>
+          </div>
+
+          <div class="hero__stats">
+            <div class="hero__stat">
+              <span class="hero__stat-value">100+</span>
+              <span class="hero__stat-label">Verified Vendors</span>
+            </div>
+            <div class="hero__stat-divider"></div>
+            <div class="hero__stat">
+              <span class="hero__stat-value">5,000+</span>
+              <span class="hero__stat-label">Products</span>
+            </div>
+            <div class="hero__stat-divider"></div>
+            <div class="hero__stat">
+              <span class="hero__stat-value">24h</span>
+              <span class="hero__stat-label">Fast Delivery</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero__visual">
+          <div class="hero__ring"></div>
+          <div class="hero__float-card hero__float-card--1">
+            <div class="hero__float-img">🔋</div>
+            <div class="hero__float-info">
+              <p class="hero__float-name">Vaporesso XROS 4</p>
+              <p class="hero__float-price">₱2,499</p>
+            </div>
+          </div>
+          <div class="hero__float-card hero__float-card--2">
+            <div class="hero__float-img">💨</div>
+            <div class="hero__float-info">
+              <p class="hero__float-name">Relx Infinity</p>
+              <p class="hero__float-price">₱1,899</p>
+            </div>
+          </div>
+          <div class="hero__badge hero__badge--verified">
+            <svg viewBox="0 0 20 20" fill="currentColor" width="14">
+              <path fill-rule="evenodd" d="M16.403 12.652a3 3 0 000-5.304 3 3 0 00-3.75-3.751 3 3 0 00-5.305 0 3 3 0 00-3.751 3.75 3 3 0 000 5.305 3 3 0 003.75 3.751 3 3 0 005.305 0 3 3 0 003.751-3.75zm-2.546-4.46a.75.75 0 00-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd"/>
+            </svg>
+            Verified Vendor
+          </div>
+          <div class="hero__badge hero__badge--rating">⭐ 4.9 Rating</div>
+        </div>
+      </div>
+
+      <a class="hero__scroll-cue" href="#categories" aria-label="Scroll to categories">
+        <span>Scroll</span>
+        <div class="hero__scroll-line"></div>
+      </a>
+    </section>
+
+    <!-- ═══════════════════════════════════════════
+         CATEGORY STRIP
+    ══════════════════════════════════════════════ -->
+    <section class="categories" id="categories">
+      <div class="section-container">
+        <div class="section-header">
+          <h2 class="section-title">Shop by Category</h2>
+          <a href="./shop/catalog.html" class="section-link">View all →</a>
+        </div>
+
+        <div class="categories__grid">
+          <a href="./shop/catalog.html?cat=pod-systems" class="category-card">
+            <div class="category-card__icon">🔋</div>
+            <h3 class="category-card__name">Pod Systems</h3>
+            <p class="category-card__count">240+ products</p>
+          </a>
+          <a href="./shop/catalog.html?cat=mods" class="category-card">
+            <div class="category-card__icon">⚡</div>
+            <h3 class="category-card__name">Mods & Kits</h3>
+            <p class="category-card__count">180+ products</p>
+          </a>
+          <a href="./shop/catalog.html?cat=eliquids" class="category-card">
+            <div class="category-card__icon">💧</div>
+            <h3 class="category-card__name">E-Liquids</h3>
+            <p class="category-card__count">500+ products</p>
+          </a>
+          <a href="./shop/catalog.html?cat=disposables" class="category-card">
+            <div class="category-card__icon">🌬️</div>
+            <h3 class="category-card__name">Disposables</h3>
+            <p class="category-card__count">120+ products</p>
+          </a>
+          <a href="./shop/catalog.html?cat=coils" class="category-card">
+            <div class="category-card__icon">🔩</div>
+            <h3 class="category-card__name">Coils & Tanks</h3>
+            <p class="category-card__count">300+ products</p>
+          </a>
+          <a href="./shop/catalog.html?cat=accessories" class="category-card">
+            <div class="category-card__icon">🎒</div>
+            <h3 class="category-card__name">Accessories</h3>
+            <p class="category-card__count">150+ products</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════
+         FEATURED PRODUCTS
+    ══════════════════════════════════════════════ -->
+    <section class="featured-products" id="featured">
+      <div class="section-container">
+        <div class="section-header">
+          <h2 class="section-title">Featured Products</h2>
+          <div class="featured-products__tabs">
+            <button class="tab-btn tab-btn--active" data-tab="trending">Trending</button>
+            <button class="tab-btn" data-tab="new">New Arrivals</button>
+            <button class="tab-btn" data-tab="deals">Best Deals</button>
+          </div>
+          <a href="./shop/catalog.html" class="section-link">View all →</a>
+        </div>
+
+        <div class="product-grid" id="productGrid">
+          <!-- Products injected by JS -->
+          <div class="product-skeleton"></div>
+          <div class="product-skeleton"></div>
+          <div class="product-skeleton"></div>
+          <div class="product-skeleton"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════
+         BRANDS / MARQUEE
+    ══════════════════════════════════════════════ -->
+    <section class="brands">
+      <div class="brands__label">Trusted Brands</div>
+      <div class="brands__track-wrapper">
+        <div class="brands__track" aria-hidden="true">
+          <span class="brands__item">Vaporesso</span>
+          <span class="brands__sep">·</span>
+          <span class="brands__item">SMOK</span>
+          <span class="brands__sep">·</span>
+          <span class="brands__item">Uwell</span>
+          <span class="brands__sep">·</span>
+          <span class="brands__item">Voopoo</span>
+          <span class="brands__sep">·</span>
+          <span class="brands__item">Geekvape</span>
+          <span class="brands__sep">·</span>
+          <span class="brands__item">Relx</span>
+          <span class="brands__sep">·</span>
+          <span class="brands__item">Juul</span>
+          <span class="brands__sep">·</span>
+          <span class="brands__item">Innokin</span>
+          <span class="brands__sep">·</span>
+          <span class="brands__item">Aspire</span>
+          <span class="brands__sep">·</span>
+          <!-- Duplicate for infinite scroll -->
+          <span class="brands__item">Vaporesso</span>
+          <span class="brands__sep">·</span>
+          <span class="brands__item">SMOK</span>
+          <span class="brands__sep">·</span>
+          <span class="brands__item">Uwell</span>
+          <span class="brands__sep">·</span>
+          <span class="brands__item">Voopoo</span>
+          <span class="brands__sep">·</span>
+          <span class="brands__item">Geekvape</span>
+          <span class="brands__sep">·</span>
+          <span class="brands__item">Relx</span>
+          <span class="brands__sep">·</span>
+          <span class="brands__item">Juul</span>
+          <span class="brands__sep">·</span>
+          <span class="brands__item">Innokin</span>
+          <span class="brands__sep">·</span>
+          <span class="brands__item">Aspire</span>
+          <span class="brands__sep">·</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════
+         WHY FOGIN
+    ══════════════════════════════════════════════ -->
+    <section class="why-fogin">
+      <div class="section-container">
+        <div class="section-header section-header--center">
+          <h2 class="section-title">Why Shop on fogin.ph ?</h2>
+          <p class="section-subtitle">Built for the vape community in the Philippines.</p>
+        </div>
+
+        <div class="why-fogin__grid">
+          <div class="feature-card">
+            <div class="feature-card__icon">✅</div>
+            <h3 class="feature-card__title">Verified Vendors</h3>
+            <p class="feature-card__desc">Every shop on fogin.ph is manually verified. Buy with confidence from legitimate sellers.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-card__icon">🚚</div>
+            <h3 class="feature-card__title">Fast Delivery</h3>
+            <p class="feature-card__desc">Nationwide delivery with real-time tracking. Metro Manila orders ship same day.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-card__icon">💳</div>
+            <h3 class="feature-card__title">Secure Payments</h3>
+            <p class="feature-card__desc">GCash, Maya, credit card, and COD — pay however you prefer. Always safe.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-card__icon">🔄</div>
+            <h3 class="feature-card__title">Easy Returns</h3>
+            <p class="feature-card__desc">Not satisfied? Return within 7 days. No questions asked on sealed items.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════
+         FEATURED VENDORS
+    ══════════════════════════════════════════════ -->
+    <section class="vendors-section" id="vendors">
+      <div class="section-container">
+        <div class="section-header">
+          <h2 class="section-title">Top Vendors</h2>
+          <a href="#" class="section-link">View all vendors →</a>
+        </div>
+
+        <div class="vendors-grid">
+          <a href="#" class="vendor-card">
+            <div class="vendor-card__avatar">VH</div>
+            <div class="vendor-card__info">
+              <h3 class="vendor-card__name">VapeHub Manila</h3>
+              <p class="vendor-card__meta">120 products · ⭐ 4.9</p>
+            </div>
+            <span class="vendor-card__badge">Top Seller</span>
+          </a>
+          <a href="#" class="vendor-card">
+            <div class="vendor-card__avatar">VS</div>
+            <div class="vendor-card__info">
+              <h3 class="vendor-card__name">VapeStation PH</h3>
+              <p class="vendor-card__meta">87 products · ⭐ 4.8</p>
+            </div>
+          </a>
+          <a href="#" class="vendor-card">
+            <div class="vendor-card__avatar">CG</div>
+            <div class="vendor-card__info">
+              <h3 class="vendor-card__name">CloudGuru Cebu</h3>
+              <p class="vendor-card__meta">64 products · ⭐ 4.7</p>
+            </div>
+          </a>
+          <a href="#" class="vendor-card">
+            <div class="vendor-card__avatar">PM</div>
+            <div class="vendor-card__info">
+              <h3 class="vendor-card__name">PodMaster</h3>
+              <p class="vendor-card__meta">95 products · ⭐ 4.9</p>
+            </div>
+            <span class="vendor-card__badge">New</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════
+         CTA BANNER
+    ══════════════════════════════════════════════ -->
+    <section class="cta-banner">
+      <div class="cta-banner__bg">
+        <div class="cta-banner__glow"></div>
+      </div>
+      <div class="cta-banner__content">
+        <h2 class="cta-banner__title">Ready to Start Vaping Smarter?</h2>
+        <p class="cta-banner__subtitle">Join 10,000+ customers already shopping on fogin.ph.</p>
+        <a href="auth/register.html" class="btn btn-primary btn-lg">Create Free Account</a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ─── FOOTER JS INJECTED───────────────────────────────────── -->
+  <footer id="footer-placeholder"></footer>
+
+  <!-- ─── SCRIPTS ──────────────────────────────────── -->
+  <script type="module" src="../fogin-shared/js/public/init.js"></script>
+  <script type="module" src="../fogin-shared/js/public/pages/home.js"></script>
+  <script type="module" src="../fogin-shared/js/public/components/navbar.js"></script>
+</body>
+</html>

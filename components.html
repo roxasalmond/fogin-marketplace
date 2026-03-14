@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Fogin Component Library - Reusable UI Components">
+  <title>Fogin - Component Library</title>
+  
+  <!-- Base CSS -->
+  <link rel="stylesheet" href="../fogin-shared/css/base/reset.css">
+  <link rel="stylesheet" href="../fogin-shared/css/base/variables.css">
+  <link rel="stylesheet" href="../fogin-shared/css/base/typography.css">
+  
+  <!-- Component CSS -->
+  <link rel="stylesheet" href="../fogin-shared/css/components/buttons.css">
+  <link rel="stylesheet" href="../fogin-shared/css/components/inputs.css">
+  <link rel="stylesheet" href="../fogin-shared/css/components/form-controls.css">
+  <link rel="stylesheet" href="../fogin-shared/css/components/product-card.css">
+  <link rel="stylesheet" href="../fogin-shared/css/components/utilities.css">
+  
+  <style>
+    /* Page-specific styles */
+    .showcase {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 48px 24px;
+    }
+    
+    .showcase__section {
+      margin-bottom: 80px;
+    }
+    
+    .showcase__title {
+      margin-bottom: 32px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--color-primary);
+    }
+    
+    .showcase__subtitle {
+      margin: 32px 0 16px;
+      color: var(--color-text-secondary);
+    }
+    
+    .showcase__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+    
+    .showcase__demo {
+      padding: 24px;
+      background-color: var(--color-bg-dark);
+      border: 1px solid var(--color-border-default);
+      border-radius: 8px;
+    }
+    
+    .showcase__demo-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-text-secondary);
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .space-y {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    
+    .space-x {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="showcase">
+    <!-- Header -->
+    <header style="text-align: center; margin-bottom: 64px;">
+      <h1 style="color: var(--color-primary); margin-bottom: 16px;">FOGIN</h1>
+      <p class="text-secondary text-large">Component Library & Design System</p>
+    </header>
+    
+    <!-- Buttons Section -->
+    <section class="showcase__section">
+      <h2 class="showcase__title">Buttons</h2>
+      
+      <div class="showcase__grid">
+        <!-- Primary Buttons -->
+        <div class="showcase__demo">
+          <div class="showcase__demo-title">Primary Buttons</div>
+          <div class="space-y">
+            <button class="btn btn-primary">Primary Button</button>
+            <button class="btn btn-primary-blue">Primary Blue</button>
+            <button class="btn btn-primary" disabled>Disabled</button>
+          </div>
+        </div>
+        
+        <!-- Secondary Buttons -->
+        <div class="showcase__demo">
+          <div class="showcase__demo-title">Secondary Buttons</div>
+          <div class="space-y">
+            <button class="btn btn-secondary">Secondary Button</button>
+            <button class="btn btn-secondary-dark">Secondary Dark</button>
+            <button class="btn btn-secondary" disabled>Disabled</button>
+          </div>
+        </div>
+        
+        <!-- Back Button -->
+        <div class="showcase__demo">
+          <div class="showcase__demo-title">Back Button</div>
+          <div class="space-y">
+            <button class="btn btn-back">Back</button>
+          </div>
+        </div>
+        
+        <!-- Tertiary/Text Links -->
+        <div class="showcase__demo">
+          <div class="showcase__demo-title">Tertiary Buttons</div>
+          <div class="space-y">
+            <button class="btn btn-tertiary">Text Link</button>
+            <button class="btn btn-tertiary-lime">Text Link Lime</button>
+          </div>
+        </div>
+      </div>
+      
+      <h3 class="showcase__subtitle">Add to Cart Buttons</h3>
+      <div class="showcase__grid">
+        <div class="showcase__demo">
+          <div class="space-y">
+            <button class="btn btn-add-to-cart">Add to Cart</button>
+            <button class="btn btn-add-to-cart-blue">Add to Cart</button>
+          </div>
+        </div>
+        
+        <!-- Cart Button -->
+        <div class="showcase__demo">
+          <div class="showcase__demo-title">Cart Button</div>
+          <button class="btn-cart">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 2L11 8H20L16 18H6L2 8H11L9 2Z"/>
+            </svg>
+            <span class="btn-cart__badge">3</span>
+          </button>
+        </div>
+        
+        <!-- Button Sizes -->
+        <div class="showcase__demo">
+          <div class="showcase__demo-title">Button Sizes</div>
+          <div class="space-y">
+            <button class="btn btn-primary btn-sm">Small</button>
+            <button class="btn btn-primary">Default</button>
+            <button class="btn btn-primary btn-lg">Large</button>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Form Inputs Section -->
+    <section class="showcase__section">
+      <h2 class="showcase__title">Form Inputs</h2>
+      
+      <div class="showcase__grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+        <!-- Email Input -->
+        <div class="showcase__demo">
+          <div class="showcase__demo-title">Email Input</div>
+          <div class="input-field">
+            <label class="input-field__label" for="email-demo">Email</label>
+            <div class="input-field__container">
+              <input 
+                type="email" 
+                id="email-demo"
+                class="input-field__input" 
+                placeholder="your@email.com"
+              >
+            </div>
+          </div>
+        </div>
+        
+        <!-- Password Input -->
+        <div class="showcase__demo">
+          <div class="showcase__demo-title">Password Input</div>
+          <div class="input-field input-field--password">
+            <label class="input-field__label" for="password-demo">Password</label>
+            <div class="input-field__container">
+              <input 
+                type="password" 
+                id="password-demo"
+                class="input-field__input input-field__input--with-icon" 
+                placeholder="MyP@ssw0rd!"
+              >
+              <button type="button" class="input-field__icon" onclick="togglePassword('password-demo')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Error State -->
+        <div class="showcase__demo">
+          <div class="showcase__demo-title">Error State</div>
+          <div class="input-field input-field--error">
+            <label class="input-field__label" for="error-demo">Email</label>
+            <div class="input-field__container">
+              <input 
+                type="email" 
+                id="error-demo"
+                class="input-field__input" 
+                placeholder="your@email.com"
+                value="invalid"
+              >
+            </div>
+            <div class="input-field__message input-field__message--error">
+              Please enter a valid email
+            </div>
+          </div>
+        </div>
+        
+        <!-- Focus State -->
+        <div class="showcase__demo">
+          <div class="showcase__demo-title">Focus State (Click to see)</div>
+          <div class="input-field">
+            <label class="input-field__label" for="focus-demo">Label</label>
+            <div class="input-field__container">
+              <input 
+                type="text" 
+                id="focus-demo"
+                class="input-field__input" 
+                placeholder="Click me to see lime border"
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Checkboxes & Radio Buttons Section -->
+    <section class="showcase__section">
+      <h2 class="showcase__title">Checkboxes & Radio Buttons</h2>
+      
+      <div class="showcase__grid">
+        <!-- Checkbox -->
+        <div class="showcase__demo">
+          <div class="showcase__demo-title">Checkboxes</div>
+          <div class="space-y">
+            <label class="checkbox">
+              <input type="checkbox" class="checkbox__input">
+              <span class="checkbox__custom"></span>
+              <span class="checkbox__label">Unchecked</span>
+            </label>
+            
+            <label class="checkbox">
+              <input type="checkbox" class="checkbox__input" checked>
+              <span class="checkbox__custom"></span>
+              <span class="checkbox__label">Checked</span>
+            </label>
+            
+            <label class="checkbox">
+              <input type="checkbox" class="checkbox__input" disabled>
+              <span class="checkbox__custom"></span>
+              <span class="checkbox__label">Disabled</span>
+            </label>
+          </div>
+        </div>
+        
+        <!-- Terms Checkbox -->
+        <div class="showcase__demo">
+          <div class="showcase__demo-title">Terms & Conditions</div>
+          <label class="checkbox checkbox--terms">
+            <input type="checkbox" class="checkbox__input">
+            <span class="checkbox__custom"></span>
+            <span class="checkbox__label">
+              I agree to <a href="#">Terms</a> & <a href="#">Privacy Policy</a>
+            </span>
+          </label>
+        </div>
+        
+        <!-- Radio Buttons -->
+        <div class="showcase__demo">
+          <div class="showcase__demo-title">Radio Buttons</div>
+          <div class="radio-group">
+            <label class="radio">
+              <input type="radio" name="radio-demo" class="radio__input" checked>
+              <span class="radio__custom"></span>
+              <span class="radio__label">Radio Option 1</span>
+            </label>
+            
+            <label class="radio">
+              <input type="radio" name="radio-demo" class="radio__input">
+              <span class="radio__custom"></span>
+              <span class="radio__label">Radio Option 2</span>
+            </label>
+            
+            <label class="radio">
+              <input type="radio" name="radio-demo" class="radio__input" disabled>
+              <span class="radio__custom"></span>
+              <span class="radio__label">Disabled</span>
+            </label>
+          </div>
+        </div>
+        
+        <!-- Radio Large -->
+        <div class="showcase__demo">
+          <div class="showcase__demo-title">Radio Large</div>
+          <div class="radio-group">
+            <label class="radio radio--large">
+              <input type="radio" name="radio-large-demo" class="radio__input" checked>
+              <span class="radio__custom"></span>
+              <span class="radio__label">Large Radio Option</span>
+            </label>
+            
+            <label class="radio radio--large">
+              <input type="radio" name="radio-large-demo" class="radio__input">
+              <span class="radio__custom"></span>
+              <span class="radio__label">Large Radio Option 2</span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Product Cards Section -->
+    <section class="showcase__section">
+      <h2 class="showcase__title">Product Cards</h2>
+      
+      <div class="product-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+        <!-- Product Card 1 -->
+        <div class="product-card">
+          <div class="product-card__image-wrapper">
+            <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 48px;">📱</div>
+            <span class="product-card__badge">New</span>
+            <button class="product-card__favorite">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              </svg>
+            </button>
+          </div>
+          <div class="product-card__body">
+            <div class="product-card__category">Electronics</div>
+            <h3 class="product-card__name">Premium Smartphone</h3>
+            <p class="product-card__description">High-end smartphone with amazing features and long battery life.</p>
+            <div class="product-card__pricing">
+              <span class="product-card__price">₱29,999.00</span>
+            </div>
+          </div>
+          <div class="product-card__footer">
+            <button class="btn btn-add-to-cart">Add to Cart</button>
+          </div>
+        </div>
+        
+        <!-- Product Card 2 - With Sale -->
+        <div class="product-card">
+          <div class="product-card__image-wrapper">
+            <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 48px;">💨</div>
+            <span class="product-card__badge product-card__badge--sale">Sale</span>
+          </div>
+          <div class="product-card__body">
+            <div class="product-card__category">Vape</div>
+            <h3 class="product-card__name">Pod System Vape</h3>
+            <p class="product-card__description">Compact and portable vape device perfect for beginners.</p>
+            <div class="product-card__pricing">
+              <span class="product-card__price product-card__price--sale">₱1,999.00</span>
+              <span class="product-card__price product-card__price--original">₱2,999.00</span>
+              <span class="product-card__discount">-33%</span>
+            </div>
+          </div>
+          <div class="product-card__footer">
+            <button class="btn btn-add-to-cart-blue">Add to Cart</button>
+          </div>
+        </div>
+        
+        <!-- Product Card 3 -->
+        <div class="product-card">
+          <div class="product-card__image-wrapper">
+            <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 48px;">💧</div>
+          </div>
+          <div class="product-card__body">
+            <div class="product-card__category">E-Liquid</div>
+            <h3 class="product-card__name">Premium E-Juice 60ml</h3>
+            <p class="product-card__description">Delicious fruity flavor e-liquid with smooth throat hit.</p>
+            <div class="product-card__pricing">
+              <span class="product-card__price">₱299.00</span>
+            </div>
+          </div>
+          <div class="product-card__footer">
+            <button class="btn btn-add-to-cart">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Utility Components Section -->
+    <section class="showcase__section">
+      <h2 class="showcase__title">Utility Components</h2>
+      
+      <div class="showcase__grid">
+        <!-- Close Buttons -->
+        <div class="showcase__demo">
+          <div class="showcase__demo-title">Close Buttons</div>
+          <div class="space-x">
+            <button class="close-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+            
+            <button class="close-btn close-btn--blue">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+          </div>
+        </div>
+        
+        <!-- Badges -->
+        <div class="showcase__demo">
+          <div class="showcase__demo-title">Badges</div>
+          <div class="space-x">
+            <span class="badge badge--primary">Primary</span>
+            <span class="badge badge--secondary">Secondary</span>
+            <span class="badge badge--success">Success</span>
+            <span class="badge badge--error">Error</span>
+          </div>
+        </div>
+        
+        <!-- Spinner -->
+        <div class="showcase__demo">
+          <div class="showcase__demo-title">Loading Spinner</div>
+          <div class="space-x">
+            <div class="spinner spinner--sm"></div>
+            <div class="spinner"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+  <script>
+    // Toggle password visibility
+    function togglePassword(inputId) {
+      const input = document.getElementById(inputId);
+      const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+      input.setAttribute('type', type);
+    }
+  </script>
+</body>
+</html>

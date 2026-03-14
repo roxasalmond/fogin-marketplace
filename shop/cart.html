@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Cart — Fogin</title>
+  <meta name="description" content="Review your cart and proceed to checkout.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../../fogin-shared/css/main.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <div id="navbar-placeholder"></div>
+
+  <main class="cart-page">
+    <div class="cart-container">
+
+      <!-- ─── PAGE HEADER ─── -->
+      <div class="cart-header">
+        <div class="cart-header__left">
+          <a href="catalog.html" class="cart-back-btn">
+            <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+              <path fill-rule="evenodd" d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z" clip-rule="evenodd"/>
+            </svg>
+            Continue Shopping
+          </a>
+          <h1 class="cart-title">Your Cart</h1>
+        </div>
+        <span class="cart-item-count" id="cartItemCount">0 items</span>
+      </div>
+
+      <!-- ─── MAIN LAYOUT ─── -->
+      <div class="cart-layout" id="cartLayout">
+
+        <!-- LEFT: Cart Items -->
+        <section class="cart-items-section" aria-label="Cart items">
+
+          <!-- Vendor group — rendered by JS -->
+          <div id="cartItemsContainer">
+            <!-- Items injected here -->
+          </div>
+
+          <!-- Select all / clear -->
+          <div class="cart-bulk-actions" id="cartBulkActions">
+            <label class="cart-select-all">
+              <input type="checkbox" id="selectAllItems">
+              <span>Select all items</span>
+            </label>
+            <button class="cart-clear-btn" id="clearSelectedBtn">
+              Remove selected
+            </button>
+          </div>
+
+        </section>
+
+        <!-- RIGHT: Order Summary -->
+        <aside class="cart-summary" aria-label="Order summary">
+
+          <h2 class="cart-summary__title">Order Summary</h2>
+
+          <!-- Summary rows -->
+          <div class="cart-summary__rows" id="summaryRows">
+            <div class="cart-summary__row">
+              <span>Subtotal</span>
+              <span id="summarySubtotal">₱0</span>
+            </div>
+            <div class="cart-summary__row">
+              <span>Shipping</span>
+              <span id="summaryShipping">₱0</span>
+            </div>
+            <div class="cart-summary__row cart-summary__row--discount" id="discountRow" style="display:none">
+              <span>Discount</span>
+              <span id="summaryDiscount">-₱0</span>
+            </div>
+            <div class="cart-summary__row cart-summary__row--divider"></div>
+            <div class="cart-summary__row cart-summary__row--total">
+              <span>Total</span>
+              <span id="summaryTotal">₱0</span>
+            </div>
+          </div>
+
+          <!-- Shipping note -->
+          <div class="cart-summary__shipping-note" id="shippingNote">
+            <svg viewBox="0 0 20 20" fill="currentColor" width="14">
+              <path d="M6.5 3c-1.051 0-2.093.04-3.125.117A1.49 1.49 0 002 4.607V10.5h9V3H6.5zM14 9.5v-5.5c0-.828.672-1.5 1.5-1.5h.5a2.5 2.5 0 012.5 2.5v1.5h-4.5zM2 11.5v.5c0 .552.448 1 1 1h1a2 2 0 004 0h4a2 2 0 004 0h1c.552 0 1-.448 1-1v-.5H2z"/>
+            </svg>
+            Free shipping on orders over ₱2,000
+          </div>
+
+          <!-- Free shipping progress -->
+          <div class="cart-summary__progress" id="freeShippingProgress">
+            <div class="cart-summary__progress-bar">
+              <div class="cart-summary__progress-fill" id="progressFill"></div>
+            </div>
+            <p class="cart-summary__progress-label" id="progressLabel"></p>
+          </div>
+
+          <!-- Voucher -->
+          <div class="cart-summary__voucher">
+            <div class="cart-voucher-input">
+              <input
+                type="text"
+                class="cart-voucher-field"
+                id="voucherInput"
+                placeholder="Enter voucher code"
+                aria-label="Voucher code"
+              >
+              <button class="cart-voucher-btn" id="applyVoucher">Apply</button>
+            </div>
+            <p class="cart-voucher-msg" id="voucherMsg"></p>
+          </div>
+
+          <!-- Payment methods -->
+          <div class="cart-summary__payment">
+            <p class="cart-summary__payment-label">We accept</p>
+            <div class="cart-payment-methods">
+              <div class="cart-payment-badge cart-payment-badge--gcash">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/>
+                </svg>
+                GCash
+              </div>
+              <div class="cart-payment-badge cart-payment-badge--maya">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+                  <path d="M20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/>
+                </svg>
+                Maya
+              </div>
+              <div class="cart-payment-badge cart-payment-badge--card">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+                  <path d="M20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/>
+                </svg>
+                Card
+              </div>
+              <div class="cart-payment-badge cart-payment-badge--cod">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+                  <path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/>
+                </svg>
+                COD
+              </div>
+            </div>
+          </div>
+
+          <!-- Checkout CTA -->
+          <button class="cart-checkout-btn" id="checkoutBtn">
+            Proceed to Checkout
+            <svg viewBox="0 0 20 20" fill="currentColor" width="16">
+              <path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd"/>
+            </svg>
+          </button>
+
+          <p class="cart-summary__secure">
+            <svg viewBox="0 0 20 20" fill="currentColor" width="13">
+              <path fill-rule="evenodd" d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z" clip-rule="evenodd"/>
+            </svg>
+            Secured checkout · SSL encrypted
+          </p>
+
+        </aside>
+
+      </div>
+
+      <!-- ─── EMPTY CART STATE ─── -->
+      <div class="cart-empty" id="cartEmpty" hidden>
+        <div class="cart-empty__icon">🛒</div>
+        <h2 class="cart-empty__title">Your cart is empty</h2>
+        <p class="cart-empty__desc">Looks like you haven't added anything yet. Browse our catalog and find your perfect vape setup.</p>
+        <a href="catalog.html" class="cart-empty__cta">
+          Browse Products
+          <svg viewBox="0 0 20 20" fill="currentColor" width="16">
+            <path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd"/>
+          </svg>
+        </a>
+
+        <!-- Featured products when empty -->
+        <div class="cart-empty__featured">
+          <h3 class="cart-empty__featured-title">You might like these</h3>
+          <div class="cart-empty__products" id="emptyCartProducts">
+            <!-- Injected by JS -->
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ─── FOOTER JS INJECTED───────────────────────────────────── -->
+  <footer id="footer-placeholder"></footer>
+
+  <script type="module" src="../../fogin-shared/js/public/components/navbar.js"></script>
+  <script type="module" src="../../fogin-shared/js/public/init.js"></script>
+  <script type="module" src="../../fogin-shared/js/public/pages/cart.js"></script>
+</body>
+</html>
