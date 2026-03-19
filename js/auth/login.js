@@ -1,126 +1,91 @@
-/**
- * LOGIN PAGE
- * js/auth/login.js
- */
+// ─────────────────────────────────────────────────────────
+// login.js — Fogin login page
+// ─────────────────────────────────────────────────────────
 
-import { initPasswordToggle, validateEmail } from '../validation.js';
+import { api, setTokens, setUser, getUser } from '../../../../fogin-shared/js/core/api.js';
 
-document.addEventListener('DOMContentLoaded', () => {
-  initPasswordToggle();
-  initBlurValidation();
+// ── Redirect if already logged in ────────────────────────
+const existingUser = getUser();
+if (existingUser) redirectByRole(existingUser);
 
-  document.getElementById('loginForm')?.addEventListener('submit', handleLogin);
-});
+// ── DOM Elements ──────────────────────────────────────────
+const form        = document.querySelector('#loginForm');
+const emailInput  = document.querySelector('#email');
+const passInput   = document.querySelector('#password');
+const submitBtn   = document.querySelector('#loginBtn');
+const btnText     = document.querySelector('#loginBtnText');
+const spinner     = document.querySelector('#loginSpinner');
+const alert       = document.querySelector('#loginAlert');
+const alertMsg    = document.querySelector('#loginAlertMessage');
 
-// ============================================
-// SUBMIT
-// ============================================
+// ── Helpers ───────────────────────────────────────────────
+const showError = (message) => {
+  alertMsg.textContent = message;
+  alert.hidden = false;
+};
 
-async function handleLogin(e) {
-  e.preventDefault();
-  if (!validateForm()) return;
+const hideError = () => {
+  alert.hidden = true;
+};
 
-  const email      = document.getElementById('email').value.trim();
-  const password   = document.getElementById('password').value;
-  const rememberMe = document.getElementById('rememberMe').checked;
+const setLoading = (loading) => {
+  submitBtn.disabled = loading;
+  btnText.textContent = loading ? 'Signing in...' : 'Sign In';
+  spinner.hidden = !loading;
+};
 
-  hideAlert('loginAlert');
-  setLoading(true);
-
-  try {
-    // TODO: Replace with real API call
-    await simulateAPICall();
-
-    if (email === 'admin@fogin.ph' && password === 'Admin@123') {
-      window.location.href = '../dashboard/admin/index.html';
-    } else if (email === 'vendor@test.com' && password === 'Vendor@123') {
-      window.location.href = '../dashboard/vendor/index.html';
-    } else if (email === 'employee@test.com' && password === 'Employee@123') {
-      window.location.href = '../dashboard/vendor/pos.html';
-    } else if (email === 'customer@test.com' && password === 'Customer@123') {
+function redirectByRole(user) {
+  switch (user.role) {
+    case 'super_admin':
+      window.location.href = '../../fogin-dashboard/admin/index.html';
+      break;
+    case 'vendor_admin':
+      window.location.href = '../../fogin-dashboard/vendor/index.html';
+      break;
+    case 'branch_staff':
+      window.location.href = '../../fogin-dashboard/vendor/pos.html';
+      break;
+    default:
       window.location.href = '../index.html';
-    } else {
-      throw new Error('Invalid credentials');
-    }
-
-  } catch (error) {
-    console.error('Login error:', error);
-    showAlert('loginAlert', 'Invalid email or password. Please try again.');
-  } finally {
-    setLoading(false);
   }
 }
 
-// ============================================
-// VALIDATION
-// ============================================
+// ── Form Submit ───────────────────────────────────────────
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  hideError();
 
-function validateForm() {
-  let valid = true;
+  const email    = emailInput.value.trim();
+  const password = passInput.value;
 
-  const email = document.getElementById('email').value.trim();
-  if (!email)                     { showError('email', 'Email address is required.'); valid = false; }
-  else if (!validateEmail(email)) { showError('email', 'Enter a valid email address.'); valid = false; }
-  else clearError('email');
+  if (!email || !password) {
+    showError('Please enter your email and password.');
+    return;
+  }
 
-  const password = document.getElementById('password').value;
-  if (!password) { showError('password', 'Password is required.'); valid = false; }
-  else clearError('password');
+  setLoading(true);
 
-  return valid;
-}
+  try {
+    const res = await api.post('/auth/login', { email, password });
 
-function initBlurValidation() {
-  const blurRules = {
-    email:    v => !v ? 'Email address is required.' : !validateEmail(v) ? 'Enter a valid email address.' : null,
-    password: v => !v ? 'Password is required.' : null,
-  };
+    if (!res.success) {
+      showError(res.message || 'Invalid email or password.');
+      return;
+    }
 
-  Object.entries(blurRules).forEach(([id, validate]) => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    el.addEventListener('blur',  () => { const err = validate(el.value.trim()); err ? showError(id, err) : clearError(id); });
-    el.addEventListener('input', () => { if (el.classList.contains('rg-input--error') && !validate(el.value.trim())) clearError(id); });
-  });
-}
+    const { access_token, refresh_token, expires_at, user } = res.data;
 
-// ============================================
-// HELPERS
-// ============================================
+    // Store tokens and user
+    setTokens({ access_token, refresh_token, expires_at });
+    setUser(user);
 
-function showError(fieldId, msg) {
-  document.getElementById(fieldId)?.classList.add('rg-input--error');
-  const errEl = document.getElementById(`err-${fieldId}`);
-  if (errEl) errEl.textContent = msg;
-}
+    // Redirect based on role
+    redirectByRole(user);
 
-function clearError(fieldId) {
-  document.getElementById(fieldId)?.classList.remove('rg-input--error');
-  const errEl = document.getElementById(`err-${fieldId}`);
-  if (errEl) errEl.textContent = '';
-}
-
-function showAlert(alertId, message) {
-  const alert = document.getElementById(alertId);
-  const msgEl = document.getElementById(`${alertId}Message`);
-  if (alert && msgEl) { msgEl.textContent = message; alert.hidden = false; }
-}
-
-function hideAlert(alertId) {
-  const alert = document.getElementById(alertId);
-  if (alert) alert.hidden = true;
-}
-
-function setLoading(isLoading) {
-  const btn     = document.getElementById('loginBtn');
-  const btnText = document.getElementById('loginBtnText');
-  const spinner = document.getElementById('loginSpinner');
-  if (!btn) return;
-  btn.disabled   = isLoading;
-  btnText.hidden = isLoading;
-  spinner.hidden = !isLoading;
-}
-
-function simulateAPICall() {
-  return new Promise(resolve => setTimeout(resolve, 1000));
-}
+  } catch (err) {
+    showError('Something went wrong. Please try again.');
+    console.error('[Login]', err);
+  } finally {
+    setLoading(false);
+  }
+});

@@ -109,8 +109,8 @@ function renderNavbar() {
 
         <!-- Desktop actions -->
         <div class="navbar__actions">
-          <a href="${base}auth/login.html" class="navbar__action-btn navbar__action-btn--ghost">Log In</a>
-          <a href="${base}auth/register.html" class="navbar__action-btn navbar__action-btn--primary">Sign Up</a>
+          <a href="${base}fogin-marketplace/auth/login.html" class="navbar__action-btn navbar__action-btn--ghost">Log In</a>
+          <a href="${base}fogin-marketplace/auth/register.html" class="navbar__action-btn navbar__action-btn--primary">Sign Up</a>
 
           <!-- Cart -->
           <button class="navbar__cart" id="navbarCartBtn" aria-label="Shopping cart (${cartCount} items)">
