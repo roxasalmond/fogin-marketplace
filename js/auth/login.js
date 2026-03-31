@@ -1,56 +1,58 @@
-// ─────────────────────────────────────────────────────────
-// login.js — Fogin login page
-// ─────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────
+// login.js — Login page logic
+// Calls backend API, never touches Supabase directly
+// ─────────────────────────────────────────────────────────────
 
-import { api, setTokens, setUser, getUser } from '../../../../fogin-shared/js/core/api.js';
+import { auth } from '../../../fogin-shared/js/core/auth.js';
+import { config } from '../../../fogin-shared/js/core/config.js';
 
-// ── Redirect if already logged in ────────────────────────
-const existingUser = getUser();
-if (existingUser) redirectByRole(existingUser);
+// ── Elements ──────────────────────────────────────────────────
+const form      = document.querySelector('#loginForm');
+const emailInput = document.querySelector('#email');
+const passInput  = document.querySelector('#password');
+const submitBtn  = document.querySelector('#loginBtn');
+const btnText    = document.querySelector('#loginBtnText');
+const spinner    = document.querySelector('#loginSpinner');
+const alertEl    = document.querySelector('#loginAlert');
+const alertMsg   = document.querySelector('#loginAlertMessage');
 
-// ── DOM Elements ──────────────────────────────────────────
-const form        = document.querySelector('#loginForm');
-const emailInput  = document.querySelector('#email');
-const passInput   = document.querySelector('#password');
-const submitBtn   = document.querySelector('#loginBtn');
-const btnText     = document.querySelector('#loginBtnText');
-const spinner     = document.querySelector('#loginSpinner');
-const alert       = document.querySelector('#loginAlert');
-const alertMsg    = document.querySelector('#loginAlertMessage');
-
-// ── Helpers ───────────────────────────────────────────────
-const showError = (message) => {
-  alertMsg.textContent = message;
-  alert.hidden = false;
+// ── Helpers ───────────────────────────────────────────────────
+const showError  = (msg) => { alertMsg.textContent = msg; alertEl.hidden = false; };
+const hideError  = ()    => { alertEl.hidden = true; };
+const setLoading = (on)  => {
+  submitBtn.disabled  = on;
+  btnText.textContent = on ? 'Signing in...' : 'Sign In';
+  spinner.hidden      = !on;
 };
 
-const hideError = () => {
-  alert.hidden = true;
-};
+// ── Password toggle ───────────────────────────────────────────
+document.querySelectorAll('.rg-toggle-pass').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const input   = document.getElementById(btn.dataset.target);
+    const isPass  = input.type === 'password';
+    input.type    = isPass ? 'text' : 'password';
+    btn.querySelector('.eye-show').style.display = isPass ? 'none'  : '';
+    btn.querySelector('.eye-hide').style.display = isPass ? ''      : 'none';
+  });
+});
 
-const setLoading = (loading) => {
-  submitBtn.disabled = loading;
-  btnText.textContent = loading ? 'Signing in...' : 'Sign In';
-  spinner.hidden = !loading;
-};
-
-function redirectByRole(user) {
-  switch (user.role) {
-    case 'super_admin':
-      window.location.href = '../../fogin-dashboard/admin/index.html';
-      break;
-    case 'vendor_admin':
-      window.location.href = '../../fogin-dashboard/vendor/index.html';
-      break;
-    case 'branch_staff':
-      window.location.href = '../../fogin-dashboard/vendor/pos.html';
-      break;
-    default:
-      window.location.href = '../index.html';
+// ── Redirect by role ──────────────────────────────────────────
+function redirectByRole(role) {
+  switch (role) {
+    case 'super_admin':  window.location.href = config.ADMIN_URL;  break;
+    case 'vendor_admin': window.location.href = config.VENDOR_URL; break;
+    case 'branch_staff': window.location.href = config.VENDOR_URL; break;
+    default:             window.location.href = '../index.html';
   }
 }
 
-// ── Form Submit ───────────────────────────────────────────
+// ── If already logged in, redirect immediately ────────────────
+(async () => {
+  const user = await auth.init();
+  if (user) redirectByRole(user.role);
+})();
+
+// ── Submit ────────────────────────────────────────────────────
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
   hideError();
@@ -66,26 +68,28 @@ form.addEventListener('submit', async (e) => {
   setLoading(true);
 
   try {
-    const res = await api.post('/auth/login', { email, password });
+    // Call backend — never Supabase directly
+    const res = await fetch(`${config.API_BASE_URL}/auth/login`, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ email, password }),
+    });
 
-    if (!res.success) {
-      showError(res.message || 'Invalid email or password.');
-      return;
+    const json = await res.json();
+
+    if (!res.ok) {
+      throw new Error(json.error || 'Invalid email or password.');
     }
 
-    const { access_token, refresh_token, expires_at, user } = res.data;
-
-    // Store tokens and user
-    setTokens({ access_token, refresh_token, expires_at });
-    setUser(user);
+    // Save session to localStorage via auth module
+    auth.saveSession(json.data);
 
     // Redirect based on role
-    redirectByRole(user);
+    redirectByRole(json.data.user.role);
 
   } catch (err) {
-    showError('Something went wrong. Please try again.');
     console.error('[Login]', err);
-  } finally {
+    showError(err.message || 'Something went wrong. Please try again.');
     setLoading(false);
   }
 });
