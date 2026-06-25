@@ -1,507 +1,443 @@
-/**
- * CHECKOUT PAGE
- * Multi-step checkout with validation
- * Sections: Delivery → Shipping → Payment → Review
- */
+/* ============================================
+   CHECKOUT PAGE
+   js/pages/checkout.js
+============================================ */
 
-// ============================================
-// VALIDATION HELPERS
-// ============================================
+// ─── Constants ────────────────────────────
+const CART_KEY = 'foginCart';
+const USER_KEY = 'foginUser';
 
-function populateFromProfile() {
-  // TODO: Replace with real API call to get user profile
-  const profile = JSON.parse(localStorage.getItem('userProfile') || '{}');
+const SHIPPING_COSTS = {
+  standard:  150,
+  express:   299,
+  sameday:   199,
+  scheduled: 0,
+  pickup:    0,
+};
 
-  const fields = {
-    firstName:     profile.firstName,
-    lastName:      profile.lastName,
-    phone:         profile.phone,
-    email:         profile.email,
-    streetAddress: profile.streetAddress,
-    barangay:      profile.barangay,
-    city:          profile.city,
-    province:      profile.province,
-    zipCode:       profile.zipCode,
+const SHIPPING_LABELS = {
+  standard:  'Standard Delivery (3–5 days)',
+  express:   'Express Delivery (1–2 days)',
+  sameday:   'Same Day Delivery',
+  scheduled: 'Scheduled Delivery (FREE)',
+  pickup:    'Pick Up In Store (FREE)',
+};
+
+const PAYMENT_LABELS = {
+  gcash: 'GCash',
+  maya:  'Maya',
+  card:  'Credit / Debit Card',
+  cod:   'Cash on Delivery',
+};
+
+// ─── Sample product DB ────────────────────
+const PRODUCTS_DB = [
+  { id: 1,  name: 'Vaporesso XROS 3',        category: 'Pod System', price: 2499 },
+  { id: 2,  name: 'Uwell Caliburn G3',        category: 'Pod System', price: 1899 },
+  { id: 3,  name: 'Voopoo Drag S Pro',        category: 'Mod Kit',    price: 3499 },
+  { id: 4,  name: 'Mango Ice E-Liquid',       category: 'E-Liquid',   price: 399  },
+  { id: 5,  name: 'Strawberry Milk E-Liquid', category: 'E-Liquid',   price: 399  },
+  { id: 6,  name: 'Smok Nord 5',             category: 'Pod System',  price: 2199 },
+  { id: 7,  name: 'Freemax Maxus 200W',      category: 'Mod Kit',     price: 4999 },
+  { id: 8,  name: 'Nasty Juice Slow Blow',   category: 'E-Liquid',    price: 449  },
+];
+
+// ─── State ────────────────────────────────
+let currentStep = 1;
+let shippingMethod = 'standard';
+let paymentMethod = 'gcash';
+let cartItems = [];
+let addressData = {};
+
+// ─── Helpers ──────────────────────────────
+function formatPrice(n) {
+  return '₱' + n.toLocaleString('en-PH', { minimumFractionDigits: 0 });
+}
+
+function getCart() {
+  try { return JSON.parse(localStorage.getItem(CART_KEY) || '[]'); }
+  catch { return []; }
+}
+
+function getSavedUser() {
+  try { return JSON.parse(localStorage.getItem(USER_KEY) || 'null'); }
+  catch { return null; }
+}
+
+function generateOrderId() {
+  return 'FG-' + Math.random().toString(36).slice(2, 8).toUpperCase();
+}
+
+function buildCartItems() {
+  return getCart().map(entry => {
+    const p = PRODUCTS_DB.find(x => x.id === Number(entry.id));
+    return p ? { ...p, qty: entry.qty || 1 } : null;
+  }).filter(Boolean);
+}
+
+function calcTotals() {
+  const subtotal = cartItems.reduce((s, i) => s + i.price * i.qty, 0);
+  const shipping = SHIPPING_COSTS[shippingMethod] ?? 150;
+  const total = subtotal + shipping;
+  return { subtotal, shipping, total };
+}
+
+// ─── Pre-populate address from saved user ─
+function prefillAddress() {
+  const user = getSavedUser();
+  if (!user) return;
+
+  const map = {
+    fullName:      user.fullName || user.name || '',
+    phone:         user.phone || '',
+    email:         user.email || '',
+    streetAddress: user.streetAddress || user.address || '',
+    barangay:      user.barangay || '',
+    city:          user.city || '',
+    province:      user.province || '',
+    zipCode:       user.zipCode || user.zip || '',
   };
 
-  Object.entries(fields).forEach(([id, value]) => {
+  Object.entries(map).forEach(([id, val]) => {
     const el = document.getElementById(id);
-    if (el && value) el.value = value;
+    if (el && val) el.value = val;
   });
 }
 
-function showError(fieldId, message) {
-  const input = document.getElementById(fieldId);
-  const error = document.getElementById(`${fieldId}Error`);
-  if (input) input.classList.add('co-input--error');
-  if (error) error.textContent = message;
+// ─── Render order summary (right panel) ───
+function renderSummary() {
+  const { subtotal, shipping, total } = calcTotals();
+
+  // Items
+  const itemsEl = document.getElementById('summaryItems');
+  if (itemsEl) {
+    itemsEl.innerHTML = cartItems.map(item => `
+      <div class="co-summary-item">
+        <div class="co-summary-item__img">📦</div>
+        <div class="co-summary-item__info">
+          <div class="co-summary-item__name">${item.name}</div>
+          <div class="co-summary-item__qty">Qty: ${item.qty}</div>
+        </div>
+        <div class="co-summary-item__price">${formatPrice(item.price * item.qty)}</div>
+      </div>
+    `).join('');
+  }
+
+  // Totals
+  const shippingEl = document.getElementById('coShipping');
+  if (shippingEl) shippingEl.textContent = shipping === 0 ? 'FREE' : formatPrice(shipping);
+
+  const subtotalEl = document.getElementById('coSubtotal');
+  if (subtotalEl) subtotalEl.textContent = formatPrice(subtotal);
+
+  const totalEl = document.getElementById('coTotal');
+  if (totalEl) totalEl.textContent = formatPrice(total);
+
+  // Review total
+  const reviewTotal = document.getElementById('reviewTotal');
+  if (reviewTotal) reviewTotal.textContent = formatPrice(total);
 }
 
-function clearError(fieldId) {
-  const input = document.getElementById(fieldId);
-  const error = document.getElementById(`${fieldId}Error`);
-  if (input) input.classList.remove('co-input--error');
-  if (error) error.textContent = '';
+// ─── Step management ──────────────────────
+function unlockSection(id) {
+  const section = document.getElementById(id);
+  section?.classList.remove('checkout-section--locked');
+  section?.classList.add('checkout-section--unlocked');
+  section?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-function clearAllErrors(fieldIds) {
-  fieldIds.forEach(id => clearError(id));
-}
-
-function isValidEmail(email) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-}
-
-function isValidPhone(phone) {
-  const cleaned = phone.replace(/\s/g, '');
-  return /^9\d{9}$/.test(cleaned);
-}
-
-function isValidZip(zip) {
-  return /^\d{4}$/.test(zip);
-}
-
-function isValidCardNumber(num) {
-  return num.replace(/\s/g, '').length === 16;
-}
-
-function isValidExpiry(exp) {
-  return /^\d{2}\s*\/\s*\d{2}$/.test(exp);
-}
-
-function isValidCvv(cvv) {
-  return /^\d{3,4}$/.test(cvv);
-}
-
-// ============================================
-// SECTION MANAGEMENT
-// ============================================
-
-function lockSection(sectionId) {
-  const section = document.getElementById(sectionId);
-  if (section) section.classList.add('checkout-section--locked');
-}
-
-function unlockSection(sectionId) {
-  const section = document.getElementById(sectionId);
-  if (section) section.classList.remove('checkout-section--locked');
-}
-
-function collapseSection(formId, summaryId, summaryTextId) {
-  const form    = document.getElementById(formId);
+function collapseSection(bodyId, summaryId, summaryText, editBtnId) {
+  document.getElementById(bodyId).hidden = true;
   const summary = document.getElementById(summaryId);
-  const text    = document.getElementById(summaryTextId);
-  if (form)    form.hidden    = true;
-  if (summary) summary.hidden = false;
-  return text;
+  summary.hidden = false;
+  document.getElementById(summaryText).textContent = buildSummaryText(summaryId);
+  document.getElementById(editBtnId).hidden = false;
 }
 
-function showEditButton(btnId) {
-  const btn = document.getElementById(btnId);
-  if (btn) btn.hidden = false;
+function buildSummaryText(summaryId) {
+  if (summaryId === 'addressSummary') {
+    const v = f => document.getElementById(f)?.value || '';
+    return `${v('fullName')} · ${v('streetAddress')}, ${v('barangay')}, ${v('city')}, ${v('province')} ${v('zipCode')}`;
+  }
+  if (summaryId === 'shippingSummary') {
+    return SHIPPING_LABELS[shippingMethod] || shippingMethod;
+  }
+  if (summaryId === 'paymentSummary') {
+    return PAYMENT_LABELS[paymentMethod] || paymentMethod;
+  }
+  return '';
 }
 
-function updateStep(stepNum) {
-  document.querySelectorAll('.checkout-step').forEach(step => {
-    const num = parseInt(step.dataset.step);
-    step.classList.remove('checkout-step--active', 'checkout-step--done');
-    if (num < stepNum)   step.classList.add('checkout-step--done');
-    if (num === stepNum) step.classList.add('checkout-step--active');
+function expandSection(bodyId, summaryId, editBtnId) {
+  document.getElementById(bodyId).hidden = false;
+  document.getElementById(summaryId).hidden = true;
+  document.getElementById(editBtnId).hidden = true;
+}
+
+function updateStepIndicator(step) {
+  document.querySelectorAll('.checkout-step').forEach(el => {
+    const n = Number(el.dataset.step);
+    el.classList.remove('checkout-step--active', 'checkout-step--done');
+    if (n < step) el.classList.add('checkout-step--done');
+    if (n === step) el.classList.add('checkout-step--active');
   });
 }
 
-// ============================================
-// SECTION 1: DELIVERY ADDRESS
-// ============================================
-
-function validateDelivery() {
-  const fields = ['firstName', 'lastName', 'phone', 'email', 'streetAddress', 'barangay', 'city', 'province', 'zipCode'];
-  clearAllErrors(fields);
+// ─── Validate address form ─────────────────
+function validateAddress() {
+  const fields = [
+    { id: 'fullName',      label: 'Full name' },
+    { id: 'phone',         label: 'Phone number' },
+    { id: 'email',         label: 'Email address' },
+    { id: 'streetAddress', label: 'Street address' },
+    { id: 'barangay',      label: 'Barangay' },
+    { id: 'city',          label: 'City / Municipality' },
+    { id: 'province',      label: 'Province' },
+    { id: 'zipCode',       label: 'ZIP code' },
+  ];
 
   let valid = true;
 
-  const firstName = document.getElementById('firstName').value.trim();
-  if (!firstName) { showError('firstName', 'First name is required.'); valid = false; }
-  else if (firstName.length < 2) { showError('firstName', 'First name must be at least 2 characters.'); valid = false; }
+  fields.forEach(({ id, label }) => {
+    const el = document.getElementById(id);
+    const err = document.getElementById(`${id}Error`);
+    if (!el) return;
 
-  const lastName = document.getElementById('lastName').value.trim();
-  if (!lastName) { showError('lastName', 'Last name is required.'); valid = false; }
-  else if (lastName.length < 2) { showError('lastName', 'Last name must be at least 2 characters.'); valid = false; }
+    const val = el.value.trim();
+    if (!val) {
+      el.classList.add('co-input--error');
+      if (err) err.textContent = `${label} is required.`;
+      valid = false;
+    } else {
+      el.classList.remove('co-input--error');
+      if (err) err.textContent = '';
+    }
+  });
 
-  const phone = document.getElementById('phone').value.trim();
-  if (!phone) { showError('phone', 'Phone number is required.'); valid = false; }
-  else if (!isValidPhone(phone)) { showError('phone', 'Enter a valid PH number (9XX XXX XXXX).'); valid = false; }
+  // Email format
+  const emailEl = document.getElementById('email');
+  if (emailEl?.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value)) {
+    emailEl.classList.add('co-input--error');
+    document.getElementById('emailError').textContent = 'Enter a valid email address.';
+    valid = false;
+  }
 
-  const email = document.getElementById('email').value.trim();
-  if (!email) { showError('email', 'Email address is required.'); valid = false; }
-  else if (!isValidEmail(email)) { showError('email', 'Enter a valid email address.'); valid = false; }
+  // Phone — PH format
+  const phoneEl = document.getElementById('phone');
+  if (phoneEl?.value && !/^9\d{9}$/.test(phoneEl.value.replace(/\s/g, ''))) {
+    phoneEl.classList.add('co-input--error');
+    document.getElementById('phoneError').textContent = 'Enter a valid PH number (e.g. 9171234567).';
+    valid = false;
+  }
 
-  const street = document.getElementById('streetAddress').value.trim();
-  if (!street) { showError('streetAddress', 'Street address is required.'); valid = false; }
-
-  const barangay = document.getElementById('barangay').value.trim();
-  if (!barangay) { showError('barangay', 'Barangay is required.'); valid = false; }
-
-  const city = document.getElementById('city').value.trim();
-  if (!city) { showError('city', 'City / Municipality is required.'); valid = false; }
-
-  const province = document.getElementById('province').value;
-  if (!province) { showError('province', 'Please select a province.'); valid = false; }
-
-  const zip = document.getElementById('zipCode').value.trim();
-  if (!zip) { showError('zipCode', 'ZIP code is required.'); valid = false; }
-  else if (!isValidZip(zip)) { showError('zipCode', 'ZIP code must be 4 digits.'); valid = false; }
+  // ZIP — 4 digits
+  const zipEl = document.getElementById('zipCode');
+  if (zipEl?.value && !/^\d{4}$/.test(zipEl.value.trim())) {
+    zipEl.classList.add('co-input--error');
+    document.getElementById('zipCodeError').textContent = 'ZIP code must be 4 digits.';
+    valid = false;
+  }
 
   return valid;
 }
 
-function completeDelivery() {
-  if (!validateDelivery()) return;
-
-  const firstName = document.getElementById('firstName').value.trim();
-  const lastName  = document.getElementById('lastName').value.trim();
-  const phone    = document.getElementById('phone').value.trim();
-  const street   = document.getElementById('streetAddress').value.trim();
-  const barangay = document.getElementById('barangay').value.trim();
-  const city     = document.getElementById('city').value.trim();
-  const province = document.getElementById('province').value;
-  const zip      = document.getElementById('zipCode').value.trim();
-
-  const fullName = `${firstName} ${lastName}`;
-  const summaryText = collapseSection('addressForm', 'addressSummary', 'addressSummaryText');
-  if (summaryText) {
-    summaryText.textContent = `${fullName} · +63 ${phone} · ${street}, ${barangay}, ${city}, ${province} ${zip}`;
-  }
-
-  showEditButton('editAddress');
-  unlockSection('sectionShipping');
-  updateStep(2);
-  document.getElementById('sectionShipping').scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-
-// ============================================
-// SECTION 2: SHIPPING METHOD
-// ============================================
-
-function validateShipping() {
-  const selected = document.querySelector('input[name="shipping"]:checked');
-  if (!selected) return false;
-
-  if (selected.value === 'pickup') {
-    const store = document.getElementById('storeSelect').value;
-    if (!store) {
-      document.getElementById('storeSelect').classList.add('co-input--error');
-      return false;
-    }
-  }
-
-  return true;
-}
-
-function completeShipping() {
-  if (!validateShipping()) return;
-
-  const selected      = document.querySelector('input[name="shipping"]:checked');
-  const shippingName  = selected.closest('.co-shipping-option').querySelector('.co-shipping-option__name').textContent.trim();
-  const shippingPrice = selected.closest('.co-shipping-option').querySelector('.co-shipping-option__price').textContent.trim();
-
-  const summaryText = collapseSection('shippingForm', 'shippingSummary', 'shippingSummaryText');
-  if (summaryText) summaryText.textContent = `${shippingName} · ${shippingPrice}`;
-
-  showEditButton('editShipping');
-  unlockSection('sectionPayment');
-  updateStep(3);
-  document.getElementById('sectionPayment').scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-
-// ============================================
-// SECTION 3: PAYMENT METHOD
-// ============================================
-
-function validatePayment() {
-  const selected = document.querySelector('input[name="payment"]:checked');
-  if (!selected) return false;
-
-  if (selected.value === 'card') {
-    let valid = true;
-
-    const cardNumber = document.getElementById('cardNumber').value.trim();
-    if (!isValidCardNumber(cardNumber)) { showError('cardNumber', 'Enter a valid 16-digit card number.'); valid = false; }
-
-    const expiry = document.getElementById('cardExpiry').value.trim();
-    if (!isValidExpiry(expiry)) { showError('cardExpiry', 'Enter expiry as MM / YY.'); valid = false; }
-
-    const cvv = document.getElementById('cardCvv').value.trim();
-    if (!isValidCvv(cvv)) { showError('cardCvv', 'Enter a valid CVV.'); valid = false; }
-
-    const cardName = document.getElementById('cardName').value.trim();
-    if (!cardName) { showError('cardName', 'Name on card is required.'); valid = false; }
-
-    return valid;
-  }
-
-  return true;
-}
-
-function completePayment() {
-  if (!validatePayment()) return;
-
-  const selected    = document.querySelector('input[name="payment"]:checked');
-  const paymentName = selected.closest('.co-payment-option').querySelector('.co-payment-option__name').textContent.trim();
-
-  const summaryText = collapseSection('paymentForm', 'paymentSummary', 'paymentSummaryText');
-  if (summaryText) summaryText.textContent = paymentName;
-
-  showEditButton('editPayment');
-  unlockSection('sectionReview');
-  updateStep(4);
-  buildReviewSection();
-  document.getElementById('sectionReview').scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-
-// ============================================
-// SECTION 4: REVIEW
-// ============================================
-
-function buildReviewSection() {
-  const details = document.getElementById('reviewDetails');
-  if (!details) return;
-
-  const fullName = document.getElementById('fullName').value.trim();
-  const phone    = document.getElementById('phone').value.trim();
-  const email    = document.getElementById('email').value.trim();
-  const street   = document.getElementById('streetAddress').value.trim();
-  const barangay = document.getElementById('barangay').value.trim();
-  const city     = document.getElementById('city').value.trim();
-  const province = document.getElementById('province').value;
-  const zip      = document.getElementById('zipCode').value.trim();
-
-  const shippingSelected = document.querySelector('input[name="shipping"]:checked');
-  const shippingName     = shippingSelected.closest('.co-shipping-option').querySelector('.co-shipping-option__name').textContent.trim();
-
-  const paymentSelected = document.querySelector('input[name="payment"]:checked');
-  const paymentName     = paymentSelected.closest('.co-payment-option').querySelector('.co-payment-option__name').textContent.trim();
-
-  details.innerHTML = `
-    <div class="co-review-item">
-      <div class="co-review-item__label">Deliver to</div>
-      <div class="co-review-item__value">${fullName}<br>+63 ${phone}<br>${email}<br>${street}, ${barangay}, ${city}, ${province} ${zip}</div>
-    </div>
-    <div class="co-review-item">
-      <div class="co-review-item__label">Shipping</div>
-      <div class="co-review-item__value">${shippingName}</div>
-    </div>
-    <div class="co-review-item">
-      <div class="co-review-item__label">Payment</div>
-      <div class="co-review-item__value">${paymentName}</div>
-    </div>
-  `;
-}
-
-function initReviewCheckboxes() {
-  const ageConfirm   = document.getElementById('ageConfirm');
-  const termsConfirm = document.getElementById('termsConfirm');
-  const placeBtn     = document.getElementById('placeOrderBtn');
-
-  if (!ageConfirm || !termsConfirm || !placeBtn) return;
-
-  function updatePlaceBtn() {
-    placeBtn.disabled = !(ageConfirm.checked && termsConfirm.checked);
-  }
-
-  ageConfirm.addEventListener('change', updatePlaceBtn);
-  termsConfirm.addEventListener('change', updatePlaceBtn);
-}
-
-// ============================================
-// SHIPPING OPTIONS
-// ============================================
-
-function initShippingOptions() {
-  const radios      = document.querySelectorAll('input[name="shipping"]');
-  const storePicker = document.getElementById('storePicker');
-  const storeSelect = document.getElementById('storeSelect');
-
-  radios.forEach(radio => {
-    radio.addEventListener('change', () => {
-      if (storePicker) storePicker.hidden = radio.value !== 'pickup';
-      if (storeSelect) storeSelect.classList.remove('co-input--error');
-      updateShippingTotal();
-    });
+// ─── Collect address data ──────────────────
+function collectAddress() {
+  const fields = ['fullName', 'phone', 'email', 'streetAddress', 'barangay', 'city', 'province', 'zipCode', 'deliveryNotes'];
+  fields.forEach(id => {
+    addressData[id] = document.getElementById(id)?.value?.trim() || '';
   });
 }
 
-function updateShippingTotal() {
-  const selected   = document.querySelector('input[name="shipping"]:checked');
-  if (!selected) return;
+// ─── Render review section ─────────────────
+function renderReview() {
+  const { subtotal, shipping, total } = calcTotals();
 
-  const priceEl    = selected.closest('.co-shipping-option').querySelector('.co-shipping-option__price');
-  const basePrice  = priceEl.dataset.basePrice;
-  const coShipping = document.getElementById('coShipping');
+  const blocks = [
+    {
+      label: 'Delivery Address',
+      value: `${addressData.fullName}<br>${addressData.streetAddress}, ${addressData.barangay}<br>${addressData.city}, ${addressData.province} ${addressData.zipCode}<br>${addressData.phone}`,
+    },
+    {
+      label: 'Shipping Method',
+      value: SHIPPING_LABELS[shippingMethod] + `<br><strong>${shipping === 0 ? 'FREE' : formatPrice(shipping)}</strong>`,
+    },
+    {
+      label: 'Payment Method',
+      value: PAYMENT_LABELS[paymentMethod],
+    },
+    {
+      label: 'Order Total',
+      value: `Subtotal: ${formatPrice(subtotal)}<br>Shipping: ${shipping === 0 ? 'FREE' : formatPrice(shipping)}<br><strong style="color:var(--color-primary,#C8FF00)">Total: ${formatPrice(total)}</strong>`,
+    },
+  ];
 
-  if (coShipping) {
-    coShipping.textContent = basePrice ? `₱${parseInt(basePrice).toLocaleString()}` : 'FREE';
+  const container = document.getElementById('reviewDetails');
+  if (container) {
+    container.innerHTML = blocks.map(b => `
+      <div class="co-review-block">
+        <div class="co-review-block__label">${b.label}</div>
+        <div class="co-review-block__value">${b.value}</div>
+      </div>
+    `).join('');
   }
-
-  updateTotal();
 }
 
-// ============================================
-// PAYMENT OPTIONS
-// ============================================
+// ─── Place order ───────────────────────────
+function placeOrder() {
+  const orderId = generateOrderId();
 
-function initPaymentOptions() {
-  const radios    = document.querySelectorAll('input[name="payment"]');
-  const cardForm  = document.getElementById('cardForm');
-  const codNotice = document.getElementById('codNotice');
+  // Clear cart
+  localStorage.removeItem(CART_KEY);
+  window.dispatchEvent(new Event('fogin:cart-updated'));
 
-  radios.forEach(radio => {
-    radio.addEventListener('change', () => {
-      if (cardForm)  cardForm.hidden  = radio.value !== 'card';
-      if (codNotice) codNotice.hidden = radio.value !== 'cod';
-    });
+  // Show success overlay
+  const overlay = document.getElementById('successOverlay');
+  const orderNum = document.getElementById('successOrderNum');
+  if (overlay) overlay.hidden = false;
+  if (orderNum) orderNum.textContent = `Order #${orderId}`;
+}
+
+// ─── Card number formatting ────────────────
+function formatCardNumber(input) {
+  let val = input.value.replace(/\D/g, '').slice(0, 16);
+  input.value = val.replace(/(.{4})/g, '$1 ').trim();
+}
+
+function formatExpiry(input) {
+  let val = input.value.replace(/\D/g, '').slice(0, 4);
+  if (val.length >= 3) val = val.slice(0, 2) + ' / ' + val.slice(2);
+  input.value = val;
+}
+
+// ─── Event binding ─────────────────────────
+function bindEvents() {
+
+  // ── Step 1: Address → Shipping ──
+  document.getElementById('continueToShipping')?.addEventListener('click', () => {
+    if (!validateAddress()) return;
+    collectAddress();
+    collapseSection('addressForm', 'addressSummary', 'addressSummaryText', 'editAddress');
+    unlockSection('sectionShipping');
+    currentStep = 2;
+    updateStepIndicator(2);
+    renderSummary();
   });
-}
 
-// ============================================
-// CARD INPUT FORMATTING
-// ============================================
-
-function initCardFormatting() {
-  const cardNumber = document.getElementById('cardNumber');
-  const cardExpiry = document.getElementById('cardExpiry');
-
-  if (cardNumber) {
-    cardNumber.addEventListener('input', (e) => {
-      let val = e.target.value.replace(/\D/g, '').substring(0, 16);
-      e.target.value = val.replace(/(.{4})/g, '$1 ').trim();
-    });
-  }
-
-  if (cardExpiry) {
-    cardExpiry.addEventListener('input', (e) => {
-      let val = e.target.value.replace(/\D/g, '').substring(0, 4);
-      if (val.length >= 2) val = val.substring(0, 2) + ' / ' + val.substring(2);
-      e.target.value = val;
-    });
-  }
-}
-
-// ============================================
-// TOTAL CALCULATION
-// ============================================
-
-function updateTotal() {
-  const subtotalEl  = document.getElementById('coSubtotal');
-  const shippingEl  = document.getElementById('coShipping');
-  const totalEl     = document.getElementById('coTotal');
-  const reviewTotal = document.getElementById('reviewTotal');
-
-  if (!subtotalEl || !totalEl) return;
-
-  const subtotal = parseFloat(subtotalEl.textContent.replace(/[₱,]/g, '')) || 0;
-  const shipping = shippingEl?.textContent === 'FREE' ? 0 : (parseFloat(shippingEl?.textContent.replace(/[₱,]/g, '')) || 0);
-  const total    = subtotal + shipping;
-
-  totalEl.textContent = `₱${total.toLocaleString()}`;
-  if (reviewTotal) reviewTotal.textContent = `₱${total.toLocaleString()}`;
-}
-
-// ============================================
-// EDIT BUTTONS
-// ============================================
-
-function initEditButtons() {
   document.getElementById('editAddress')?.addEventListener('click', () => {
-    document.getElementById('addressForm').hidden    = false;
-    document.getElementById('addressSummary').hidden = true;
-    updateStep(1);
+    expandSection('addressForm', 'addressSummary', 'editAddress');
+  });
+
+  // ── Step 2: Shipping → Payment ──
+  document.getElementById('continueToPayment')?.addEventListener('click', () => {
+    // Validate store picker if pickup
+    if (shippingMethod === 'pickup') {
+      const store = document.getElementById('storeSelect')?.value;
+      if (!store) {
+        alert('Please select a pickup store.');
+        return;
+      }
+    }
+    collapseSection('shippingForm', 'shippingSummary', 'shippingSummaryText', 'editShipping');
+    unlockSection('sectionPayment');
+    currentStep = 2;
+    updateStepIndicator(2);
+    renderSummary();
   });
 
   document.getElementById('editShipping')?.addEventListener('click', () => {
-    document.getElementById('shippingForm').hidden    = false;
-    document.getElementById('shippingSummary').hidden = true;
-    updateStep(2);
+    expandSection('shippingForm', 'shippingSummary', 'editShipping');
+  });
+
+  // ── Step 3: Payment → Review ──
+  document.getElementById('continueToReview')?.addEventListener('click', () => {
+    collapseSection('paymentForm', 'paymentSummary', 'paymentSummaryText', 'editPayment');
+    unlockSection('sectionReview');
+    currentStep = 3;
+    updateStepIndicator(3);
+    renderReview();
+    renderSummary();
   });
 
   document.getElementById('editPayment')?.addEventListener('click', () => {
-    document.getElementById('paymentForm').hidden    = false;
-    document.getElementById('paymentSummary').hidden = true;
-    updateStep(3);
+    expandSection('paymentForm', 'paymentSummary', 'editPayment');
   });
-}
 
-// ============================================
-// PLACE ORDER
-// ============================================
+  // ── Shipping method change ──
+  document.querySelectorAll('input[name="shipping"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+      shippingMethod = radio.value;
+      const storePicker = document.getElementById('storePicker');
+      if (storePicker) storePicker.hidden = shippingMethod !== 'pickup';
+      renderSummary();
+    });
+  });
 
-function initPlaceOrder() {
+  // ── Payment method change ──
+  document.querySelectorAll('input[name="payment"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+      paymentMethod = radio.value;
+      document.getElementById('cardForm').hidden = paymentMethod !== 'card';
+      document.getElementById('codNotice').hidden = paymentMethod !== 'cod';
+    });
+  });
+
+  // ── Card formatting ──
+  document.getElementById('cardNumber')?.addEventListener('input', e => formatCardNumber(e.target));
+  document.getElementById('cardExpiry')?.addEventListener('input', e => formatExpiry(e.target));
+
+  // ── Confirmation checkboxes → enable place order ──
+  const ageBox   = document.getElementById('ageConfirm');
+  const termsBox = document.getElementById('termsConfirm');
   const placeBtn = document.getElementById('placeOrderBtn');
-  if (!placeBtn) return;
 
-  placeBtn.addEventListener('click', async () => {
-    placeBtn.disabled    = true;
-    placeBtn.textContent = 'Placing order…';
+  function checkConfirms() {
+    if (placeBtn) placeBtn.disabled = !(ageBox?.checked && termsBox?.checked);
+  }
 
-    await new Promise(resolve => setTimeout(resolve, 1500));
+  ageBox?.addEventListener('change', checkConfirms);
+  termsBox?.addEventListener('change', checkConfirms);
 
-    const orderNum = 'FG-' + Math.floor(100000 + Math.random() * 900000);
-    const successOrderNum = document.getElementById('successOrderNum');
-    if (successOrderNum) successOrderNum.textContent = `Order #${orderNum}`;
+  // ── Place order ──
+  document.getElementById('placeOrderBtn')?.addEventListener('click', placeOrder);
 
-    const overlay = document.getElementById('successOverlay');
-    if (overlay) overlay.hidden = false;
+  // ── ZIP — numbers only ──
+  document.getElementById('zipCode')?.addEventListener('input', e => {
+    e.target.value = e.target.value.replace(/\D/g, '').slice(0, 4);
   });
-}
 
-// ============================================
-// INLINE VALIDATION (on blur)
-// ============================================
+  // ── Phone — numbers only ──
+  document.getElementById('phone')?.addEventListener('input', e => {
+    e.target.value = e.target.value.replace(/\D/g, '').slice(0, 10);
+  });
 
-function initInlineValidation() {
-  const rules = {
-    firstName:     v => !v ? 'First name is required.' : v.length < 2 ? 'First name must be at least 2 characters.' : null,
-    lastName:      v => !v ? 'Last name is required.' : v.length < 2 ? 'Last name must be at least 2 characters.' : null,
-    phone:         v => !v ? 'Phone number is required.' : !isValidPhone(v) ? 'Enter a valid PH number (9XX XXX XXXX).' : null,
-    email:         v => !v ? 'Email address is required.' : !isValidEmail(v) ? 'Enter a valid email address.' : null,
-    streetAddress: v => v ? null : 'Street address is required.',
-    barangay:      v => v ? null : 'Barangay is required.',
-    city:          v => v ? null : 'City / Municipality is required.',
-    province:      v => v ? null : 'Please select a province.',
-    zipCode:       v => !v ? 'ZIP code is required.' : !isValidZip(v) ? 'ZIP code must be 4 digits.' : null,
-  };
-
-  Object.entries(rules).forEach(([id, validate]) => {
-    const el = document.getElementById(id);
-    if (!el) return;
-
-    el.addEventListener('blur', () => {
-      const error = validate(el.value.trim());
-      error ? showError(id, error) : clearError(id);
-    });
-
-    el.addEventListener('input', () => {
-      if (el.classList.contains('co-input--error')) {
-        if (!validate(el.value.trim())) clearError(id);
-      }
+  // ── Clear errors on input ──
+  document.querySelectorAll('.co-input').forEach(input => {
+    input.addEventListener('input', () => {
+      input.classList.remove('co-input--error');
+      const err = document.getElementById(`${input.id}Error`);
+      if (err) err.textContent = '';
     });
   });
 }
 
-// ============================================
-// INITIALIZE
-// ============================================
+// ─── Init ─────────────────────────────────
+function init() {
+  cartItems = buildCartItems();
 
-document.addEventListener('DOMContentLoaded', () => {
-  initShippingOptions();
-  initPaymentOptions();
-  initCardFormatting();
-  initEditButtons();
-  initReviewCheckboxes();
-  initPlaceOrder();
-  initInlineValidation();
+  if (cartItems.length === 0) {
+    // Nothing in cart — redirect back
+    window.location.href = 'cart.html';
+    return;
+  }
 
-  document.getElementById('continueToShipping')?.addEventListener('click', completeDelivery);
-  document.getElementById('continueToPayment')?.addEventListener('click', completeShipping);
-  document.getElementById('continueToReview')?.addEventListener('click', completePayment);
-});
+  prefillAddress();
+  renderSummary();
+  bindEvents();
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
