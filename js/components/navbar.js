@@ -82,9 +82,8 @@ function renderNavbar() {
       <div class="navbar__container">
 
         <!-- Logo -->
-        <a href="/fogin-marketplace/index.html" class="navbar__logo"
-          <span class="navbar__logo-text">fogin</span>
-          <span class="navbar__logo-dot">.ph</span>
+        <a href="/fogin-marketplace/index.html" class="navbar__logo" aria-label="Fogin Home">
+          <img src="https://res.cloudinary.com/dxf5gsnrz/image/upload/f_auto,q_auto,h_40/fogin-logo-transparent-square-svg_emmluk" alt="Fogin" class="navbar__logo-img">
         </a>
 
         <!-- Desktop nav links -->
