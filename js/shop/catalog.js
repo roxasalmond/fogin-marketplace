@@ -67,35 +67,34 @@ function renderProducts(products) {
 
     return `
       <article class="product-card" data-product-id="${p.id}">
-        <a href="product.html?id=${p.id}" class="product-card__link" aria-label="${p.name}">
-          <div class="product-card__img-wrap">
-            ${hasImage
-              ? `<img class="product-card__img" src="${p.image_url}" alt="${p.name}" loading="lazy">`
-              : `<div class="product-card__img-placeholder">📦</div>`
-            }
-            ${p.on_sale ? `
-              <div class="product-card__badge-wrap">
-                <span class="product-card__badge product-card__badge--sale">Sale</span>
-              </div>` : ''}
-            ${!inStock ? `
-              <div class="product-card__badge-wrap">
-                <span class="product-card__badge product-card__badge--out">Out of Stock</span>
-              </div>` : ''}
-            <button class="product-card__fav" aria-label="Add to wishlist" data-fav="${p.id}">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-              </svg>
-            </button>
-          </div>
-          <div class="product-card__body">
-            <div class="product-card__vendor">${p.vendor_name}</div>
+        <div class="product-card__img-wrap">
+          ${hasImage
+            ? `<img class="product-card__img" src="${p.image_url}" alt="${p.name}" loading="lazy">`
+            : `<div class="product-card__img-placeholder">📦</div>`
+          }
+          ${p.on_sale ? `
+            <div class="product-card__badge-wrap">
+              <span class="product-card__badge product-card__badge--sale">Sale</span>
+            </div>` : ''}
+          ${!inStock ? `
+            <div class="product-card__badge-wrap">
+              <span class="product-card__badge product-card__badge--out">Out of Stock</span>
+            </div>` : ''}
+          <button class="product-card__fav" aria-label="Add to wishlist" data-fav="${p.id}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+            </svg>
+          </button>
+        </div>
+        <div class="product-card__body">
+          <div class="product-card__vendor">${p.vendor_name}</div>
+          <a href="product.html?id=${p.id}" class="product-card__name-link">
             <h3 class="product-card__name">${p.name}</h3>
-            <div class="product-card__category">${p.category_name}</div>
-            <div class="product-card__price-row">
-              ${priceDisplay(p)}
-            </div>
+          </a>
+          <div class="product-card__price-row">
+            ${priceDisplay(p)}
           </div>
-        </a>
+        </div>
         <div class="product-card__footer">
           <button
             class="product-card__add"
@@ -203,6 +202,14 @@ function bindProductEvents() {
     });
   });
 
+  document.querySelectorAll('.product-card').forEach(card => {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('button') || e.target.closest('a')) return;
+      const id = card.dataset.productId;
+      window.location.href = `product.html?id=${id}`;
+    });
+  });
+
   // Wishlist
   document.querySelectorAll('[data-fav]').forEach(btn => {
     btn.addEventListener('click', (e) => {
@@ -238,16 +245,16 @@ function bindSearch() {
   });
 }
 
-function bindViewToggle() {
-  const grid = document.getElementById('catalogGrid');
-  document.querySelectorAll('[data-view]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('[data-view]').forEach(b => b.classList.remove('view-toggle__btn--active'));
-      btn.classList.add('view-toggle__btn--active');
-      grid?.classList.toggle('view-list', btn.dataset.view === 'list');
-    });
-  });
-}
+// function bindViewToggle() {
+//   const grid = document.getElementById('catalogGrid');
+//   document.querySelectorAll('[data-view]').forEach(btn => {
+//     btn.addEventListener('click', () => {
+//       document.querySelectorAll('[data-view]').forEach(b => b.classList.remove('view-toggle__btn--active'));
+//       btn.classList.add('view-toggle__btn--active');
+//       grid?.classList.toggle('view-list', btn.dataset.view === 'list');
+//     });
+//   });
+// }
 
 function bindMobileFilterToggle() {
   document.getElementById('filterToggle')?.addEventListener('click', () => {
@@ -269,7 +276,6 @@ function bindClearFilters() {
 
 async function initCatalog() {
   bindSearch();
-  bindViewToggle();
   bindMobileFilterToggle();
   bindClearFilters();
 

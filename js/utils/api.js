@@ -6,7 +6,15 @@
  * No auth header — all marketplace endpoints are public.
  */
 
-const BASE_URL = 'http://localhost:3000/api/marketplace';
+const isDev     = window.location.hostname === 'localhost'
+               || window.location.hostname === '127.0.0.1';
+const isStaging = window.location.hostname === 'staging.fogin.ph';
+
+const BASE_URL = isDev
+  ? 'http://localhost:3000/api/marketplace'
+  : isStaging
+    ? 'https://staging-api.fogin.ph/api/marketplace'
+    : 'https://api.fogin.ph/api/marketplace';
 
 async function request(path, params = {}) {
   const url = new URL(`${BASE_URL}${path}`);

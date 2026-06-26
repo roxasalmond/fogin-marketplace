@@ -14,10 +14,10 @@
 // ─── CONFIG ───────────────────────────────────
 // Define nav links and which path segments activate them
 const NAV_LINKS = [
-  { label: 'Shop',       href: 'shop/catalog.html',  match: ['catalog', 'product'] },
-  { label: 'Categories', href: 'shop/catalog.html#categories', match: [] },
-  { label: 'Vendors',    href: '#vendors',            match: [] },
-  { label: 'Deals',      href: '#',                  match: ['deals'] },
+  { label: 'Shop',       href: '/fogin-marketplace/shop/catalog.html',            match: ['catalog', 'product'] },
+  { label: 'Categories', href: '/fogin-marketplace/shop/catalog.html#categories', match: [] },
+  { label: 'Vendors',    href: '#vendors',                                         match: [] },
+  { label: 'Deals',      href: '#',                                                match: ['deals'] },
 ];
 
 // ─── HELPERS ──────────────────────────────────
@@ -82,7 +82,7 @@ function renderNavbar() {
       <div class="navbar__container">
 
         <!-- Logo -->
-        <a href="${base}index.html" class="navbar__logo" aria-label="Fogin Home">
+        <a href="/fogin-marketplace/index.html" class="navbar__logo"
           <span class="navbar__logo-text">fogin</span>
           <span class="navbar__logo-dot">.ph</span>
         </a>
@@ -109,8 +109,8 @@ function renderNavbar() {
 
         <!-- Desktop actions -->
         <div class="navbar__actions">
-          <a href="${base}fogin-marketplace/auth/login.html" class="navbar__action-btn navbar__action-btn--ghost">Log In</a>
-          <a href="${base}fogin-marketplace/auth/register.html" class="navbar__action-btn navbar__action-btn--primary">Sign Up</a>
+          <a href="/fogin-marketplace/auth/login.html" class="navbar__action-btn navbar__action-btn--ghost">Log In</a>
+          <a href="/fogin-marketplace/auth/register.html" class="navbar__action-btn navbar__action-btn--primary">Sign Up</a>
 
           <!-- Cart -->
           <button class="navbar__cart" id="navbarCartBtn" aria-label="Shopping cart (${cartCount} items)">
@@ -159,8 +159,8 @@ function renderNavbar() {
         </div>
 
         <div class="navbar__mobile-actions">
-          <a href="${base}auth/login.html" class="navbar__mobile-action navbar__mobile-action--ghost">Log In</a>
-          <a href="${base}auth/register.html" class="navbar__mobile-action navbar__mobile-action--primary">Sign Up</a>
+          <a href="/fogin-marketplace/auth/login.html" class="navbar__mobile-action navbar__mobile-action--ghost">Log In</a>
+          <a href="/fogin-marketplace/auth/register.html" class="navbar__mobile-action navbar__mobile-action--primary">Sign Up</a>
         </div>
       </div>
     </nav>
@@ -212,14 +212,14 @@ function bindNavbarEvents() {
   document.querySelectorAll('.navbar__search-input').forEach(input => {
     input.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' && input.value.trim()) {
-        window.location.href = `${base}shop/catalog.html?q=${encodeURIComponent(input.value.trim())}`;
+        window.location.href = `/fogin-marketplace/shop/catalog.html?q=${encodeURIComponent(input.value.trim())}`;
       }
     });
   });
 
   // Cart button
   document.getElementById('navbarCartBtn')?.addEventListener('click', () => {
-    window.location.href = `${base}shop/cart.html`;
+    window.location.href = `/fogin-marketplace/shop/cart.html`;
   });
 }
 
