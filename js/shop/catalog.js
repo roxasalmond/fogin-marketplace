@@ -3,7 +3,7 @@
  * js/shop/catalog.js
  */
 
-import { fetchProducts, fetchCategories } from '../utils/api.js';
+import { fetchProducts, fetchCategories, fetchBrands } from '../utils/api.js';
 import { createPagination } from '../../fogin-shared/js/core/pagination.js';
 
 // ── State ──────────────────────────────────────────────────────────────────────
@@ -13,6 +13,7 @@ const state = {
   PAGE_SIZE:   20,
   search:      null,
   category_id: null,
+  brand:       null,
   pagination:  null,
 };
 
@@ -35,7 +36,7 @@ function priceDisplay(product) {
 // ── Render ─────────────────────────────────────────────────────────────────────
 
 function renderSkeletons() {
-  const grid = document.getElementById('catalogGrid');
+  const grid = document.getElementById('catalog-grid');
   if (!grid) return;
   grid.innerHTML = Array(8).fill(`
     <div class="product-card product-card--skeleton">
@@ -50,7 +51,7 @@ function renderSkeletons() {
 }
 
 function renderProducts(products) {
-  const grid = document.getElementById('catalogGrid');
+  const grid = document.getElementById('catalog-grid');
   if (!grid) return;
 
   if (!products.length) {
@@ -112,7 +113,7 @@ function renderProducts(products) {
 }
 
 function renderCategories(categories) {
-  const list = document.getElementById('categoryFilters');
+  const list = document.getElementById('category-filters');
   if (!list) return;
 
   list.innerHTML = `
@@ -131,12 +132,34 @@ function renderCategories(categories) {
     `).join('')}
   `;
 
-  // Rebind category filter clicks after render
   bindCategoryFilters();
 }
 
+function renderBrandBar(brands) {
+  const bar = document.getElementById('brand-bar');
+  if (!bar) return;
+
+  if (!brands.length) {
+    bar.style.display = 'none';
+    return;
+  }
+
+  bar.innerHTML = `
+    <button class="catalog-brand-btn catalog-brand-btn--active" data-brand="">
+      All Brands
+    </button>
+    ${brands.map(b => `
+      <button class="catalog-brand-btn" data-brand="${b}">
+        ${b}
+      </button>
+    `).join('')}
+  `;
+
+  bindBrandFilters();
+}
+
 function updateResultCount(total) {
-  const el = document.getElementById('resultCount');
+  const el = document.getElementById('result-count');
   if (el) el.innerHTML = `Showing <strong>${total}</strong> product${total !== 1 ? 's' : ''}`;
 }
 
@@ -152,6 +175,7 @@ async function loadPage(page = 1) {
       limit:       state.PAGE_SIZE,
       search:      state.search,
       category_id: state.category_id,
+      brand:       state.brand,
     });
 
     renderProducts(data.items);
@@ -160,7 +184,7 @@ async function loadPage(page = 1) {
 
   } catch (err) {
     console.error('[catalog] Failed to load products:', err);
-    const grid = document.getElementById('catalogGrid');
+    const grid = document.getElementById('catalog-grid');
     if (grid) grid.innerHTML = `<div class="catalog-empty"><p>Failed to load products. Please try again.</p></div>`;
   }
 }
@@ -174,6 +198,15 @@ async function loadCategories() {
   }
 }
 
+async function loadBrands() {
+  try {
+    const brands = await fetchBrands({ category_id: state.category_id });
+    renderBrandBar(brands);
+  } catch (err) {
+    console.error('[catalog] Failed to load brands:', err);
+  }
+}
+
 // ── Event binding ──────────────────────────────────────────────────────────────
 
 function bindCategoryFilters() {
@@ -182,13 +215,26 @@ function bindCategoryFilters() {
       document.querySelectorAll('[data-filter-cat]').forEach(b => b.classList.remove('sidebar-filter-btn--active'));
       btn.classList.add('sidebar-filter-btn--active');
       state.category_id = btn.dataset.filterCat || null;
+      state.brand = null;
+      document.getElementById('catalog-sidebar')?.classList.remove('is-open');
+      loadBrands();
+      loadPage(1);
+    });
+  });
+}
+
+function bindBrandFilters() {
+  document.querySelectorAll('[data-brand]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('[data-brand]').forEach(b => b.classList.remove('catalog-brand-btn--active'));
+      btn.classList.add('catalog-brand-btn--active');
+      state.brand = btn.dataset.brand || null;
       loadPage(1);
     });
   });
 }
 
 function bindProductEvents() {
-  // Add to cart
   document.querySelectorAll('[data-add-to-cart]').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
@@ -210,7 +256,6 @@ function bindProductEvents() {
     });
   });
 
-  // Wishlist
   document.querySelectorAll('[data-fav]').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
@@ -233,41 +278,51 @@ function bindProductEvents() {
 }
 
 function bindSearch() {
-  // Read ?q= from URL on load
   const params = new URLSearchParams(window.location.search);
   const q = params.get('q');
-  if (q) state.search = q;
+  if (q) {
+    state.search = q;
+    const input = document.getElementById('catalog-search');
+    if (input) input.value = q;
+    window.history.replaceState({}, '', window.location.pathname);
+  }
 
-  // Toolbar search (if added later)
-  document.getElementById('catalogSearch')?.addEventListener('input', (e) => {
+  document.getElementById('catalog-search')?.addEventListener('input', (e) => {
     state.search = e.target.value.trim() || null;
     loadPage(1);
   });
 }
 
-// function bindViewToggle() {
-//   const grid = document.getElementById('catalogGrid');
-//   document.querySelectorAll('[data-view]').forEach(btn => {
-//     btn.addEventListener('click', () => {
-//       document.querySelectorAll('[data-view]').forEach(b => b.classList.remove('view-toggle__btn--active'));
-//       btn.classList.add('view-toggle__btn--active');
-//       grid?.classList.toggle('view-list', btn.dataset.view === 'list');
-//     });
-//   });
-// }
-
 function bindMobileFilterToggle() {
-  document.getElementById('filterToggle')?.addEventListener('click', () => {
-    document.getElementById('catalogSidebar')?.classList.toggle('catalog-sidebar--open');
+  document.getElementById('filter-toggle')?.addEventListener('click', () => {
+    const sidebar = document.getElementById('catalog-sidebar');
+    sidebar?.classList.toggle('is-open');
+    if (sidebar?.classList.contains('is-open')) {
+      sidebar.scrollTop = 0;
+    }
   });
 }
 
 function bindClearFilters() {
-  document.getElementById('clearFilters')?.addEventListener('click', () => {
+  document.getElementById('clear-filters')?.addEventListener('click', () => {
     state.search      = null;
     state.category_id = null;
+    state.brand       = null;
+
     document.querySelectorAll('[data-filter-cat]').forEach(b => b.classList.remove('sidebar-filter-btn--active'));
     document.querySelector('[data-filter-cat=""]')?.classList.add('sidebar-filter-btn--active');
+
+    document.querySelectorAll('[data-brand]').forEach(b => b.classList.remove('catalog-brand-btn--active'));
+    document.querySelector('[data-brand=""]')?.classList.add('catalog-brand-btn--active');
+
+    const priceMin = document.getElementById('price-min');
+    const priceMax = document.getElementById('price-max');
+    if (priceMin) priceMin.value = '';
+    if (priceMax) priceMax.value = '';
+
+    const search = document.getElementById('catalog-search');
+    if (search) search.value = '';
+
     loadPage(1);
   });
 }
@@ -280,7 +335,7 @@ async function initCatalog() {
   bindClearFilters();
 
   state.pagination = createPagination({
-    containerId: 'paginationContainer',
+    containerId: 'catalog-pagination',
     pageSize:    state.PAGE_SIZE,
     onPageChange: (page) => {
       loadPage(page);
@@ -288,8 +343,13 @@ async function initCatalog() {
     },
   });
 
-  // Load categories and first page in parallel
-  await Promise.all([loadCategories(), loadPage(1)]);
+  document.addEventListener('click', (e) => {
+  if (!e.target.closest('#catalog-sidebar') && !e.target.closest('#filter-toggle')) {
+    document.getElementById('catalog-sidebar')?.classList.remove('is-open');
+  }
+});
+
+  await Promise.all([loadCategories(), loadBrands(), loadPage(1)]);
 }
 
 if (document.readyState === 'loading') {

@@ -92,21 +92,6 @@ function renderNavbar() {
           ${navLinksHTML}
         </div>
 
-        <!-- Search -->
-        <div class="navbar__search">
-          <svg class="navbar__search-icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-            <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd"/>
-          </svg>
-          <input
-            type="search"
-            class="navbar__search-input"
-            id="navbarSearch"
-            placeholder="Search products, brands…"
-            aria-label="Search products"
-            autocomplete="off"
-          >
-        </div>
-
         <!-- Desktop actions -->
         <div class="navbar__actions">
           <a href="/fogin-marketplace/auth/login.html" class="navbar__action-btn navbar__action-btn--ghost">Log In</a>
@@ -206,16 +191,6 @@ function bindNavbarEvents() {
   window.addEventListener('scroll', () => {
     navbar?.classList.toggle('navbar--scrolled', window.scrollY > 10);
   }, { passive: true });
-
-  // Search — redirect to catalog with query
-  const base = getBasePath();
-  document.querySelectorAll('.navbar__search-input').forEach(input => {
-    input.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' && input.value.trim()) {
-        window.location.href = `/fogin-marketplace/shop/catalog.html?q=${encodeURIComponent(input.value.trim())}`;
-      }
-    });
-  });
 
   // Cart button
   document.getElementById('navbarCartBtn')?.addEventListener('click', () => {

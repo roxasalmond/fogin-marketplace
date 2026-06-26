@@ -6,12 +6,27 @@
  * No auth header — all marketplace endpoints are public.
  */
 
-const isDev     = window.location.hostname === 'localhost'
-               || window.location.hostname === '127.0.0.1';
-const isStaging = window.location.hostname === 'staging.fogin.ph';
+const hostname = window.location.hostname;
+
+const isLocalDev =
+  hostname === 'localhost' ||
+  hostname === '127.0.0.1';
+
+const isLanDev =
+  hostname.startsWith('192.168.') ||
+  hostname.startsWith('10.') ||
+  /^172\.(1[6-9]|2\d|3[0-1])\./.test(hostname);
+
+const isDev = window.location.protocol === 'http:' && (isLocalDev || isLanDev);
+
+const isStaging = hostname === 'staging.fogin.ph';
+
+const devApiHost = isLocalDev
+  ? 'localhost'
+  : hostname;
 
 const BASE_URL = isDev
-  ? 'http://localhost:3000/api/marketplace'
+  ? `http://${devApiHost}:3000/api/marketplace`
   : isStaging
     ? 'https://staging-api.fogin.ph/api/marketplace'
     : 'https://api.fogin.ph/api/marketplace';
@@ -25,7 +40,7 @@ async function request(path, params = {}) {
     }
   });
 
-  const res = await fetch(url.toString());
+  const res  = await fetch(url.toString());
   const json = await res.json();
 
   if (!res.ok || !json.success) {
@@ -43,10 +58,16 @@ export async function fetchCategories() {
   return request('/categories');
 }
 
+// ── Brands ─────────────────────────────────────────────────────────────────────
+
+export async function fetchBrands({ category_id = null } = {}) {
+  return request('/brands', { category_id });
+}
+
 // ── Products (list) ────────────────────────────────────────────────────────────
 
-export async function fetchProducts({ page = 1, limit = 20, search = null, category_id = null } = {}) {
-  return request('/products', { page, limit, search, category_id });
+export async function fetchProducts({ page = 1, limit = 20, search = null, category_id = null, brand = null } = {}) {
+  return request('/products', { page, limit, search, category_id, brand });
 }
 
 // ── Product (detail) ───────────────────────────────────────────────────────────
