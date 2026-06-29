@@ -197,7 +197,7 @@ function buildSpecs(variants) {
 // ── Gallery ────────────────────────────────────────────────────────────────────
 
 function renderGallery() {
-  const thumbStrip = document.getElementById('thumbStrip');
+  const thumbStrip = document.getElementById('thumb-strip');
   thumbStrip.innerHTML = product.images.map((img, i) => `
     <div
       class="pdp-thumb ${i === 0 ? 'pdp-thumb--active' : ''}"
@@ -209,12 +209,12 @@ function renderGallery() {
     </div>
   `).join('');
 
-  const dots = document.getElementById('galleryDots');
+  const dots = document.getElementById('gallery-dots');
   dots.innerHTML = product.images.map((_, i) => `
     <button class="pdp-gallery-dot ${i === 0 ? 'pdp-gallery-dot--active' : ''}" data-index="${i}" aria-label="Image ${i + 1}"></button>
   `).join('');
 
-  const badges = document.getElementById('imageBadges');
+  const badges = document.getElementById('image-badges');
   if (product.badge) {
     const labels = { new: 'New', sale: 'Sale', hot: '🔥 Hot', limited: 'Limited' };
     badges.innerHTML = `<span class="pdp-badge pdp-badge--${product.badge}">${labels[product.badge] || product.badge}</span>`;
@@ -227,8 +227,8 @@ function setActiveImage(idx) {
   currentImageIndex = idx;
   const img = product.images[idx];
 
-  const placeholder = document.getElementById('mainImagePlaceholder');
-  const inner       = document.getElementById('mainImageInner');
+  const placeholder = document.getElementById('main-image-placeholder');
+  const inner       = document.getElementById('main-image-inner');
 
   if (img) {
     // Show real image
@@ -258,22 +258,22 @@ function setActiveImage(idx) {
 }
 
 function bindGalleryEvents() {
-  document.getElementById('thumbStrip')?.addEventListener('click', e => {
+  document.getElementById('thumb-strip')?.addEventListener('click', e => {
     const thumb = e.target.closest('.pdp-thumb');
     if (thumb) setActiveImage(Number(thumb.dataset.index));
   });
 
-  document.getElementById('galleryDots')?.addEventListener('click', e => {
+  document.getElementById('gallery-dots')?.addEventListener('click', e => {
     const dot = e.target.closest('.pdp-gallery-dot');
     if (dot) setActiveImage(Number(dot.dataset.index));
   });
 
-  document.getElementById('prevImage')?.addEventListener('click', () => {
+  document.getElementById('prev-image')?.addEventListener('click', () => {
     const newIdx = (currentImageIndex - 1 + product.images.length) % product.images.length;
     setActiveImage(newIdx);
   });
 
-  document.getElementById('nextImage')?.addEventListener('click', () => {
+  document.getElementById('next-image')?.addEventListener('click', () => {
     const newIdx = (currentImageIndex + 1) % product.images.length;
     setActiveImage(newIdx);
   });
@@ -284,48 +284,48 @@ function bindGalleryEvents() {
 function renderInfo() {
   document.title = `${product.name} — Fogin`;
 
-  document.getElementById('breadcrumbCategory').textContent = product.category;
-  document.getElementById('breadcrumbCategory').href = `catalog.html?category_id=${product.category_slug}`;
-  document.getElementById('breadcrumbName').textContent = product.name;
+  document.getElementById('breadcrumb-category').textContent = product.category;
+  document.getElementById('breadcrumb-category').href = `catalog.html?category_id=${product.category_slug}`;
+  document.getElementById('breadcrumb-name').textContent = product.name;
 
-  document.getElementById('pdpCategory').textContent = product.category;
-  document.getElementById('pdpVendor').textContent   = product.vendor;
-  document.getElementById('pdpTitle').textContent    = product.name;
+  document.getElementById('pdp-category').textContent = product.category;
+  document.getElementById('pdp-vendor').textContent   = product.vendor;
+  document.getElementById('pdp-title').textContent    = product.name;
 
-  document.getElementById('pdpStars').innerHTML = starsHTML(product.rating);
+  document.getElementById('pdp-stars').innerHTML = starsHTML(product.rating);
 
   if (product.reviewCount > 0) {
-    document.getElementById('pdpRatingCount').textContent = `${product.reviewCount} reviews`;
+    document.getElementById('pdp-rating-count').textContent = `${product.reviewCount} reviews`;
   } else {
-    document.getElementById('pdpRatingCount').textContent = 'No reviews yet';
+    document.getElementById('pdp-rating-count').textContent = 'No reviews yet';
   }
 
   if (product.soldCount > 0) {
-    document.getElementById('pdpSoldCount').textContent = `${product.soldCount} sold`;
+    document.getElementById('pdp-sold-count').textContent = `${product.soldCount} sold`;
   } else {
-    document.getElementById('pdpSoldCount').closest('.pdp-meta-sep')?.remove();
-    document.getElementById('pdpSoldCount').style.display = 'none';
+    document.getElementById('pdp-sold-count').closest('.pdp-meta-sep')?.remove();
+    document.getElementById('pdp-sold-count').style.display = 'none';
   }
 
-  document.getElementById('pdpPrice').textContent = formatPrice(product.price);
+  document.getElementById('pdp-price').textContent = formatPrice(product.price);
 
   if (product.originalPrice) {
-    document.getElementById('pdpOriginalPrice').textContent = formatPrice(product.originalPrice);
-    document.getElementById('pdpOriginalPrice').hidden = false;
+    document.getElementById('pdp-original-price').textContent = formatPrice(product.originalPrice);
+    document.getElementById('pdp-original-price').hidden = false;
     const pct = Math.round((1 - product.price / product.originalPrice) * 100);
-    document.getElementById('pdpDiscountBadge').textContent = `-${pct}%`;
-    document.getElementById('pdpDiscountBadge').hidden = false;
+    document.getElementById('pdp-discount-badge').textContent = `-${pct}%`;
+    document.getElementById('pdp-discount-badge').hidden = false;
   }
 
-  const stockEl = document.getElementById('pdpStock');
+  const stockEl = document.getElementById('pdp-stock');
   const dot     = stockEl?.querySelector('.pdp-stock-dot');
-  const qtyEl   = document.getElementById('pdpStockQty');
+  const qtyEl   = document.getElementById('pdp-stock-qty');
 
   if (product.stock === 0) {
     if (dot) dot.className = 'pdp-stock-dot pdp-stock-dot--out';
     if (stockEl) stockEl.innerHTML = '<span class="pdp-stock-dot pdp-stock-dot--out"></span> Out of stock';
-    const addBtn = document.getElementById('addToCartBtn');
-    const buyBtn = document.getElementById('buyNowBtn');
+    const addBtn = document.getElementById('add-to-cart-btn');
+    const buyBtn = document.getElementById('buy-now-btn');
     if (addBtn) addBtn.disabled = true;
     if (buyBtn) buyBtn.disabled = true;
   } else {
@@ -336,7 +336,7 @@ function renderInfo() {
 // ── Variants ───────────────────────────────────────────────────────────────────
 
 function renderVariants() {
-  const container = document.getElementById('pdpVariants');
+  const container = document.getElementById('pdp-variants');
   if (!product.variants || !product.variants.length) {
     container.hidden = true;
     return;
@@ -348,7 +348,7 @@ function renderVariants() {
     if (v.type === 'color') {
       return `
         <div class="pdp-variant-group">
-          <div class="pdp-variant-label">${v.label}: <span id="variantLabel-${v.label}">${v.options.find(o => o.value === v.default)?.label || ''}</span></div>
+          <div class="pdp-variant-label">${v.label}: <span id="variant-label-${v.label}">${v.options.find(o => o.value === v.default)?.label || ''}</span></div>
           <div class="pdp-color-chips" data-variant="${v.label}">
             ${v.options.map(o => `
               <button
@@ -368,7 +368,7 @@ function renderVariants() {
     if (v.type === 'chip') {
       return `
         <div class="pdp-variant-group">
-          <div class="pdp-variant-label">${v.label}: <span id="variantLabel-${v.label}">${v.default}</span></div>
+          <div class="pdp-variant-label">${v.label}: <span id="variant-label-${v.label}">${v.default}</span></div>
           <div class="pdp-chips" data-variant="${v.label}">
             ${v.options.map(o => `
               <button
@@ -432,9 +432,9 @@ function bindVariantEvents() {
 // ── Quantity ───────────────────────────────────────────────────────────────────
 
 function bindQtyEvents() {
-  const decBtn = document.getElementById('qtyDec');
-  const incBtn = document.getElementById('qtyInc');
-  const valEl  = document.getElementById('qtyVal');
+  const decBtn = document.getElementById('qty-dec');
+  const incBtn = document.getElementById('qty-inc');
+  const valEl  = document.getElementById('qty-val');
 
   decBtn?.addEventListener('click', () => {
     if (qty > 1) { qty--; valEl.textContent = qty; decBtn.disabled = qty <= 1; }
@@ -452,8 +452,8 @@ function bindQtyEvents() {
 let toastTimer = null;
 
 function showToast(msg) {
-  const toast = document.getElementById('pdpToast');
-  const msgEl = document.getElementById('pdpToastMsg');
+  const toast = document.getElementById('pdp-toast');
+  const msgEl = document.getElementById('pdp-toast-msg');
   if (!toast) return;
   if (toastTimer) clearTimeout(toastTimer);
   msgEl.textContent = msg;
@@ -466,17 +466,17 @@ function showToast(msg) {
 }
 
 function bindActions() {
-  document.getElementById('addToCartBtn')?.addEventListener('click', () => {
+  document.getElementById('add-to-cart-btn')?.addEventListener('click', () => {
     addToCart(product.id, qty);
     showToast(`${product.name} added to cart`);
   });
 
-  document.getElementById('buyNowBtn')?.addEventListener('click', () => {
+  document.getElementById('buy-now-btn')?.addEventListener('click', () => {
     addToCart(product.id, qty);
     window.location.href = 'cart.html';
   });
 
-  document.getElementById('wishlistBtn')?.addEventListener('click', e => {
+  document.getElementById('wishlist-btn')?.addEventListener('click', e => {
     wishlistActive = !wishlistActive;
     e.currentTarget.classList.toggle('pdp-btn-wishlist--active', wishlistActive);
     const svg = e.currentTarget.querySelector('svg');
@@ -488,12 +488,12 @@ function bindActions() {
 // ── Tabs ───────────────────────────────────────────────────────────────────────
 
 function renderDescription() {
-  const el = document.getElementById('pdpDescription');
+  const el = document.getElementById('pdp-description');
   if (el) el.innerHTML = product.description;
 }
 
 function renderSpecs() {
-  const el = document.getElementById('pdpSpecs');
+  const el = document.getElementById('pdp-specs');
   if (!el) return;
   if (!product.specs.length) {
     el.innerHTML = '<p>No specifications available.</p>';
@@ -504,23 +504,23 @@ function renderSpecs() {
 }
 
 function renderReviews() {
-  document.getElementById('reviewTabBadge').textContent = product.reviewCount || '0';
-  document.getElementById('reviewTotal').textContent    = `${product.reviewCount} reviews`;
-  document.getElementById('bigScore').textContent       = product.rating.toFixed(1);
-  document.getElementById('bigStars').innerHTML         = starsHTML(product.rating);
+  document.getElementById('review-tab-badge').textContent = product.reviewCount || '0';
+  document.getElementById('review-total').textContent    = `${product.reviewCount} reviews`;
+  document.getElementById('big-score').textContent       = product.rating.toFixed(1);
+  document.getElementById('big-stars').innerHTML         = starsHTML(product.rating);
 
-  const list = document.getElementById('reviewsList');
+  const list = document.getElementById('reviews-list');
   if (list) list.innerHTML = '<p style="color:var(--color-text-muted);padding:16px 0">No reviews yet. Be the first to review this product.</p>';
 
-  const btn = document.getElementById('loadMoreReviews');
+  const btn = document.getElementById('load-more-reviews');
   if (btn) btn.hidden = true;
 
-  const bars = document.getElementById('reviewBars');
+  const bars = document.getElementById('review-bars');
   if (bars) bars.innerHTML = '';
 }
 
 function renderVendorCard() {
-  document.getElementById('pdpVendor').textContent = product.vendor;
+  document.getElementById('pdp-vendor').textContent = product.vendor;
   const section = document.getElementById('vendorSection');
   if (!section) return;
 
@@ -560,7 +560,7 @@ function bindTabEvents() {
 // ── Related products ───────────────────────────────────────────────────────────
 
 async function renderRelated() {
-  const grid = document.getElementById('relatedGrid');
+  const grid = document.getElementById('related-grid');
   if (!grid) return;
 
   try {
@@ -608,16 +608,16 @@ function renderFBT() {
 // ── Loading state ──────────────────────────────────────────────────────────────
 
 function showLoadingState() {
-  document.getElementById('pdpTitle').textContent = 'Loading…';
-  document.getElementById('pdpPrice').textContent = '—';
+  document.getElementById('pdp-title').textContent = 'Loading…';
+  document.getElementById('pdp-price').textContent = '—';
 }
 
 function showErrorState(message) {
-  document.getElementById('pdpTitle').textContent = message || 'Product not found';
-  document.getElementById('pdpPrice').textContent = '—';
-  document.getElementById('pdpStock').innerHTML   = '';
-  const addBtn = document.getElementById('addToCartBtn');
-  const buyBtn = document.getElementById('buyNowBtn');
+  document.getElementById('pdp-title').textContent = message || 'Product not found';
+  document.getElementById('pdp-price').textContent = '—';
+  document.getElementById('pdp-stock').innerHTML   = '';
+  const addBtn = document.getElementById('add-to-cart-btn');
+  const buyBtn = document.getElementById('buy-now-btn');
   if (addBtn) addBtn.disabled = true;
   if (buyBtn) buyBtn.disabled = true;
 }

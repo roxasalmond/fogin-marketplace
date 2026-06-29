@@ -109,7 +109,7 @@ function renderSummary() {
   const { subtotal, shipping, total } = calcTotals();
 
   // Items
-  const itemsEl = document.getElementById('summaryItems');
+  const itemsEl = document.getElementById('summary-items');
   if (itemsEl) {
     itemsEl.innerHTML = cartItems.map(item => `
       <div class="co-summary-item">
@@ -124,17 +124,17 @@ function renderSummary() {
   }
 
   // Totals
-  const shippingEl = document.getElementById('coShipping');
+  const shippingEl = document.getElementById('co-shipping');
   if (shippingEl) shippingEl.textContent = shipping === 0 ? 'FREE' : formatPrice(shipping);
 
-  const subtotalEl = document.getElementById('coSubtotal');
+  const subtotalEl = document.getElementById('co-subtotal');
   if (subtotalEl) subtotalEl.textContent = formatPrice(subtotal);
 
-  const totalEl = document.getElementById('coTotal');
+  const totalEl = document.getElementById('co-total');
   if (totalEl) totalEl.textContent = formatPrice(total);
 
   // Review total
-  const reviewTotal = document.getElementById('reviewTotal');
+  const reviewTotal = document.getElementById('review-total');
   if (reviewTotal) reviewTotal.textContent = formatPrice(total);
 }
 
@@ -155,14 +155,14 @@ function collapseSection(bodyId, summaryId, summaryText, editBtnId) {
 }
 
 function buildSummaryText(summaryId) {
-  if (summaryId === 'addressSummary') {
+  if (summaryId === 'address-summary') {
     const v = f => document.getElementById(f)?.value || '';
-    return `${v('fullName')} · ${v('streetAddress')}, ${v('barangay')}, ${v('city')}, ${v('province')} ${v('zipCode')}`;
+    return `${v('first-name')} · ${v('street-address')}, ${v('barangay')}, ${v('city')}, ${v('province')} ${v('zip-code')}`;
   }
-  if (summaryId === 'shippingSummary') {
+  if (summaryId === 'shipping-summary') {
     return SHIPPING_LABELS[shippingMethod] || shippingMethod;
   }
-  if (summaryId === 'paymentSummary') {
+  if (summaryId === 'payment-summary') {
     return PAYMENT_LABELS[paymentMethod] || paymentMethod;
   }
   return '';
@@ -186,21 +186,22 @@ function updateStepIndicator(step) {
 // ─── Validate address form ─────────────────
 function validateAddress() {
   const fields = [
-    { id: 'fullName',      label: 'Full name' },
-    { id: 'phone',         label: 'Phone number' },
-    { id: 'email',         label: 'Email address' },
-    { id: 'streetAddress', label: 'Street address' },
-    { id: 'barangay',      label: 'Barangay' },
-    { id: 'city',          label: 'City / Municipality' },
-    { id: 'province',      label: 'Province' },
-    { id: 'zipCode',       label: 'ZIP code' },
+    { id: 'first-name',     label: 'First name' },
+    { id: 'last-name',      label: 'Last name' },
+    { id: 'phone',          label: 'Phone number' },
+    { id: 'email',          label: 'Email address' },
+    { id: 'street-address', label: 'Street address' },
+    { id: 'barangay',       label: 'Barangay' },
+    { id: 'city',           label: 'City / Municipality' },
+    { id: 'province',       label: 'Province' },
+    { id: 'zip-code',       label: 'ZIP code' },
   ];
 
   let valid = true;
 
   fields.forEach(({ id, label }) => {
     const el = document.getElementById(id);
-    const err = document.getElementById(`${id}Error`);
+    const err = document.getElementById(`${id}-error`);
     if (!el) return;
 
     const val = el.value.trim();
@@ -218,7 +219,7 @@ function validateAddress() {
   const emailEl = document.getElementById('email');
   if (emailEl?.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value)) {
     emailEl.classList.add('co-input--error');
-    document.getElementById('emailError').textContent = 'Enter a valid email address.';
+    document.getElementById('email-error').textContent = 'Enter a valid email address.';
     valid = false;
   }
 
@@ -226,15 +227,15 @@ function validateAddress() {
   const phoneEl = document.getElementById('phone');
   if (phoneEl?.value && !/^9\d{9}$/.test(phoneEl.value.replace(/\s/g, ''))) {
     phoneEl.classList.add('co-input--error');
-    document.getElementById('phoneError').textContent = 'Enter a valid PH number (e.g. 9171234567).';
+    document.getElementById('phone-error').textContent = 'Enter a valid PH number (e.g. 9171234567).';
     valid = false;
   }
 
   // ZIP — 4 digits
-  const zipEl = document.getElementById('zipCode');
+  const zipEl = document.getElementById('zip-code');
   if (zipEl?.value && !/^\d{4}$/.test(zipEl.value.trim())) {
     zipEl.classList.add('co-input--error');
-    document.getElementById('zipCodeError').textContent = 'ZIP code must be 4 digits.';
+    document.getElementById('zip-code-error').textContent = 'ZIP code must be 4 digits.';
     valid = false;
   }
 
@@ -243,10 +244,13 @@ function validateAddress() {
 
 // ─── Collect address data ──────────────────
 function collectAddress() {
-  const fields = ['fullName', 'phone', 'email', 'streetAddress', 'barangay', 'city', 'province', 'zipCode', 'deliveryNotes'];
+  const fields = ['phone', 'email', 'street-address', 'barangay', 'city', 'province', 'zip-code', 'delivery-notes'];
   fields.forEach(id => {
     addressData[id] = document.getElementById(id)?.value?.trim() || '';
   });
+  const first = document.getElementById('first-name')?.value?.trim() || '';
+  const last  = document.getElementById('last-name')?.value?.trim() || '';
+  addressData['full-name'] = `${first} ${last}`.trim();
 }
 
 // ─── Render review section ─────────────────
@@ -268,11 +272,11 @@ function renderReview() {
     },
     {
       label: 'Order Total',
-      value: `Subtotal: ${formatPrice(subtotal)}<br>Shipping: ${shipping === 0 ? 'FREE' : formatPrice(shipping)}<br><strong style="color:var(--color-primary,#C8FF00)">Total: ${formatPrice(total)}</strong>`,
+      value: `Subtotal: ${formatPrice(subtotal)}<br>Shipping: ${shipping === 0 ? 'FREE' : formatPrice(shipping)}<br><strong class="text-primary">Total: ${formatPrice(total)}</strong>`,
     },
   ];
 
-  const container = document.getElementById('reviewDetails');
+  const container = document.getElementById('review-details');
   if (container) {
     container.innerHTML = blocks.map(b => `
       <div class="co-review-block">
@@ -292,8 +296,8 @@ function placeOrder() {
   window.dispatchEvent(new Event('fogin:cart-updated'));
 
   // Show success overlay
-  const overlay = document.getElementById('successOverlay');
-  const orderNum = document.getElementById('successOrderNum');
+  const overlay = document.getElementById('success-overlay');
+  const orderNum = document.getElementById('success-order-num');
   if (overlay) overlay.hidden = false;
   if (orderNum) orderNum.textContent = `Order #${orderId}`;
 }
@@ -314,7 +318,7 @@ function formatExpiry(input) {
 function bindEvents() {
 
   // ── Step 1: Address → Shipping ──
-  document.getElementById('continueToShipping')?.addEventListener('click', () => {
+  document.getElementById('continue-to-shipping')?.addEventListener('click', () => {
     if (!validateAddress()) return;
     collectAddress();
     collapseSection('addressForm', 'addressSummary', 'addressSummaryText', 'editAddress');
@@ -324,15 +328,15 @@ function bindEvents() {
     renderSummary();
   });
 
-  document.getElementById('editAddress')?.addEventListener('click', () => {
+  document.getElementById('edit-address')?.addEventListener('click', () => {
     expandSection('addressForm', 'addressSummary', 'editAddress');
   });
 
   // ── Step 2: Shipping → Payment ──
-  document.getElementById('continueToPayment')?.addEventListener('click', () => {
+  document.getElementById('continue-to-payment')?.addEventListener('click', () => {
     // Validate store picker if pickup
     if (shippingMethod === 'pickup') {
-      const store = document.getElementById('storeSelect')?.value;
+      const store = document.getElementById('store-select')?.value;
       if (!store) {
         alert('Please select a pickup store.');
         return;
@@ -345,12 +349,12 @@ function bindEvents() {
     renderSummary();
   });
 
-  document.getElementById('editShipping')?.addEventListener('click', () => {
+  document.getElementById('edit-shipping')?.addEventListener('click', () => {
     expandSection('shippingForm', 'shippingSummary', 'editShipping');
   });
 
   // ── Step 3: Payment → Review ──
-  document.getElementById('continueToReview')?.addEventListener('click', () => {
+  document.getElementById('continue-to-review')?.addEventListener('click', () => {
     collapseSection('paymentForm', 'paymentSummary', 'paymentSummaryText', 'editPayment');
     unlockSection('sectionReview');
     currentStep = 3;
@@ -359,7 +363,7 @@ function bindEvents() {
     renderSummary();
   });
 
-  document.getElementById('editPayment')?.addEventListener('click', () => {
+  document.getElementById('edit-payment')?.addEventListener('click', () => {
     expandSection('paymentForm', 'paymentSummary', 'editPayment');
   });
 
@@ -367,7 +371,7 @@ function bindEvents() {
   document.querySelectorAll('input[name="shipping"]').forEach(radio => {
     radio.addEventListener('change', () => {
       shippingMethod = radio.value;
-      const storePicker = document.getElementById('storePicker');
+      const storePicker = document.getElementById('store-picker');
       if (storePicker) storePicker.hidden = shippingMethod !== 'pickup';
       renderSummary();
     });
@@ -377,19 +381,19 @@ function bindEvents() {
   document.querySelectorAll('input[name="payment"]').forEach(radio => {
     radio.addEventListener('change', () => {
       paymentMethod = radio.value;
-      document.getElementById('cardForm').hidden = paymentMethod !== 'card';
-      document.getElementById('codNotice').hidden = paymentMethod !== 'cod';
+      document.getElementById('card-form').hidden = paymentMethod !== 'card';
+      document.getElementById('cod-notice').hidden = paymentMethod !== 'cod';
     });
   });
 
   // ── Card formatting ──
-  document.getElementById('cardNumber')?.addEventListener('input', e => formatCardNumber(e.target));
-  document.getElementById('cardExpiry')?.addEventListener('input', e => formatExpiry(e.target));
+  document.getElementById('card-number')?.addEventListener('input', e => formatCardNumber(e.target));
+  document.getElementById('card-expiry')?.addEventListener('input', e => formatExpiry(e.target));
 
   // ── Confirmation checkboxes → enable place order ──
-  const ageBox   = document.getElementById('ageConfirm');
-  const termsBox = document.getElementById('termsConfirm');
-  const placeBtn = document.getElementById('placeOrderBtn');
+  const ageBox   = document.getElementById('age-confirm');
+  const termsBox = document.getElementById('terms-confirm');
+  const placeBtn = document.getElementById('place-order-btn');
 
   function checkConfirms() {
     if (placeBtn) placeBtn.disabled = !(ageBox?.checked && termsBox?.checked);
@@ -399,10 +403,10 @@ function bindEvents() {
   termsBox?.addEventListener('change', checkConfirms);
 
   // ── Place order ──
-  document.getElementById('placeOrderBtn')?.addEventListener('click', placeOrder);
+  document.getElementById('place-order-btn')?.addEventListener('click', placeOrder);
 
   // ── ZIP — numbers only ──
-  document.getElementById('zipCode')?.addEventListener('input', e => {
+  document.getElementById('zip-code')?.addEventListener('input', e => {
     e.target.value = e.target.value.replace(/\D/g, '').slice(0, 4);
   });
 

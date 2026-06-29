@@ -11,9 +11,9 @@ document.addEventListener('DOMContentLoaded', () => {
   initPasswordToggle();
   // ─── Password strength indicator ─────────
   const passwordInput = document.getElementById('password');
-  const strengthBox   = document.getElementById('passwordStrength');
-  const strengthFill  = document.getElementById('strengthFill');
-  const strengthLabel = document.getElementById('strengthLabel');
+  const strengthBox   = document.getElementById('password-strength');
+  const strengthFill  = document.getElementById('strength-fill');
+  const strengthLabel = document.getElementById('strength-label');
 
   if (passwordInput && strengthBox) {
     passwordInput.addEventListener('input', () => {
@@ -36,8 +36,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // ─── Role switching ───────────────────────
   const roleInputs        = document.querySelectorAll('.rg-role-input');
   const roleCards         = document.querySelectorAll('.rg-role-card');
-  const fieldsVendor      = document.getElementById('fieldsVendor');
-  const fieldsVendorAdmin = document.getElementById('fieldsVendorAdmin');
+  const fieldsVendor      = document.getElementById('fields-vendor');
+  const fieldsVendorAdmin = document.getElementById('fields-vendor-admin');
 
   function getSelectedRole() {
     return document.querySelector('.rg-role-input:checked')?.value || 'customer';
@@ -55,10 +55,10 @@ document.addEventListener('DOMContentLoaded', () => {
     fieldsVendorAdmin?.classList.toggle('rg-fieldset--hidden', role !== 'vendor_admin');
 
     // Toggle required on dynamic fields
-    setRequired('businessName',    role === 'vendor');
-    setRequired('businessAddress', role === 'vendor');
-    setRequired('shopCode',        role === 'vendor_admin');
-    setRequired('jobTitle',        role === 'vendor_admin');
+    setRequired('business-name',    role === 'vendor');
+    setRequired('business-address', role === 'vendor');
+    setRequired('shop-code',        role === 'vendor_admin');
+    setRequired('job-title',        role === 'vendor_admin');
 
     // Update submit label
     const labels = {
@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
       vendor:       'Submit Vendor Application',
       vendor_admin: 'Submit Vendor Admin Application',
     };
-    const submitBtnText = document.getElementById('submitBtnText');
+    const submitBtnText = document.getElementById('submit-btn-text');
     if (submitBtnText) submitBtnText.textContent = labels[role] || 'Create Account';
   }
 
@@ -119,21 +119,21 @@ document.addEventListener('DOMContentLoaded', () => {
     input.addEventListener('input', () => clearError(input.id));
   });
 
-  ['ageCheck', 'termsCheck'].forEach(id => {
+  ['age-check', 'terms-check'].forEach(id => {
     document.getElementById(id)?.addEventListener('change', () => clearError(id));
   });
 
   const blurRules = {
-  firstName:       v => !v ? 'First name is required.' : v.length < 2 ? 'First name must be at least 2 characters.' : null,
-  lastName:        v => !v ? 'Last name is required.'  : v.length < 2 ? 'Last name must be at least 2 characters.'  : null,
+  'first-name':       v => !v ? 'First name is required.' : v.length < 2 ? 'First name must be at least 2 characters.' : null,
+  'last-name':        v => !v ? 'Last name is required.'  : v.length < 2 ? 'Last name must be at least 2 characters.'  : null,
   email:           v => !v ? 'Email address is required.' : !validateEmail(v) ? 'Enter a valid email address.' : null,
   phone:           v => !v ? 'Phone number is required.' : !validatePhone(v) ? 'Enter a valid PH mobile number (e.g. 9171234567).' : null,
   password:        v => !validatePassword(v) ? 'Min. 8 characters, 1 uppercase, 1 lowercase, 1 number.' : null,
-  confirmPassword: v => v !== document.getElementById('password').value ? 'Passwords do not match.' : null,
-  businessName:    v => !v ? 'Business name is required.' : null,
-  businessAddress: v => !v ? 'Business address is required.' : null,
-  shopCode:        v => !v ? 'A valid shop invite code is required.' : null,
-  jobTitle:        v => !v ? 'Job title is required.' : null,
+  'confirm-password': v => v !== document.getElementById('password').value ? 'Passwords do not match.' : null,
+  'business-name':    v => !v ? 'Business name is required.' : null,
+  'business-address': v => !v ? 'Business address is required.' : null,
+  'shop-code':        v => !v ? 'A valid shop invite code is required.' : null,
+  'job-title':        v => !v ? 'Job title is required.' : null,
 };
 
 Object.entries(blurRules).forEach(([id, validate]) => {
@@ -150,13 +150,13 @@ Object.entries(blurRules).forEach(([id, validate]) => {
     let valid = true;
     const role = getSelectedRole();
 
-    const firstName = document.getElementById('firstName').value.trim();
-    if (!firstName) { showError('firstName', 'First name is required.'); valid = false; }
-    else clearError('firstName');
+    const firstName = document.getElementById('first-name').value.trim();
+    if (!firstName) { showError('first-name', 'First name is required.'); valid = false; }
+    else clearError('first-name');
 
-    const lastName = document.getElementById('lastName').value.trim();
-    if (!lastName) { showError('lastName', 'Last name is required.'); valid = false; }
-    else clearError('lastName');
+    const lastName = document.getElementById('last-name').value.trim();
+    if (!lastName) { showError('last-name', 'Last name is required.'); valid = false; }
+    else clearError('last-name');
 
     const email = document.getElementById('email').value.trim();
     if (!validateEmail(email)) { showError('email', 'Enter a valid email address.'); valid = false; }
@@ -170,50 +170,50 @@ Object.entries(blurRules).forEach(([id, validate]) => {
     if (!validatePassword(password)) { showError('password', 'Min. 8 characters, 1 uppercase, 1 lowercase, 1 number.'); valid = false; }
     else clearError('password');
 
-    const confirmPassword = document.getElementById('confirmPassword').value;
-    if (confirmPassword !== password) { showError('confirmPassword', 'Passwords do not match.'); valid = false; }
-    else clearError('confirmPassword');
+    const confirmPassword = document.getElementById('confirm-password').value;
+    if (confirmPassword !== password) { showError('confirm-password', 'Passwords do not match.'); valid = false; }
+    else clearError('confirm-password');
 
     if (role === 'vendor') {
-      const businessName = document.getElementById('businessName').value.trim();
-      if (!businessName) { showError('businessName', 'Business name is required.'); valid = false; }
-      else clearError('businessName');
+      const businessName = document.getElementById('business-name').value.trim();
+      if (!businessName) { showError('business-name', 'Business name is required.'); valid = false; }
+      else clearError('business-name');
 
-      const businessAddress = document.getElementById('businessAddress').value.trim();
-      if (!businessAddress) { showError('businessAddress', 'Business address is required.'); valid = false; }
-      else clearError('businessAddress');
+      const businessAddress = document.getElementById('business-address').value.trim();
+      if (!businessAddress) { showError('business-address', 'Business address is required.'); valid = false; }
+      else clearError('business-address');
     }
 
     if (role === 'vendor_admin') {
-      const shopCode = document.getElementById('shopCode').value.trim();
-      if (!shopCode) { showError('shopCode', 'A valid shop invite code is required.'); valid = false; }
-      else clearError('shopCode');
+      const shopCode = document.getElementById('shop-code').value.trim();
+      if (!shopCode) { showError('shop-code', 'A valid shop invite code is required.'); valid = false; }
+      else clearError('shop-code');
 
-      const jobTitle = document.getElementById('jobTitle').value.trim();
-      if (!jobTitle) { showError('jobTitle', 'Job title is required.'); valid = false; }
-      else clearError('jobTitle');
+      const jobTitle = document.getElementById('job-title').value.trim();
+      if (!jobTitle) { showError('job-title', 'Job title is required.'); valid = false; }
+      else clearError('job-title');
     }
 
-    const ageCheck = document.getElementById('ageCheck').checked;
-    if (!ageCheck) { showError('ageCheck', 'You must confirm you are 18 or older.'); valid = false; }
-    else clearError('ageCheck');
+    const ageCheck = document.getElementById('age-check').checked;
+    if (!ageCheck) { showError('age-check', 'You must confirm you are 18 or older.'); valid = false; }
+    else clearError('age-check');
 
-    const termsCheck = document.getElementById('termsCheck').checked;
-    if (!termsCheck) { showError('termsCheck', 'You must agree to the Terms of Service.'); valid = false; }
-    else clearError('termsCheck');
+    const termsCheck = document.getElementById('terms-check').checked;
+    if (!termsCheck) { showError('terms-check', 'You must agree to the Terms of Service.'); valid = false; }
+    else clearError('terms-check');
 
     return valid;
   }
 
   // ─── Submit ───────────────────────────────
-  document.getElementById('registerForm')?.addEventListener('submit', async e => {
+  document.getElementById('register-form')?.addEventListener('submit', async e => {
     e.preventDefault();
     if (!validateForm()) return;
 
     const role    = getSelectedRole();
-    const btn     = document.getElementById('loginBtn');
-    const spinner = document.getElementById('submitSpinner');
-    const label   = document.getElementById('submitBtnText');
+    const btn     = document.getElementById('submit-btn');
+    const spinner = document.getElementById('submit-spinner');
+    const label   = document.getElementById('submit-btn-text');
 
     btn.disabled   = true;
     label.hidden   = true;
@@ -221,11 +221,11 @@ Object.entries(blurRules).forEach(([id, validate]) => {
 
     await new Promise(r => setTimeout(r, 1400));
 
-    const firstName    = document.getElementById('firstName').value.trim();
-    const lastName     = document.getElementById('lastName').value.trim();
+    const firstName    = document.getElementById('first-name').value.trim();
+    const lastName     = document.getElementById('last-name').value.trim();
     const email        = document.getElementById('email').value.trim();
-    const businessName = document.getElementById('businessName')?.value.trim() || '';
-    const shopCode     = document.getElementById('shopCode')?.value.trim() || '';
+    const businessName = document.getElementById('business-name')?.value.trim() || '';
+    const shopCode     = document.getElementById('shop-code')?.value.trim() || '';
 
     if (role === 'customer') {
       localStorage.setItem('foginUser', JSON.stringify({ firstName, lastName, email }));
@@ -238,27 +238,27 @@ Object.entries(blurRules).forEach(([id, validate]) => {
 
   // ─── Pending screen ───────────────────────
   function showPendingScreen({ role, firstName, lastName, email, businessName, shopCode }) {
-    document.getElementById('stepRegister').hidden = true;
-    document.getElementById('stepPending').hidden  = false;
+    document.getElementById('step-register').hidden = true;
+    document.getElementById('step-pending').hidden  = false;
 
     const roleLabels = { vendor: 'Vendor', vendor_admin: 'Vendor Admin' };
-    document.getElementById('pendingRole').textContent = roleLabels[role] || role;
+    document.getElementById('pending-role').textContent = roleLabels[role] || role;
 
-    document.getElementById('pendingName').textContent         = `${firstName} ${lastName}`;
-    document.getElementById('pendingEmail').textContent        = email;
-    document.getElementById('pendingEmailConfirm').textContent = email;
+    document.getElementById('pending-name').textContent         = `${firstName} ${lastName}`;
+    document.getElementById('pending-email').textContent        = email;
+    document.getElementById('pending-email-confirm').textContent = email;
 
-    const businessRow = document.getElementById('pendingBusinessRow');
-    const shopRow     = document.getElementById('pendingShopRow');
+    const businessRow = document.getElementById('pending-business-row');
+    const shopRow     = document.getElementById('pending-shop-row');
 
     if (role === 'vendor') {
       businessRow.hidden = false;
       shopRow.hidden     = true;
-      document.getElementById('pendingBusiness').textContent = businessName || '—';
+      document.getElementById('pending-business').textContent = businessName || '—';
     } else if (role === 'vendor_admin') {
       businessRow.hidden = true;
       shopRow.hidden     = false;
-      document.getElementById('pendingShop').textContent = shopCode || '—';
+      document.getElementById('pending-shop').textContent = shopCode || '—';
     }
 
     window.scrollTo({ top: 0, behavior: 'smooth' });

@@ -166,15 +166,21 @@ function renderVendorGroup(group) {
 
 function renderEmptyFeatured() {
   return FEATURED_PRODUCTS.map(p => `
-    <div class="product-card" style="background:var(--color-surface,#2B2B2B);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:16px;cursor:pointer;" onclick="addToCartFromEmpty(${p.id})">
-      <div style="height:120px;background:rgba(255,255,255,0.04);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:40px;margin-bottom:12px;">📦</div>
-      <div style="font-size:11px;color:var(--color-primary,#C8FF00);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">${p.category}</div>
-      <div style="font-size:14px;font-weight:600;color:#fff;margin-bottom:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${p.name}</div>
-      <div style="display:flex;align-items:center;justify-content:space-between;">
-        <span style="font-size:15px;font-weight:700;color:var(--color-primary,#C8FF00);">${formatPrice(p.price)}</span>
-        <button style="padding:6px 12px;background:var(--color-primary,#C8FF00);color:#1a1a1a;border:none;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;">Add</button>
+    <article class="product-card" data-empty-add="${p.id}">
+      <div class="product-card__img-wrap">
+        <div class="product-card__img-placeholder">📦</div>
       </div>
-    </div>
+      <div class="product-card__body">
+        <div class="product-card__vendor">${p.category}</div>
+        <h3 class="product-card__name">${p.name}</h3>
+        <div class="product-card__price-row">
+          <span class="product-card__price">${formatPrice(p.price)}</span>
+        </div>
+      </div>
+      <div class="product-card__footer">
+        <button class="product-card__add" data-empty-add="${p.id}">Add to Cart</button>
+      </div>
+    </article>
   `).join('');
 }
 
@@ -182,23 +188,23 @@ function renderEmptyFeatured() {
 function updateSummary() {
   const { subtotal, shipping, discount, total } = calcTotals(cartItems);
 
-  document.getElementById('summarySubtotal').textContent = formatPrice(subtotal);
-  document.getElementById('summaryShipping').textContent = shipping === 0 && subtotal > 0 ? 'FREE' : formatPrice(shipping);
-  document.getElementById('summaryTotal').textContent = formatPrice(total);
+  document.getElementById('summary-subtotal').textContent = formatPrice(subtotal);
+  document.getElementById('summary-shipping').textContent = shipping === 0 && subtotal > 0 ? 'FREE' : formatPrice(shipping);
+  document.getElementById('summary-total').textContent = formatPrice(total);
 
   // Discount row
-  const discountRow = document.getElementById('discountRow');
+  const discountRow = document.getElementById('discount-row');
   if (discount > 0) {
-    document.getElementById('summaryDiscount').textContent = `-${formatPrice(discount)}`;
-    discountRow.style.display = 'flex';
+    document.getElementById('summary-discount').textContent = `-${formatPrice(discount)}`;
+    discountRow.classList.remove('is-hidden');
   } else {
-    discountRow.style.display = 'none';
+    discountRow.classList.add('is-hidden');
   }
 
   // Free shipping progress
-  const progress = document.getElementById('freeShippingProgress');
-  const fill = document.getElementById('progressFill');
-  const label = document.getElementById('progressLabel');
+  const progress = document.getElementById('free-shipping-progress');
+  const fill = document.getElementById('progress-fill');
+  const label = document.getElementById('progress-label');
 
   if (subtotal >= FREE_SHIPPING_THRESHOLD) {
     fill.style.width = '100%';
@@ -211,7 +217,7 @@ function updateSummary() {
   }
 
   // Checkout button
-  const checkoutBtn = document.getElementById('checkoutBtn');
+  const checkoutBtn = document.getElementById('checkout-btn');
   if (checkoutBtn) {
     checkoutBtn.disabled = cartItems.length === 0;
     checkoutBtn.textContent = '';
@@ -226,12 +232,12 @@ function updateSummary() {
 
 function updateItemCount() {
   const total = cartItems.reduce((sum, i) => sum + i.qty, 0);
-  const el = document.getElementById('cartItemCount');
+  const el = document.getElementById('cart-item-count');
   if (el) el.textContent = `${total} item${total !== 1 ? 's' : ''}`;
 }
 
 function updateSelectAll() {
-  const selectAll = document.getElementById('selectAllItems');
+  const selectAll = document.getElementById('select-all-items');
   if (!selectAll) return;
   if (cartItems.length === 0) {
     selectAll.checked = false;
@@ -248,27 +254,27 @@ function updateSelectAll() {
 }
 
 function render() {
-  const container = document.getElementById('cartItemsContainer');
-  const layout = document.getElementById('cartLayout');
-  const emptyState = document.getElementById('cartEmpty');
-  const bulkActions = document.getElementById('cartBulkActions');
+  const container    = document.getElementById('cart-items-container');
+  const layout       = document.getElementById('cart-layout');
+  const emptyState   = document.getElementById('cart-empty');
+  const bulkActions  = document.getElementById('cart-bulk-actions');
 
   if (cartItems.length === 0) {
-    layout.style.display = 'none';
+    layout.classList.add('is-hidden');
     emptyState.hidden = false;
-    bulkActions.style.display = 'none';
+    bulkActions.classList.add('is-hidden');
 
-    // Render featured products
-    const featuredContainer = document.getElementById('emptyCartProducts');
+    const featuredContainer = document.getElementById('empty-cart-products');
     if (featuredContainer) {
       featuredContainer.innerHTML = renderEmptyFeatured();
+      bindEmptyCartEvents(featuredContainer);
     }
     return;
   }
 
-  layout.style.display = 'grid';
+  layout.classList.remove('is-hidden');
   emptyState.hidden = true;
-  bulkActions.style.display = 'flex';
+  bulkActions.classList.remove('is-hidden');
 
   const groups = groupByVendor(cartItems);
   container.innerHTML = groups.map(renderVendorGroup).join('');
@@ -309,7 +315,7 @@ function removeSelected() {
 
 // ─── Bind item-level events after render ──
 function bindItemEvents() {
-  const container = document.getElementById('cartItemsContainer');
+  const container = document.getElementById('cart-items-container');
   if (!container) return;
 
   container.addEventListener('click', (e) => {
@@ -333,24 +339,26 @@ function bindItemEvents() {
 }
 
 // ─── Global for empty state add to cart ───
-window.addToCartFromEmpty = function(id) {
-  const raw = getCart();
-  const existing = raw.find(i => i.id === id);
-  if (existing) {
-    existing.qty += 1;
-  } else {
-    raw.push({ id, qty: 1 });
-  }
-  saveCart(raw);
-  cartItems = buildCartItems();
-  render();
-};
+function bindEmptyCartEvents(container) {
+  container.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-empty-add]');
+    if (!btn) return;
+    const id = Number(btn.dataset.emptyAdd);
+    const raw = getCart();
+    const existing = raw.find(i => i.id === id);
+    if (existing) existing.qty += 1;
+    else raw.push({ id, qty: 1 });
+    saveCart(raw);
+    cartItems = buildCartItems();
+    render();
+  });
+}
 
 // ─── Voucher ──────────────────────────────
 function bindVoucherEvents() {
-  const applyBtn = document.getElementById('applyVoucher');
-  const input = document.getElementById('voucherInput');
-  const msg = document.getElementById('voucherMsg');
+  const applyBtn = document.getElementById('apply-voucher');
+  const input = document.getElementById('voucher-input');
+  const msg = document.getElementById('voucher-msg');
   if (!applyBtn || !input) return;
 
   applyBtn.addEventListener('click', () => {
@@ -382,8 +390,8 @@ function showVoucherMsg(el, text, type) {
 
 // ─── Select all / clear ───────────────────
 function bindBulkActions() {
-  const selectAll = document.getElementById('selectAllItems');
-  const clearBtn = document.getElementById('clearSelectedBtn');
+  const selectAll = document.getElementById('select-all-items');
+  const clearBtn = document.getElementById('clear-selected-btn');
 
   selectAll?.addEventListener('change', () => {
     if (selectAll.checked) {
@@ -403,7 +411,7 @@ function bindBulkActions() {
 
 // ─── Checkout ─────────────────────────────
 function bindCheckout() {
-  document.getElementById('checkoutBtn')?.addEventListener('click', () => {
+  document.getElementById('checkout-btn')?.addEventListener('click', () => {
     if (cartItems.length === 0) return;
     window.location.href = 'checkout.html';
   });

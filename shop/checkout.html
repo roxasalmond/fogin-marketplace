@@ -7,7 +7,7 @@
   <meta name="description" content="Complete your order on Fogin.">
 
   <!-- Styles -->
-  <link rel="stylesheet" href="..//fogin-shared/css/main.css">
+  <link rel="stylesheet" href="../../fogin-shared/css/main.css">
   
 </head>
 <body>
@@ -61,24 +61,24 @@
                 <h2 class="checkout-section__title">Delivery Address</h2>
                 <p class="checkout-section__subtitle">Where should we send your order?</p>
               </div>
-              <button class="checkout-section__edit" id="editAddress" hidden>Edit</button>
+              <button class="checkout-section__edit" id="edit-address" hidden>Edit</button>
             </div>
 
-            <div class="checkout-section__body" id="addressForm">
+            <div class="checkout-section__body" id="address-form">
               <div class="co-form-grid">
 
             <!-- First Name -->
             <div class="co-field co-field--half">
-              <label class="co-label" for="firstName">First Name <span class="co-required">*</span></label>
-              <input type="text" id="firstName" name="firstName" class="co-input" placeholder="Juan" autocomplete="given-name">
-              <span class="co-error" id="firstNameError"></span>
+              <label class="co-label" for="first-name">First Name <span class="co-required">*</span></label>
+              <input type="text" id="first-name" name="first-name" class="co-input" placeholder="Juan" autocomplete="given-name">
+              <span class="co-error" id="first-name-error"></span>
             </div>
 
             <!-- Last Name -->
             <div class="co-field co-field--half">
-              <label class="co-label" for="lastName">Last Name <span class="co-required">*</span></label>
-              <input type="text" id="lastName" name="lastName" class="co-input" placeholder="dela Cruz" autocomplete="family-name">
-              <span class="co-error" id="lastNameError"></span>
+              <label class="co-label" for="last-name">Last Name <span class="co-required">*</span></label>
+              <input type="text" id="last-name" name="last-name" class="co-input" placeholder="dela Cruz" autocomplete="family-name">
+              <span class="co-error" id="last-name-error"></span>
             </div>
 
                 <!-- Phone -->
@@ -88,35 +88,35 @@
                     <span class="co-input-prefix__flag">🇵🇭 +63</span>
                     <input type="tel" id="phone" name="phone" class="co-input co-input--prefixed" placeholder="9XX XXX XXXX" autocomplete="tel" required>
                   </div>
-                  <span class="co-error" id="phoneError"></span>
+                  <span class="co-error" id="phone-error"></span>
                 </div>
 
                 <!-- Email -->
                 <div class="co-field co-field--half">
                   <label class="co-label" for="email">Email Address <span class="co-required">*</span></label>
                   <input type="email" id="email" name="email" class="co-input" placeholder="juan@email.com" autocomplete="email" required>
-                  <span class="co-error" id="emailError"></span>
+                  <span class="co-error" id="email-error"></span>
                 </div>
 
                 <!-- Street Address -->
                 <div class="co-field co-field--full">
-                  <label class="co-label" for="streetAddress">Street Address <span class="co-required">*</span></label>
-                  <input type="text" id="streetAddress" name="streetAddress" class="co-input" placeholder="House no., Building, Street name" autocomplete="street-address" required>
-                  <span class="co-error" id="streetAddressError"></span>
+                  <label class="co-label" for="street-address">Street Address <span class="co-required">*</span></label>
+                  <input type="text" id="street-address" name="street-address" class="co-input" placeholder="House no., Building, Street name" autocomplete="street-address" required>
+                  <span class="co-error" id="street-address-error"></span>
                 </div>
 
                 <!-- Barangay -->
                 <div class="co-field co-field--half">
                   <label class="co-label" for="barangay">Barangay <span class="co-required">*</span></label>
                   <input type="text" id="barangay" name="barangay" class="co-input" placeholder="Barangay name" required>
-                  <span class="co-error" id="barangayError"></span>
+                  <span class="co-error" id="barangay-error"></span>
                 </div>
 
                 <!-- City / Municipality -->
                 <div class="co-field co-field--half">
                   <label class="co-label" for="city">City / Municipality <span class="co-required">*</span></label>
                   <input type="text" id="city" name="city" class="co-input" placeholder="City or Municipality" autocomplete="address-level2" required>
-                  <span class="co-error" id="cityError"></span>
+                  <span class="co-error" id="city-error"></span>
                 </div>
 
                 <!-- Province -->
@@ -207,25 +207,25 @@
                     <option value="Zamboanga del Sur">Zamboanga del Sur</option>
                     <option value="Zamboanga Sibugay">Zamboanga Sibugay</option>
                   </select>
-                  <span class="co-error" id="provinceError"></span>
+                  <span class="co-error" id="province-error"></span>
                 </div>
 
                 <!-- ZIP -->
                 <div class="co-field co-field--half">
-                  <label class="co-label" for="zipCode">ZIP Code <span class="co-required">*</span></label>
-                  <input type="text" id="zipCode" name="zipCode" class="co-input" placeholder="1234" maxlength="4" autocomplete="postal-code" required>
-                  <span class="co-error" id="zipCodeError"></span>
+                  <label class="co-label" for="zip-code">ZIP Code <span class="co-required">*</span></label>
+                  <input type="text" id="zip-code" name="zip-code" class="co-input" placeholder="1234" maxlength="4" autocomplete="postal-code" required>
+                  <span class="co-error" id="zip-code-error"></span>
                 </div>
 
                 <!-- Delivery notes -->
                 <div class="co-field co-field--full">
-                  <label class="co-label" for="deliveryNotes">Delivery Notes <span class="co-optional">(optional)</span></label>
-                  <textarea id="deliveryNotes" name="deliveryNotes" class="co-input co-textarea" placeholder="Gate code, landmark, special instructions…" rows="2"></textarea>
+                  <label class="co-label" for="delivery-notes">Delivery Notes <span class="co-optional">(optional)</span></label>
+                  <textarea id="delivery-notes" name="delivery-notes" class="co-input co-textarea" placeholder="Gate code, landmark, special instructions…" rows="2"></textarea>
                 </div>
 
               </div>
 
-              <button class="co-section-next-btn" id="continueToShipping">
+              <button class="co-section-next-btn" id="continue-to-shipping">
                 Continue to Shipping
                 <svg viewBox="0 0 20 20" fill="currentColor" width="16">
                   <path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd"/>
@@ -234,23 +234,23 @@
             </div>
 
             <!-- Collapsed summary (shown after completing) -->
-            <div class="checkout-section__summary" id="addressSummary" hidden>
-              <p id="addressSummaryText" class="checkout-section__summary-text"></p>
+            <div class="checkout-section__summary" id="address-summary" hidden>
+              <p id="address-summary-text" class="checkout-section__summary-text"></p>
             </div>
           </section>
 
           <!-- ══ SECTION 2: SHIPPING METHOD ══ -->
-          <section class="checkout-section checkout-section--locked" id="sectionShipping">
+          <section class="checkout-section checkout-section--locked" id="section-shipping">
             <div class="checkout-section__header">
               <div class="checkout-section__num">2</div>
               <div>
                 <h2 class="checkout-section__title">Shipping Method</h2>
                 <p class="checkout-section__subtitle">Choose how you want your order delivered.</p>
               </div>
-              <button class="checkout-section__edit" id="editShipping" hidden>Edit</button>
+              <button class="checkout-section__edit" id="edit-shipping" hidden>Edit</button>
             </div>
 
-            <div class="checkout-section__body" id="shippingForm">
+            <div class="checkout-section__body" id="shipping-form">
               <div class="co-shipping-options">
 
                 <!-- Standard -->
@@ -325,9 +325,9 @@
               </div>
 
               <!-- Store picker (shown when pickup is selected) -->
-              <div class="co-store-picker" id="storePicker" hidden>
-                <label class="co-label" for="storeSelect">Select Pickup Store <span class="co-required">*</span></label>
-                <select id="storeSelect" class="co-input co-select">
+              <div class="co-store-picker" id="store-picker" hidden>
+                <label class="co-label" for="store-select">Select Pickup Store <span class="co-required">*</span></label>
+                <select id="store-select" class="co-input co-select">
                   <option value="" disabled selected>Choose a store near you</option>
                   <option value="s1">VapeHub Manila — Makati City</option>
                   <option value="s2">CloudChasers PH — BGC, Taguig</option>
@@ -336,7 +336,7 @@
                 </select>
               </div>
 
-              <button class="co-section-next-btn" id="continueToPayment">
+              <button class="co-section-next-btn" id="continue-to-payment">
                 Continue to Payment
                 <svg viewBox="0 0 20 20" fill="currentColor" width="16">
                   <path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd"/>
@@ -344,23 +344,23 @@
               </button>
             </div>
 
-            <div class="checkout-section__summary" id="shippingSummary" hidden>
-              <p id="shippingSummaryText" class="checkout-section__summary-text"></p>
+            <div class="checkout-section__summary" id="shipping-summary" hidden>
+              <p id="shipping-summary-text" class="checkout-section__summary-text"></p>
             </div>
           </section>
 
           <!-- ══ SECTION 3: PAYMENT METHOD ══ -->
-          <section class="checkout-section checkout-section--locked" id="sectionPayment">
+          <section class="checkout-section checkout-section--locked" id="section-payment">
             <div class="checkout-section__header">
               <div class="checkout-section__num">3</div>
               <div>
                 <h2 class="checkout-section__title">Payment Method</h2>
                 <p class="checkout-section__subtitle">All transactions are secured and encrypted.</p>
               </div>
-              <button class="checkout-section__edit" id="editPayment" hidden>Edit</button>
+              <button class="checkout-section__edit" id="edit-payment" hidden>Edit</button>
             </div>
 
-            <div class="checkout-section__body" id="paymentForm">
+            <div class="checkout-section__body" id="payment-form">
               <div class="co-payment-options">
 
                 <!-- GCash -->
@@ -434,15 +434,15 @@
               </div>
 
               <!-- Card form (shown when card is selected) -->
-              <div class="co-card-form" id="cardForm" hidden>
+              <div class="co-card-form" id="card-form" hidden>
                 <div class="co-form-grid">
                   <div class="co-field co-field--full">
-                    <label class="co-label" for="cardNumber">Card Number</label>
-                    <input type="text" id="cardNumber" class="co-input" placeholder="1234 5678 9012 3456" maxlength="19" autocomplete="cc-number">
+                    <label class="co-label" for="card-number">Card Number</label>
+                    <input type="text" id="card-number" class="co-input" placeholder="1234 5678 9012 3456" maxlength="19" autocomplete="cc-number">
                   </div>
                   <div class="co-field co-field--half">
-                    <label class="co-label" for="cardExpiry">Expiry Date</label>
-                    <input type="text" id="cardExpiry" class="co-input" placeholder="MM / YY" maxlength="7" autocomplete="cc-exp">
+                    <label class="co-label" for="card-expiry">Expiry Date</label>
+                    <input type="text" id="card-expiry" class="co-input" placeholder="MM / YY" maxlength="7" autocomplete="cc-exp">
                   </div>
                   <div class="co-field co-field--half">
                     <label class="co-label" for="cardCvv">CVV</label>
@@ -456,14 +456,14 @@
               </div>
 
               <!-- COD notice -->
-              <div class="co-cod-notice" id="codNotice" hidden>
+              <div class="co-cod-notice" id="cod-notice" hidden>
                 <svg viewBox="0 0 20 20" fill="currentColor" width="16">
                   <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z" clip-rule="evenodd"/>
                 </svg>
                 Please prepare the exact amount upon delivery. Our riders cannot provide change.
               </div>
 
-              <button class="co-section-next-btn" id="continueToReview">
+              <button class="co-section-next-btn" id="continue-to-review">
                 Review Order
                 <svg viewBox="0 0 20 20" fill="currentColor" width="16">
                   <path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd"/>
@@ -471,8 +471,8 @@
               </button>
             </div>
 
-            <div class="checkout-section__summary" id="paymentSummary" hidden>
-              <p id="paymentSummaryText" class="checkout-section__summary-text"></p>
+            <div class="checkout-section__summary" id="payment-summary" hidden>
+              <p id="payment-summary-text" class="checkout-section__summary-text"></p>
             </div>
           </section>
 
@@ -489,28 +489,28 @@
             <div class="checkout-section__body" id="reviewBody">
 
               <!-- Review details filled by JS -->
-              <div class="co-review-grid" id="reviewDetails"></div>
+              <div class="co-review-grid" id="review-details"></div>
 
               <!-- Age confirmation -->
               <div class="co-age-confirm">
                 <label class="co-checkbox-label">
-                  <input type="checkbox" id="ageConfirm" class="co-checkbox">
+                  <input type="checkbox" id="age-confirm" class="co-checkbox">
                   <span class="co-checkbox__custom"></span>
                   <span>I confirm I am <strong>18 years of age or older</strong> and legally allowed to purchase vaping products.</span>
                 </label>
-                <label class="co-checkbox-label" style="margin-top: 10px;">
-                  <input type="checkbox" id="termsConfirm" class="co-checkbox">
+                <label class="co-checkbox-label" >
+                  <input type="checkbox" id="terms-confirm" class="co-checkbox">
                   <span class="co-checkbox__custom"></span>
                   <span>I agree to the <a href="#" class="co-link">Terms of Service</a> and <a href="#" class="co-link">Privacy Policy</a>.</span>
                 </label>
               </div>
 
               <!-- Place order button -->
-              <button class="co-place-order-btn" id="placeOrderBtn" disabled>
+              <button class="co-place-order-btn" id="place-order-btn" disabled>
                 <svg viewBox="0 0 20 20" fill="currentColor" width="18">
                   <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd"/>
                 </svg>
-                Place Order · <span id="reviewTotal">₱0</span>
+                Place Order · <span id="review-total">₱0</span>
               </button>
 
               <p class="co-place-order-note">
@@ -528,7 +528,7 @@
           <h2 class="checkout-summary__title">Order Summary</h2>
 
           <!-- Items -->
-          <div class="checkout-summary__items" id="summaryItems">
+          <div class="checkout-summary__items" id="summary-items">
             <!-- Injected by JS -->
           </div>
 
@@ -538,11 +538,11 @@
           <div class="checkout-summary__rows">
             <div class="checkout-summary__row">
               <span>Subtotal</span>
-              <span id="coSubtotal">₱0</span>
+              <span id="co-subtotal">₱0</span>
             </div>
             <div class="checkout-summary__row" id="coShippingRow">
               <span>Shipping</span>
-              <span id="coShipping">₱150</span>
+              <span id="co-shipping">₱150</span>
             </div>
             <div class="checkout-summary__row checkout-summary__row--discount" id="coDiscountRow" hidden>
               <span>Discount</span>
@@ -551,7 +551,7 @@
             <div class="checkout-summary__divider"></div>
             <div class="checkout-summary__row checkout-summary__row--total">
               <span>Total</span>
-              <span id="coTotal">₱0</span>
+              <span id="co-total">₱0</span>
             </div>
           </div>
 
@@ -586,12 +586,12 @@
   </main>
 
   <!-- ─── ORDER SUCCESS OVERLAY ─── -->
-  <div class="co-success-overlay" id="successOverlay" hidden>
+  <div class="co-success-overlay" id="success-overlay" hidden>
     <div class="co-success-card">
       <div class="co-success-icon">✓</div>
       <h2 class="co-success-title">Order Placed!</h2>
       <p class="co-success-subtitle">Thank you for your order.</p>
-      <div class="co-success-order-num" id="successOrderNum">Order #FG-000000</div>
+      <div class="co-success-order-num" id="success-order-num">Order #FG-000000</div>
       <p class="co-success-msg">We've sent a confirmation to your email. You can track your order in your account.</p>
       <div class="co-success-actions">
         <a href="../index.html" class="co-success-btn co-success-btn--primary">Continue Shopping</a>
@@ -600,7 +600,7 @@
     </div>
   </div>
 
-  <script type="module" src="../../js/components/navbar.js"></script>
+  
   <script type="module" src="../../js/init.js"></script>
   <script type="module" src="../../js/shop/checkout.js"></script>
 </body>

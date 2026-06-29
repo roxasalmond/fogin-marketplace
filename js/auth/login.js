@@ -7,14 +7,14 @@ import { auth } from '../../../fogin-shared/js/core/auth.js';
 import { config } from '../../../fogin-shared/js/core/config.js';
 
 // ── Elements ──────────────────────────────────────────────────
-const form      = document.querySelector('#loginForm');
+const form       = document.querySelector('#login-form');
 const emailInput = document.querySelector('#email');
 const passInput  = document.querySelector('#password');
-const submitBtn  = document.querySelector('#loginBtn');
-const btnText    = document.querySelector('#loginBtnText');
-const spinner    = document.querySelector('#loginSpinner');
-const alertEl    = document.querySelector('#loginAlert');
-const alertMsg   = document.querySelector('#loginAlertMessage');
+const submitBtn  = document.querySelector('#login-btn');
+const btnText    = document.querySelector('#login-btn-text');
+const spinner    = document.querySelector('#login-spinner');
+const alertEl    = document.querySelector('#login-alert');
+const alertMsg   = document.querySelector('#login-alert-message');
 
 // ── Helpers ───────────────────────────────────────────────────
 const showError  = (msg) => { alertMsg.textContent = msg; alertEl.hidden = false; };
@@ -28,11 +28,11 @@ const setLoading = (on)  => {
 // ── Password toggle ───────────────────────────────────────────
 document.querySelectorAll('.rg-toggle-pass').forEach(btn => {
   btn.addEventListener('click', () => {
-    const input   = document.getElementById(btn.dataset.target);
-    const isPass  = input.type === 'password';
-    input.type    = isPass ? 'text' : 'password';
-    btn.querySelector('.eye-show').style.display = isPass ? 'none'  : '';
-    btn.querySelector('.eye-hide').style.display = isPass ? ''      : 'none';
+    const input  = document.getElementById(btn.dataset.target);
+    const isPass = input.type === 'password';
+    input.type   = isPass ? 'text' : 'password';
+    btn.querySelector('.eye-show').classList.toggle('is-hidden', isPass);
+    btn.querySelector('.eye-hide').classList.toggle('is-hidden', !isPass);
   });
 });
 
@@ -68,7 +68,6 @@ form.addEventListener('submit', async (e) => {
   setLoading(true);
 
   try {
-    // Call backend — never Supabase directly
     const res = await fetch(`${config.API_BASE_URL}/auth/login`, {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -81,10 +80,7 @@ form.addEventListener('submit', async (e) => {
       throw new Error(json.error || 'Invalid email or password.');
     }
 
-    // Save session to localStorage via auth module
     auth.saveSession(json.data);
-
-    // Redirect based on role
     redirectByRole(json.data.user.role);
 
   } catch (err) {

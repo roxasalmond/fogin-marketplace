@@ -4,7 +4,9 @@
  */
 
 import { fetchProducts, fetchCategories, fetchBrands } from '../utils/api.js';
-import { createPagination } from '../../fogin-shared/js/core/pagination.js';
+import { createPagination } from '../../../fogin-shared/js/core/pagination.js';
+import { esc } from '../../../fogin-shared/js/core/sanitize.js';
+import { showToast } from '../../../fogin-shared/js/core/components/toast.js';
 
 // ── State ──────────────────────────────────────────────────────────────────────
 
@@ -42,9 +44,9 @@ function renderSkeletons() {
     <div class="product-card product-card--skeleton">
       <div class="product-card__img-wrap product-skeleton"></div>
       <div class="product-card__body">
-        <div class="product-skeleton" style="height:12px;width:60%;margin-bottom:8px"></div>
-        <div class="product-skeleton" style="height:16px;width:80%;margin-bottom:8px"></div>
-        <div class="product-skeleton" style="height:12px;width:40%"></div>
+        <div class="product-skeleton product-skeleton--title-sm"></div>
+        <div class="product-skeleton product-skeleton--title-md"></div>
+        <div class="product-skeleton product-skeleton--title-xs"></div>
       </div>
     </div>
   `).join('');
@@ -67,10 +69,10 @@ function renderProducts(products) {
     const inStock  = p.in_stock;
 
     return `
-      <article class="product-card" data-product-id="${p.id}">
+      <article class="product-card" data-product-id="${esc(p.id)}">
         <div class="product-card__img-wrap">
           ${hasImage
-            ? `<img class="product-card__img" src="${p.image_url}" alt="${p.name}" loading="lazy">`
+            ? `<img class="product-card__img" src="${esc(p.image_url)}" alt="${esc(p.name)}" loading="lazy">`
             : `<div class="product-card__img-placeholder">📦</div>`
           }
           ${p.on_sale ? `
@@ -81,16 +83,16 @@ function renderProducts(products) {
             <div class="product-card__badge-wrap">
               <span class="product-card__badge product-card__badge--out">Out of Stock</span>
             </div>` : ''}
-          <button class="product-card__fav" aria-label="Add to wishlist" data-fav="${p.id}">
+          <button class="product-card__fav" aria-label="Add to wishlist" data-fav="${esc(p.id)}">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
             </svg>
           </button>
         </div>
         <div class="product-card__body">
-          <div class="product-card__vendor">${p.vendor_name}</div>
-          <a href="product.html?id=${p.id}" class="product-card__name-link">
-            <h3 class="product-card__name">${p.name}</h3>
+          <div class="product-card__vendor">${esc(p.vendor_name)}</div>
+          <a href="product.html?id=${esc(p.id)}" class="product-card__name-link">
+            <h3 class="product-card__name">${esc(p.name)}</h3>
           </a>
           <div class="product-card__price-row">
             ${priceDisplay(p)}
@@ -99,7 +101,7 @@ function renderProducts(products) {
         <div class="product-card__footer">
           <button
             class="product-card__add"
-            data-add-to-cart="${p.id}"
+            data-add-to-cart="${esc(p.id)}"
             ${!inStock ? 'disabled' : ''}
           >
             ${inStock ? 'Add to Cart' : 'Out of Stock'}
@@ -124,9 +126,9 @@ function renderCategories(categories) {
     </li>
     ${categories.map(c => `
       <li>
-        <button class="sidebar-filter-btn" data-filter-cat="${c.id}">
-          ${c.name}
-          <span class="sidebar-filter-count">${c.product_count}</span>
+        <button class="sidebar-filter-btn" data-filter-cat="${esc(c.id)}">
+          ${esc(c.name)}
+          <span class="sidebar-filter-count">${esc(String(c.product_count))}</span>
         </button>
       </li>
     `).join('')}
@@ -140,17 +142,18 @@ function renderBrandBar(brands) {
   if (!bar) return;
 
   if (!brands.length) {
-    bar.style.display = 'none';
+    bar.classList.add('is-hidden');
     return;
   }
 
+  bar.classList.remove('is-hidden');
   bar.innerHTML = `
     <button class="catalog-brand-btn catalog-brand-btn--active" data-brand="">
       All Brands
     </button>
     ${brands.map(b => `
-      <button class="catalog-brand-btn" data-brand="${b}">
-        ${b}
+      <button class="catalog-brand-btn" data-brand="${esc(b)}">
+        ${esc(b)}
       </button>
     `).join('')}
   `;
@@ -245,6 +248,7 @@ function bindProductEvents() {
       else cart.push({ id, qty: 1 });
       localStorage.setItem('foginCart', JSON.stringify(cart));
       window.dispatchEvent(new Event('fogin:cart-updated'));
+      showToast('Added to cart!');
     });
   });
 
@@ -335,8 +339,8 @@ async function initCatalog() {
   bindClearFilters();
 
   state.pagination = createPagination({
-    containerId: 'catalog-pagination',
-    pageSize:    state.PAGE_SIZE,
+    containerId:  'catalog-pagination',
+    pageSize:     state.PAGE_SIZE,
     onPageChange: (page) => {
       loadPage(page);
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -344,10 +348,10 @@ async function initCatalog() {
   });
 
   document.addEventListener('click', (e) => {
-  if (!e.target.closest('#catalog-sidebar') && !e.target.closest('#filter-toggle')) {
-    document.getElementById('catalog-sidebar')?.classList.remove('is-open');
-  }
-});
+    if (!e.target.closest('#catalog-sidebar') && !e.target.closest('#filter-toggle')) {
+      document.getElementById('catalog-sidebar')?.classList.remove('is-open');
+    }
+  });
 
   await Promise.all([loadCategories(), loadBrands(), loadPage(1)]);
 }

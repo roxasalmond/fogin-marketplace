@@ -7,7 +7,7 @@
   <meta name="description" content="Review your cart and proceed to checkout.">
 
   <!-- Styles -->
-  <link rel="stylesheet" href="..//fogin-shared/css/main.css">
+  <link rel="stylesheet" href="../../fogin-shared/css/main.css">
 </head>
 <body>
 
@@ -28,27 +28,27 @@
           </a>
           <h1 class="cart-title">Your Cart</h1>
         </div>
-        <span class="cart-item-count" id="cartItemCount">0 items</span>
+        <span class="cart-item-count" id="cart-item-count">0 items</span>
       </div>
 
       <!-- ─── MAIN LAYOUT ─── -->
-      <div class="cart-layout" id="cartLayout">
+      <div class="cart-layout" id="cart-layout">
 
         <!-- LEFT: Cart Items -->
         <section class="cart-items-section" aria-label="Cart items">
 
           <!-- Vendor group — rendered by JS -->
-          <div id="cartItemsContainer">
+          <div id="cart-items-container">
             <!-- Items injected here -->
           </div>
 
           <!-- Select all / clear -->
-          <div class="cart-bulk-actions" id="cartBulkActions">
+          <div class="cart-bulk-actions" id="cart-bulk-actions">
             <label class="cart-select-all">
-              <input type="checkbox" id="selectAllItems">
+              <input type="checkbox" id="select-all-items">
               <span>Select all items</span>
             </label>
-            <button class="cart-clear-btn" id="clearSelectedBtn">
+            <button class="cart-clear-btn" id="clear-selected-btn">
               Remove selected
             </button>
           </div>
@@ -64,25 +64,25 @@
           <div class="cart-summary__rows" id="summaryRows">
             <div class="cart-summary__row">
               <span>Subtotal</span>
-              <span id="summarySubtotal">₱0</span>
+              <span id="summary-subtotal">₱0</span>
             </div>
             <div class="cart-summary__row">
               <span>Shipping</span>
-              <span id="summaryShipping">₱0</span>
+              <span id="summary-shipping">₱0</span>
             </div>
-            <div class="cart-summary__row cart-summary__row--discount" id="discountRow" style="display:none">
+            <div class="cart-summary__row cart-summary__row--discount is-hidden" id="discount-row">
               <span>Discount</span>
-              <span id="summaryDiscount">-₱0</span>
+              <span id="summary-discount">-₱0</span>
             </div>
             <div class="cart-summary__row cart-summary__row--divider"></div>
             <div class="cart-summary__row cart-summary__row--total">
               <span>Total</span>
-              <span id="summaryTotal">₱0</span>
+              <span id="summary-total">₱0</span>
             </div>
           </div>
 
           <!-- Shipping note -->
-          <div class="cart-summary__shipping-note" id="shippingNote">
+          <div class="cart-summary__shipping-note" id="shipping-note">
             <svg viewBox="0 0 20 20" fill="currentColor" width="14">
               <path d="M6.5 3c-1.051 0-2.093.04-3.125.117A1.49 1.49 0 002 4.607V10.5h9V3H6.5zM14 9.5v-5.5c0-.828.672-1.5 1.5-1.5h.5a2.5 2.5 0 012.5 2.5v1.5h-4.5zM2 11.5v.5c0 .552.448 1 1 1h1a2 2 0 004 0h4a2 2 0 004 0h1c.552 0 1-.448 1-1v-.5H2z"/>
             </svg>
@@ -90,11 +90,11 @@
           </div>
 
           <!-- Free shipping progress -->
-          <div class="cart-summary__progress" id="freeShippingProgress">
+          <div class="cart-summary__progress" id="free-shipping-progress">
             <div class="cart-summary__progress-bar">
-              <div class="cart-summary__progress-fill" id="progressFill"></div>
+              <div class="cart-summary__progress-fill" id="progress-fill"></div>
             </div>
-            <p class="cart-summary__progress-label" id="progressLabel"></p>
+            <p class="cart-summary__progress-label" id="progress-label"></p>
           </div>
 
           <!-- Voucher -->
@@ -103,13 +103,13 @@
               <input
                 type="text"
                 class="cart-voucher-field"
-                id="voucherInput"
+                id="voucher-input"
                 placeholder="Enter voucher code"
                 aria-label="Voucher code"
               >
-              <button class="cart-voucher-btn" id="applyVoucher">Apply</button>
+              <button class="cart-voucher-btn" id="apply-voucher">Apply</button>
             </div>
-            <p class="cart-voucher-msg" id="voucherMsg"></p>
+            <p class="cart-voucher-msg" id="voucher-msg"></p>
           </div>
 
           <!-- Payment methods -->
@@ -144,7 +144,7 @@
           </div>
 
           <!-- Checkout CTA -->
-          <button class="cart-checkout-btn" id="checkoutBtn">
+          <button class="cart-checkout-btn" id="checkout-btn">
             Proceed to Checkout
             <svg viewBox="0 0 20 20" fill="currentColor" width="16">
               <path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd"/>
@@ -163,7 +163,7 @@
       </div>
 
       <!-- ─── EMPTY CART STATE ─── -->
-      <div class="cart-empty" id="cartEmpty" hidden>
+      <div class="cart-empty" id="cart-empty" hidden>
         <div class="cart-empty__icon">🛒</div>
         <h2 class="cart-empty__title">Your cart is empty</h2>
         <p class="cart-empty__desc">Looks like you haven't added anything yet. Browse our catalog and find your perfect vape setup.</p>
@@ -177,7 +177,7 @@
         <!-- Featured products when empty -->
         <div class="cart-empty__featured">
           <h3 class="cart-empty__featured-title">You might like these</h3>
-          <div class="cart-empty__products" id="emptyCartProducts">
+          <div class="cart-empty__products" id="empty-cart-products">
             <!-- Injected by JS -->
           </div>
         </div>
@@ -189,7 +189,6 @@
   <!-- ─── FOOTER JS INJECTED───────────────────────────────────── -->
   <footer id="footer-placeholder"></footer>
 
-  <script type="module" src="../../js/components/navbar.js"></script>
   <script type="module" src="../../js/init.js"></script>
   <script type="module" src="../../js/shop/cart.js"></script>
 </body>
