@@ -98,7 +98,7 @@ function renderProducts(products) {
 function renderSkeletons() {
   const grid = document.getElementById('product-grid');
   if (!grid) return;
-  grid.innerHTML = Array(4).fill(`<div class="product-skeleton"></div>`).join('');
+  grid.innerHTML = Array(4).fill(`<div class="featured-product-skeleton"></div>`).join('');
 }
 
 // ── Product actions ────────────────────────────────────────────────────────────
