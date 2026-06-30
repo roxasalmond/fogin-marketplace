@@ -3,7 +3,8 @@
    js/shop/product.js
 ============================================ */
 
-import { fetchProductById, fetchProducts } from '../utils/api.js';
+import { fetchProductById, fetchProducts, fetchProductVendors } from '../utils/api.js';
+import { esc } from '../../../fogin-shared/js/core/sanitize.js';
 
 // ── State ──────────────────────────────────────────────────────────────────────
 
@@ -519,27 +520,42 @@ function renderReviews() {
   if (bars) bars.innerHTML = '';
 }
 
-function renderVendorCard() {
-  document.getElementById('pdp-vendor').textContent = product.vendor;
+async function renderVendorCard() {
   const section = document.getElementById('vendorSection');
   if (!section) return;
 
-  const initials = product.vendor.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+  section.innerHTML = `<div class="seller-status--loading">Loading sellers…</div>`;
 
-  section.innerHTML = `
-    <div class="pdp-vendor-avatar">${initials}</div>
-    <div class="pdp-vendor-info">
-      <div class="pdp-vendor-name">${product.vendor}</div>
-      <div class="pdp-vendor-meta">
-        ${product.vendor_city ? `<span class="pdp-vendor-stat">📍 ${product.vendor_city}</span>` : ''}
-        <span class="pdp-vendor-stat">✅ Verified vendor</span>
-        ${product.vendor_fb  ? `<span class="pdp-vendor-stat"><a href="${product.vendor_fb}" target="_blank">Facebook</a></span>` : ''}
-        ${product.vendor_ig  ? `<span class="pdp-vendor-stat"><a href="${product.vendor_ig}" target="_blank">Instagram</a></span>` : ''}
-      </div>
-      ${product.vendor_desc ? `<p class="pdp-vendor-desc">${product.vendor_desc}</p>` : ''}
-    </div>
-    <a href="catalog.html?vendor=${product.vendor_slug}" class="pdp-vendor-visit">Visit Store</a>
-  `;
+  try {
+    const vendors = await fetchProductVendors(product.id);
+
+    if (!vendors.length) {
+      section.innerHTML = `<p class="seller-status--empty">No sellers available for this product.</p>`;
+      return;
+    }
+
+    section.innerHTML = `<div class="seller-list">${vendors.map(v => {
+      const initials = v.name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+      return `
+        <div class="seller-card">
+          <div class="seller-card__avatar">${initials}</div>
+          <div class="seller-card__info">
+            <div class="seller-card__name">${esc(v.name)}</div>
+            <div class="seller-card__meta">
+              ${v.city ? `<span class="seller-card__stat">📍 ${esc(v.city)}</span>` : ''}
+              <span class="seller-card__stat">✅ Verified vendor</span>
+            </div>
+            ${v.description ? `<p class="seller-card__desc">${esc(v.description)}</p>` : ''}
+          </div>
+          <a href="catalog.html?vendor=${esc(v.slug)}" class="seller-card__visit">Visit Store</a>
+        </div>
+      `;
+    }).join('')}</div>`;
+
+  } catch (err) {
+    console.error('[product] Failed to load vendors:', err);
+    section.innerHTML = `<p class="seller-status--empty">Could not load seller information.</p>`;
+  }
 }
 
 function bindTabEvents() {
@@ -650,7 +666,7 @@ async function init() {
     renderDescription();
     renderSpecs();
     renderReviews();
-    renderVendorCard();
+    await renderVendorCard();
     bindTabEvents();
 
     renderFBT();

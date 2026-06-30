@@ -75,3 +75,9 @@ export async function fetchProducts({ page = 1, limit = 20, search = null, categ
 export async function fetchProductById(id) {
   return request(`/products/${id}`);
 }
+
+// ── Product vendors ────────────────────────────────────────────────────────────
+
+export async function fetchProductVendors(productId) {
+  return request(`/products/${productId}/vendors`);
+}
