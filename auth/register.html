@@ -11,35 +11,35 @@
 <body>
 
   <!-- ─── BACKGROUND ─── -->
-  <div class="rg-bg">
-    <div class="rg-bg__orb rg-bg__orb--1"></div>
-    <div class="rg-bg__orb rg-bg__orb--2"></div>
+  <div class="session-bg">
+    <div class="session-bg__orb session-bg__orb--1"></div>
+    <div class="session-bg__orb session-bg__orb--2"></div>
   </div>
 
-  <div class="rg-layout">
+  <div class="session-layout">
 
     <!-- ─── LEFT PANEL ─── -->
-    <aside class="rg-aside">
-      <a href="../index.html" class="rg-logo">FOGIN<span>.PH</span></a>
-      <div class="rg-aside__content">
-        <h2 class="rg-aside__heading">Join the Philippines' leading vape marketplace.</h2>
-        <ul class="rg-aside__perks">
+    <aside class="session-aside">
+      <a href="../index.html" class="session-logo">FOGIN<span>.PH</span></a>
+      <div class="session-aside__content">
+        <h2 class="session-aside__heading">Join the Philippines' leading vape marketplace.</h2>
+        <ul class="session-aside__perks">
           <li>
-            <span class="rg-aside__perk-icon">🛒</span>
+            <span class="session-aside__perk-icon">🛒</span>
             <div>
               <strong>Customers</strong>
               <p>Shop from verified vendors across the country.</p>
             </div>
           </li>
           <li>
-            <span class="rg-aside__perk-icon">🏪</span>
+            <span class="session-aside__perk-icon">🏪</span>
             <div>
               <strong>Vendors</strong>
               <p>List your products and reach thousands of buyers.</p>
             </div>
           </li>
           <li>
-            <span class="rg-aside__perk-icon">🔧</span>
+            <span class="session-aside__perk-icon">🔧</span>
             <div>
               <strong>Vendor Admins</strong>
               <p>Manage your shop's inventory and orders.</p>
@@ -47,51 +47,51 @@
           </li>
         </ul>
       </div>
-      <p class="rg-aside__footer">🔞 For adults 18+ only. Fogin complies with DTI regulations.</p>
+      <p class="session-aside__footer">🔞 For adults 18+ only. Fogin complies with DTI regulations.</p>
     </aside>
 
     <!-- ─── MAIN ─── -->
-    <main class="rg-main">
+    <main class="session-main">
 
       <!-- ── STEP 1: REGISTRATION FORM ── -->
-      <div class="rg-card" id="step-register">
+      <div class="session-card" id="step-register">
 
-        <div class="rg-card__header">
-          <h1 class="rg-title">Create Account</h1>
-          <p class="rg-subtitle">Already have an account? <a href="login.html" class="rg-link">Sign in</a></p>
+        <div class="session-card__header">
+          <h1 class="session-title">Create Account</h1>
+          <p class="session-subtitle">Already have an account? <a href="login.html" class="session-link">Sign in</a></p>
         </div>
 
         <!-- Account type selector -->
-        <div class="rg-role-section">
-          <p class="rg-role-label">I am registering as a</p>
-          <div class="rg-role-cards" role="radiogroup" aria-label="Account type">
+        <div class="session-role__section">
+          <p class="session-role__label">I am registering as a</p>
+          <div class="session-role-cards" role="radiogroup" aria-label="Account type">
 
-            <label class="rg-role-card rg-role-card--active" for="role-customer">
-              <input type="radio" id="role-customer" name="accountType" value="customer" class="rg-role-input" checked>
-              <span class="rg-role-card__icon">🛒</span>
-              <span class="rg-role-card__title">Customer</span>
-              <span class="rg-role-card__desc">Shop products</span>
-              <span class="rg-role-card__check">
+            <label class="session-role-card session-role-card--active" for="role-customer">
+              <input type="radio" id="role-customer" name="accountType" value="customer" class="session-role__input" checked>
+              <span class="session-role-card__icon">🛒</span>
+              <span class="session-role-card__title">Customer</span>
+              <span class="session-role-card__desc">Shop products</span>
+              <span class="session-role-card__check">
                 <svg viewBox="0 0 16 16" fill="currentColor" width="10"><path fill-rule="evenodd" d="M12.416 3.376a.75.75 0 01.208 1.04l-5 7.5a.75.75 0 01-1.154.114l-3-3a.75.75 0 011.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 011.04-.207z" clip-rule="evenodd"/></svg>
               </span>
             </label>
 
-            <label class="rg-role-card" for="role-vendor">
-              <input type="radio" id="role-vendor" name="accountType" value="vendor" class="rg-role-input">
-              <span class="rg-role-card__icon">🏪</span>
-              <span class="rg-role-card__title">Vendor</span>
-              <span class="rg-role-card__desc">Sell products</span>
-              <span class="rg-role-card__check">
+            <label class="session-role-card" for="role-vendor">
+              <input type="radio" id="role-vendor" name="accountType" value="vendor" class="session-role__input">
+              <span class="session-role-card__icon">🏪</span>
+              <span class="session-role-card__title">Vendor</span>
+              <span class="session-role-card__desc">Sell products</span>
+              <span class="session-role-card__check">
                 <svg viewBox="0 0 16 16" fill="currentColor" width="10"><path fill-rule="evenodd" d="M12.416 3.376a.75.75 0 01.208 1.04l-5 7.5a.75.75 0 01-1.154.114l-3-3a.75.75 0 011.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 011.04-.207z" clip-rule="evenodd"/></svg>
               </span>
             </label>
 
-            <label class="rg-role-card" for="role-vendor-admin">
-              <input type="radio" id="role-vendor-admin" name="accountType" value="vendor_admin" class="rg-role-input">
-              <span class="rg-role-card__icon">🔧</span>
-              <span class="rg-role-card__title">Vendor Admin</span>
-              <span class="rg-role-card__desc">Manage a shop</span>
-              <span class="rg-role-card__check">
+            <label class="session-role-card" for="role-vendor-admin">
+              <input type="radio" id="role-vendor-admin" name="accountType" value="vendor_admin" class="session-role__input">
+              <span class="session-role-card__icon">🔧</span>
+              <span class="session-role-card__title">Vendor Admin</span>
+              <span class="session-role-card__desc">Manage a shop</span>
+              <span class="session-role-card__check">
                 <svg viewBox="0 0 16 16" fill="currentColor" width="10"><path fill-rule="evenodd" d="M12.416 3.376a.75.75 0 01.208 1.04l-5 7.5a.75.75 0 01-1.154.114l-3-3a.75.75 0 011.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 011.04-.207z" clip-rule="evenodd"/></svg>
               </span>
             </label>
@@ -100,198 +100,198 @@
         </div>
 
         <!-- Form -->
-        <form class="rg-form" id="register-form" novalidate>
+        <form class="session-form" id="register-form" novalidate>
 
           <!-- ─ COMMON FIELDS ─ -->
-          <fieldset class="rg-fieldset" id="fieldsCommon">
-            <legend class="rg-fieldset__legend">Personal Information</legend>
+          <fieldset class="session-fieldset" id="fieldsCommon">
+            <legend class="session-fieldset__legend">Personal Information</legend>
 
-            <div class="rg-row">
-              <div class="rg-field">
-                <label class="rg-label" for="first-name">First Name <span class="rg-required">*</span></label>
-                <input type="text" id="first-name" name="first-name" class="rg-input" placeholder="Juan" required minlength="2"
+            <div class="session-row">
+              <div class="session-field">
+                <label class="session-label" for="first-name">First Name <span class="session-required">*</span></label>
+                <input type="text" id="first-name" name="first-name" class="session-input" placeholder="Juan" required minlength="2"
                   data-error-message="First name is required.">
-                <span class="rg-error" id="err-first-name"></span>
+                <span class="session-error" id="err-first-name"></span>
               </div>
-              <div class="rg-field">
-                <label class="rg-label" for="last-name">Last Name <span class="rg-required">*</span></label>
-                <input type="text" id="last-name" name="last-name" class="rg-input" placeholder="dela Cruz" required minlength="2"
+              <div class="session-field">
+                <label class="session-label" for="last-name">Last Name <span class="session-required">*</span></label>
+                <input type="text" id="last-name" name="last-name" class="session-input" placeholder="dela Cruz" required minlength="2"
                   data-error-message="Last name is required.">
-                <span class="rg-error" id="err-last-name"></span>
+                <span class="session-error" id="err-last-name"></span>
               </div>
             </div>
 
-            <div class="rg-field">
-              <label class="rg-label" for="email">Email Address <span class="rg-required">*</span></label>
-              <input type="email" id="email" name="email" class="rg-input" placeholder="juan@email.com" required
+            <div class="session-field">
+              <label class="session-label" for="email">Email Address <span class="session-required">*</span></label>
+              <input type="email" id="email" name="email" class="session-input" placeholder="juan@email.com" required
                 data-error-message="Enter a valid email address.">
-              <span class="rg-error" id="err-email"></span>
+              <span class="session-error" id="err-email"></span>
             </div>
 
-            <div class="rg-field">
-              <label class="rg-label" for="phone">Phone Number <span class="rg-required">*</span></label>
-              <div class="rg-input-prefix">
-                <span class="rg-prefix-badge">🇵🇭 +63</span>
-                <input type="tel" id="phone" name="phone" class="rg-input rg-input--prefixed"
+            <div class="session-field">
+              <label class="session-label" for="phone">Phone Number <span class="session-required">*</span></label>
+              <div class="session-input__prefix">
+                <span class="session-prefix-badge">🇵🇭 +63</span>
+                <input type="tel" id="phone" name="phone" class="session-input session-input--prefixed"
                   placeholder="9171234567" 
                   minlength="10" maxlength="10" 
                   pattern="[0-9]{10}" required
                   data-error-message="Numbers only, must be 10 digits (e.g. 9171234567).">
               </div>
-              <span class="rg-error" id="err-phone"></span>
+              <span class="session-error" id="err-phone"></span>
             </div>
 
-            <div class="rg-row">
-              <div class="rg-field">
-                <label class="rg-label" for="password">Password <span class="rg-required">*</span></label>
-                <div class="rg-input-icon-wrap">
-                  <input type="password" id="password" name="password" class="rg-input rg-input--icon"
+            <div class="session-row">
+              <div class="session-field">
+                <label class="session-label" for="password">Password <span class="session-required">*</span></label>
+                <div class="session-input__icon-wrap">
+                  <input type="password" id="password" name="password" class="session-input session-input--icon"
                     placeholder="Min. 8 characters" required
                     data-error-message="Password must be at least 8 characters.">
-                  <button type="button" class="rg-toggle-pass" data-target="password" tabindex="-1">
+                  <button type="button" class="session-toggle-pass" data-target="password" tabindex="-1">
                     <svg class="eye-show" viewBox="0 0 20 20" fill="currentColor" width="16"><path d="M10 12.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z"/><path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 010-1.186A10.004 10.004 0 0110 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0110 17c-4.257 0-7.893-2.66-9.336-6.41zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/></svg>
                     <svg class="eye-hide is-hidden" viewBox="0 0 20 20" fill="currentColor" width="16" height="16" ><path fill-rule="evenodd" d="M3.28 2.22a.75.75 0 00-1.06 1.06l14.5 14.5a.75.75 0 101.06-1.06l-1.745-1.745a10.029 10.029 0 003.3-4.38 1.651 1.651 0 000-1.185A10.004 10.004 0 009.999 3a9.956 9.956 0 00-4.744 1.194L3.28 2.22zM7.752 6.69l1.092 1.092a2.5 2.5 0 013.374 3.373l1.091 1.092a4 4 0 00-5.557-5.557z" clip-rule="evenodd"/><path d="M10.748 13.93l2.523 2.523a10.003 10.003 0 01-3.27.547c-4.258 0-7.894-2.66-9.337-6.41a1.651 1.651 0 010-1.186A10.007 10.007 0 012.839 6.02L6.07 9.252a4 4 0 004.678 4.678z"/></svg>
                   </button>
                 </div>
-                <span class="rg-error" id="err-password"></span>
-                <div class="rg-password-strength" id="password-strength" hidden>
-                <div class="rg-strength-bar">
-                  <div class="rg-strength-fill" id="strength-fill"></div>
+                <span class="session-error" id="err-password"></span>
+                <div class="session-password-strength" id="password-strength" hidden>
+                <div class="session-strength__bar">
+                  <div class="session-strength__fill" id="strength-fill"></div>
                 </div>
-                <span class="rg-strength-label" id="strength-label"></span>
+                <span class="session-strength__label" id="strength-label"></span>
               </div>
               </div>
-              <div class="rg-field">
-                <label class="rg-label" for="confirm-password">Confirm Password <span class="rg-required">*</span></label>
-                <div class="rg-input-icon-wrap">
-                  <input type="password" id="confirm-password" name="confirm-password" class="rg-input rg-input--icon"
+              <div class="session-field">
+                <label class="session-label" for="confirm-password">Confirm Password <span class="session-required">*</span></label>
+                <div class="session-input__icon-wrap">
+                  <input type="password" id="confirm-password" name="confirm-password" class="session-input session-input--icon"
                     placeholder="Repeat password" required
                     data-error-message="Passwords do not match.">
-                  <button type="button" class="rg-toggle-pass" data-target="confirm-password" tabindex="-1">
+                  <button type="button" class="session-toggle-pass" data-target="confirm-password" tabindex="-1">
                     <svg class="eye-show" viewBox="0 0 20 20" fill="currentColor" width="16"><path d="M10 12.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z"/><path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 010-1.186A10.004 10.004 0 0110 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0110 17c-4.257 0-7.893-2.66-9.336-6.41zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/></svg>
                     <svg class="eye-hide is-hidden" viewBox="0 0 20 20" fill="currentColor" width="16" height="16" ><path fill-rule="evenodd" d="M3.28 2.22a.75.75 0 00-1.06 1.06l14.5 14.5a.75.75 0 101.06-1.06l-1.745-1.745a10.029 10.029 0 003.3-4.38 1.651 1.651 0 000-1.185A10.004 10.004 0 009.999 3a9.956 9.956 0 00-4.744 1.194L3.28 2.22zM7.752 6.69l1.092 1.092a2.5 2.5 0 013.374 3.373l1.091 1.092a4 4 0 00-5.557-5.557z" clip-rule="evenodd"/><path d="M10.748 13.93l2.523 2.523a10.003 10.003 0 01-3.27.547c-4.258 0-7.894-2.66-9.337-6.41a1.651 1.651 0 010-1.186A10.007 10.007 0 012.839 6.02L6.07 9.252a4 4 0 004.678 4.678z"/></svg>
                   </button>
                 </div>
-                <span class="rg-error" id="err-confirm-password"></span>
+                <span class="session-error" id="err-confirm-password"></span>
               </div>
             </div>
           </fieldset>
 
           <!-- ─ VENDOR FIELDS ─ -->
-          <fieldset class="rg-fieldset rg-fieldset--hidden" id="fields-vendor">
-            <legend class="rg-fieldset__legend">
+          <fieldset class="session-fieldset session-fieldset--hidden" id="fields-vendor">
+            <legend class="session-fieldset__legend">
               Business Information
-              <span class="rg-fieldset__badge">Vendor</span>
+              <span class="session-fieldset__badge">Vendor</span>
             </legend>
 
-            <div class="rg-field">
-              <label class="rg-label" for="business-name">Business / Shop Name <span class="rg-required">*</span></label>
-              <input type="text" id="business-name" name="business-name" class="rg-input"
+            <div class="session-field">
+              <label class="session-label" for="business-name">Business / Shop Name <span class="session-required">*</span></label>
+              <input type="text" id="business-name" name="business-name" class="session-input"
                 placeholder="e.g. VapeHub Manila"
                 data-error-message="Business name is required.">
-              <span class="rg-error" id="err-business-name"></span>
+              <span class="session-error" id="err-business-name"></span>
             </div>
 
-            <div class="rg-field">
-              <label class="rg-label" for="business-address">Business Address <span class="rg-required">*</span></label>
-              <input type="text" id="business-address" name="business-address" class="rg-input"
+            <div class="session-field">
+              <label class="session-label" for="business-address">Business Address <span class="session-required">*</span></label>
+              <input type="text" id="business-address" name="business-address" class="session-input"
                 placeholder="Street, Barangay, City, Province"
                 data-error-message="Business address is required.">
-              <span class="rg-error" id="err-business-address"></span>
+              <span class="session-error" id="err-business-address"></span>
             </div>
 
-            <div class="rg-row">
-              <div class="rg-field">
-                <label class="rg-label" for="dti-number">
+            <div class="session-row">
+              <div class="session-field">
+                <label class="session-label" for="dti-number">
                   DTI Registration No.
-                  <span class="rg-optional">optional</span>
+                  <span class="session-optional">optional</span>
                 </label>
-                <input type="text" id="dti-number" name="dti-number" class="rg-input"
+                <input type="text" id="dti-number" name="dti-number" class="session-input"
                   placeholder="e.g. DTI-123456">
-                <span class="rg-hint">Required for account verification</span>
+                <span class="session-hint">Required for account verification</span>
               </div>
-              <div class="rg-field">
-                <label class="rg-label" for="bir-number">
+              <div class="session-field">
+                <label class="session-label" for="bir-number">
                   BIR TIN
-                  <span class="rg-optional">optional</span>
+                  <span class="session-optional">optional</span>
                 </label>
-                <input type="text" id="bir-number" name="bir-number" class="rg-input"
+                <input type="text" id="bir-number" name="bir-number" class="session-input"
                   placeholder="e.g. 123-456-789-000">
-                <span class="rg-hint">9 or 12-digit TIN</span>
+                <span class="session-hint">9 or 12-digit TIN</span>
               </div>
             </div>
 
-            <div class="rg-notice rg-notice--info">
+            <div class="session-notice session-notice--info">
               <svg viewBox="0 0 20 20" fill="currentColor" width="16"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z" clip-rule="evenodd"/></svg>
               Your vendor account will be reviewed by our admin team before activation. This typically takes 1–2 business days.
             </div>
           </fieldset>
 
           <!-- ─ VENDOR ADMIN FIELDS ─ -->
-          <fieldset class="rg-fieldset rg-fieldset--hidden" id="fields-vendor-admin">
-            <legend class="rg-fieldset__legend">
+          <fieldset class="session-fieldset session-fieldset--hidden" id="fields-vendor-admin">
+            <legend class="session-fieldset__legend">
               Shop Assignment
-              <span class="rg-fieldset__badge rg-fieldset__badge--blue">Vendor Admin</span>
+              <span class="session-fieldset__badge session-fieldset__badge--blue">Vendor Admin</span>
             </legend>
 
-            <div class="rg-field">
-              <label class="rg-label" for="shop-code">Shop Invite Code <span class="rg-required">*</span></label>
-              <input type="text" id="shop-code" name="shop-code" class="rg-input rg-input--code"
+            <div class="session-field">
+              <label class="session-label" for="shop-code">Shop Invite Code <span class="session-required">*</span></label>
+              <input type="text" id="shop-code" name="shop-code" class="session-input session-input--code"
                 placeholder="e.g. SHOP-A3KX2Q"
                 data-error-message="A valid shop invite code is required."
                 autocomplete="off" spellcheck="false">
-              <span class="rg-error" id="err-shop-code"></span>
-              <span class="rg-hint">Get this code from your vendor/shop owner.</span>
+              <span class="session-error" id="err-shop-code"></span>
+              <span class="session-hint">Get this code from your vendor/shop owner.</span>
             </div>
 
-            <div class="rg-field">
-              <label class="rg-label" for="job-title">Job Title / Role <span class="rg-required">*</span></label>
-              <input type="text" id="job-title" name="job-title" class="rg-input"
+            <div class="session-field">
+              <label class="session-label" for="job-title">Job Title / Role <span class="session-required">*</span></label>
+              <input type="text" id="job-title" name="job-title" class="session-input"
                 placeholder="e.g. Store Manager, Cashier"
                 data-error-message="Job title is required.">
-              <span class="rg-error" id="err-job-title"></span>
+              <span class="session-error" id="err-job-title"></span>
             </div>
 
-            <div class="rg-notice rg-notice--info">
+            <div class="session-notice session-notice--info">
               <svg viewBox="0 0 20 20" fill="currentColor" width="16"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z" clip-rule="evenodd"/></svg>
               Your account will be verified against the shop's records before activation.
             </div>
           </fieldset>
 
           <!-- ─ AGE + TERMS ─ -->
-          <div class="rg-checks">
-            <label class="rg-check-label" for="age-check">
+          <div class="session-checks">
+            <label class="session-check__label" for="age-check">
               <input 
               type="checkbox" 
               id="age-check" 
               name="age-check" 
-              class="rg-check-input" 
+              class="session-check__input" 
               required
               data-error-message="You must confirm you are 18 years or older.">
               
-              <span class="rg-check-box"></span>
+              <span class="session-check__box"></span>
               <span>I confirm I am <strong>18 years of age or older</strong> and legally allowed to purchase vaping products in the Philippines.</span>
             </label>
-            <span class="rg-error" id="err-age-check"></span>
+            <span class="session-error" id="err-age-check"></span>
 
-            <label class="rg-check-label" for="terms-check">
+            <label class="session-check__label" for="terms-check">
               <input 
               type="checkbox" 
               id="terms-check" 
               name="terms-check" 
-              class="rg-check-input" 
+              class="session-check__input" 
               required
               data-error-message="You must agree to the Terms of Service and Privacy Policy.">
-              <span class="rg-check-box"></span>
-              <span>I agree to Fogin's <a href="#" class="rg-link">Terms of Service</a> and <a href="#" class="rg-link">Privacy Policy</a>.</span>
+              <span class="session-check__box"></span>
+              <span>I agree to Fogin's <a href="#" class="session-link">Terms of Service</a> and <a href="#" class="session-link">Privacy Policy</a>.</span>
             </label>
-            <span class="rg-error" id="err-terms-check"></span>
+            <span class="session-error" id="err-terms-check"></span>
           </div>
 
           <!-- Submit -->
           <button type="submit" class="btn btn--primary btn-submit" id="submit-btn">
             <span id="submit-btn-text">Create Account</span>
-            <span class="rg-spinner" id="submit-spinner" hidden></span>
+            <span class="session-spinner" id="submit-spinner" hidden></span>
           </button>
 
         </form>
@@ -299,32 +299,32 @@
       </div>
 
       <!-- ── STEP 2: PENDING APPROVAL SCREEN ── -->
-      <div class="rg-card rg-card--pending" id="step-pending" hidden>
-        <div class="rg-pending-icon">⏳</div>
-        <h2 class="rg-pending-title">Application Submitted!</h2>
-        <p class="rg-pending-body" id="pending-body">
+      <div class="session-card session-card--pending" id="step-pending" hidden>
+        <div class="session-pending__icon">⏳</div>
+        <h2 class="session-pending__title">Application Submitted!</h2>
+        <p class="session-pending__body" id="pending-body">
           Your <strong id="pending-role">Vendor</strong> account application has been received.
           Our admin team will review your details and get back to you within <strong>1–2 business days</strong>.
         </p>
-        <div class="rg-pending-info" id="pending-info">
-          <div class="rg-pending-info-row">
-            <span class="rg-pending-info-label">Name</span>
-            <span class="rg-pending-info-value" id="pending-name">—</span>
+        <div class="session-pending-info" id="pending-info">
+          <div class="session-pending-info__row">
+            <span class="session-pending-info__label">Name</span>
+            <span class="session-pending-info__value" id="pending-name">—</span>
           </div>
-          <div class="rg-pending-info-row">
-            <span class="rg-pending-info-label">Email</span>
-            <span class="rg-pending-info-value" id="pending-email">—</span>
+          <div class="session-pending-info__row">
+            <span class="session-pending-info__label">Email</span>
+            <span class="session-pending-info__value" id="pending-email">—</span>
           </div>
-          <div class="rg-pending-info-row" id="pending-business-row">
-            <span class="rg-pending-info-label">Business</span>
-            <span class="rg-pending-info-value" id="pending-business">—</span>
+          <div class="session-pending-info__row" id="pending-business-row">
+            <span class="session-pending-info__label">Business</span>
+            <span class="session-pending-info__value" id="pending-business">—</span>
           </div>
-          <div class="rg-pending-info-row" id="pending-shop-row" hidden>
-            <span class="rg-pending-info-label">Shop Code</span>
-            <span class="rg-pending-info-value" id="pending-shop">—</span>
+          <div class="session-pending-info__row" id="pending-shop-row" hidden>
+            <span class="session-pending-info__label">Shop Code</span>
+            <span class="session-pending-info__value" id="pending-shop">—</span>
           </div>
         </div>
-        <div class="rg-pending-notice">
+        <div class="session-pending__notice">
           <svg viewBox="0 0 20 20" fill="currentColor" width="15"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-11.25a.75.75 0 00-1.5 0v4.59L7.3 9.24a.75.75 0 00-1.1 1.02l3.25 3.5a.75.75 0 001.1 0l3.25-3.5a.75.75 0 10-1.1-1.02l-1.95 2.1V6.75z" clip-rule="evenodd"/></svg>
           A confirmation email has been sent to <strong id="pending-email-confirm">—</strong>
         </div>

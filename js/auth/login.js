@@ -26,7 +26,7 @@ const setLoading = (on)  => {
 };
 
 // ── Password toggle ───────────────────────────────────────────
-document.querySelectorAll('.rg-toggle-pass').forEach(btn => {
+document.querySelectorAll('.session-toggle-pass').forEach(btn => {
   btn.addEventListener('click', () => {
     const input  = document.getElementById(btn.dataset.target);
     const isPass = input.type === 'password';

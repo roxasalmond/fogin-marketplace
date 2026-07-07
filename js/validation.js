@@ -37,7 +37,7 @@ export function checkPasswordMatch(password, confirmPassword) {
 }
 
 export function initPasswordToggle() {
-  document.querySelectorAll('.rg-toggle-pass').forEach(btn => {
+  document.querySelectorAll('.session-toggle-pass').forEach(btn => {
         // Force fill on all SVGs inside the button
       btn.querySelectorAll('svg').forEach(svg => {
         svg.style.fill = 'rgba(255,255,255,0.5)';

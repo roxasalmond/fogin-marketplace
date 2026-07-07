@@ -27,32 +27,32 @@ document.addEventListener('DOMContentLoaded', () => {
       const strength = checkPasswordStrength(val);
       strengthBox.hidden = false;
 
-      strengthFill.className = `rg-strength-fill rg-strength-fill--${strength}`;
-      strengthLabel.className = `rg-strength-label rg-strength-label--${strength}`;
+      strengthFill.className = `session-strength__fill session-strength__fill--${strength}`;
+      strengthLabel.className = `session-strength__label session-strength__label--${strength}`;
       strengthLabel.textContent = strength.charAt(0).toUpperCase() + strength.slice(1);
     });
   }
 
   // ─── Role switching ───────────────────────
-  const roleInputs        = document.querySelectorAll('.rg-role-input');
-  const roleCards         = document.querySelectorAll('.rg-role-card');
+  const roleInputs        = document.querySelectorAll('.session-role__input');
+  const roleCards         = document.querySelectorAll('.session-role-card');
   const fieldsVendor      = document.getElementById('fields-vendor');
   const fieldsVendorAdmin = document.getElementById('fields-vendor-admin');
 
   function getSelectedRole() {
-    return document.querySelector('.rg-role-input:checked')?.value || 'customer';
+    return document.querySelector('.session-role__input:checked')?.value || 'customer';
   }
 
   function updateRoleUI(role) {
     // Card active state
     roleCards.forEach(card => {
-      const input = card.querySelector('.rg-role-input');
-      if (input) card.classList.toggle('rg-role-card--active', input.value === role);
+      const input = card.querySelector('.session-role__input');
+      if (input) card.classList.toggle('session-role-card--active', input.value === role);
     });
 
     // Toggle fieldsets
-    fieldsVendor?.classList.toggle('rg-fieldset--hidden',      role !== 'vendor');
-    fieldsVendorAdmin?.classList.toggle('rg-fieldset--hidden', role !== 'vendor_admin');
+    fieldsVendor?.classList.toggle('session-fieldset--hidden',      role !== 'vendor');
+    fieldsVendorAdmin?.classList.toggle('session-fieldset--hidden', role !== 'vendor_admin');
 
     // Toggle required on dynamic fields
     setRequired('business-name',    role === 'vendor');
@@ -82,8 +82,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   roleInputs.forEach(input => {
     input.addEventListener('change', () => {
-      roleCards.forEach(c => c.classList.remove('rg-role-card--active'));
-      input.closest('label')?.classList.add('rg-role-card--active');
+      roleCards.forEach(c => c.classList.remove('session-role-card--active'));
+      input.closest('label')?.classList.add('session-role-card--active');
       updateRoleUI(input.value);
     });
   });
@@ -95,14 +95,14 @@ document.addEventListener('DOMContentLoaded', () => {
   function showError(fieldId, msg) {
     const input = document.getElementById(fieldId);
     const errEl = document.getElementById(`err-${fieldId}`);
-    input?.classList.add('rg-input--error');
+    input?.classList.add('session-input--error');
     if (errEl) errEl.textContent = msg;
   }
 
   function clearError(fieldId) {
     const input = document.getElementById(fieldId);
     const errEl = document.getElementById(`err-${fieldId}`);
-    input?.classList.remove('rg-input--error');
+    input?.classList.remove('session-input--error');
     if (errEl) errEl.textContent = '';
   }
 
@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Live clear on input
-  document.querySelectorAll('.rg-input').forEach(input => {
+  document.querySelectorAll('.session-input').forEach(input => {
     input.addEventListener('input', () => clearError(input.id));
   });
 
