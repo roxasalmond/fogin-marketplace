@@ -152,14 +152,14 @@ function getStatusLabel(status) {
 function showError(fieldId, message) {
   const input = document.getElementById(fieldId);
   const error = document.getElementById(`${fieldId}Error`);
-  if (input) input.classList.add('acc-input--error');
+  if (input) input.classList.add('account-input--error');
   if (error) error.textContent = message;
 }
 
 function clearError(fieldId) {
   const input = document.getElementById(fieldId);
   const error = document.getElementById(`${fieldId}Error`);
-  if (input) input.classList.remove('acc-input--error');
+  if (input) input.classList.remove('account-input--error');
   if (error) error.textContent = '';
 }
 
@@ -195,10 +195,10 @@ function showToast(message) {
   if (toastTimer) clearTimeout(toastTimer);
   toastMsg.textContent = message;
   toast.hidden = false;
-  requestAnimationFrame(() => toast.classList.add('acc-toast--visible'));
+  requestAnimationFrame(() => toast.classList.add('account-toast--visible'));
 
   toastTimer = setTimeout(() => {
-    toast.classList.remove('acc-toast--visible');
+    toast.classList.remove('account-toast--visible');
     setTimeout(() => { toast.hidden = true; }, 300);
   }, 2800);
 }
@@ -208,7 +208,7 @@ function showToast(message) {
 // ============================================
 
 function initTabs() {
-  document.querySelectorAll('.acc-tab').forEach(tab => {
+  document.querySelectorAll('.account-tab').forEach(tab => {
     tab.addEventListener('click', () => switchTab(tab.dataset.tab));
   });
 
@@ -222,12 +222,12 @@ function initTabs() {
 }
 
 function switchTab(name) {
-  document.querySelectorAll('.acc-tab').forEach(t => {
-    t.classList.toggle('acc-tab--active', t.dataset.tab === name);
+  document.querySelectorAll('.account-tab').forEach(t => {
+    t.classList.toggle('account-tab--active', t.dataset.tab === name);
     t.setAttribute('aria-selected', t.dataset.tab === name ? 'true' : 'false');
   });
 
-  document.querySelectorAll('.acc-panel').forEach(p => {
+  document.querySelectorAll('.account-panel').forEach(p => {
     p.hidden = p.id !== `tab-${name}`;
   });
 
@@ -298,32 +298,32 @@ function renderOrderCardHTML(order, compact) {
   const canReturn   = order.status === 'delivered';
 
   const itemsHTML = order.items.map(item => `
-    <div class="acc-order-item">
-      <div class="acc-order-item__img">${item.emoji}</div>
-      <div class="acc-order-item__info">
-        <div class="acc-order-item__name">${item.name}</div>
-        <div class="acc-order-item__meta">${item.category} · Qty: ${item.qty}</div>
+    <div class="account-order-item">
+      <div class="account-order-item__img">${item.emoji}</div>
+      <div class="account-order-item__info">
+        <div class="account-order-item__name">${item.name}</div>
+        <div class="account-order-item__meta">${item.category} · Qty: ${item.qty}</div>
       </div>
-      <div class="acc-order-item__price">${formatPrice(item.price * item.qty)}</div>
+      <div class="account-order-item__price">${formatPrice(item.price * item.qty)}</div>
     </div>
   `).join('');
 
   return `
-    <div class="acc-order-card">
-      <div class="acc-order-card__header">
-        <span class="acc-order-id">${order.id}</span>
-        <span class="acc-order-date">${order.date}</span>
-        <span class="acc-order-status acc-order-status--${statusClass}">${statusLabel}</span>
+    <div class="account-order-card">
+      <div class="account-order-card__header">
+        <span class="account-order-id">${order.id}</span>
+        <span class="account-order-date">${order.date}</span>
+        <span class="account-order-status account-order-status--${statusClass}">${statusLabel}</span>
       </div>
-      <div class="acc-order-card__items">${itemsHTML}</div>
-      <div class="acc-order-card__footer">
-        <div class="acc-order-total">Total: <span>${formatPrice(order.total)}</span></div>
-        <div class="acc-order-actions">
-          <button class="acc-order-btn acc-order-btn--details" data-order-id="${order.id}">View Details</button>
-          <button class="acc-order-btn acc-order-btn--reorder" data-reorder-id="${order.id}">Reorder</button>
-          ${canCancel ? `<button class="acc-order-btn acc-order-btn--cancel" data-cancel-id="${order.id}">Cancel</button>` : ''}
-          ${canReturn ? `<button class="acc-order-btn acc-order-btn--cancel" data-return-id="${order.id}">Return</button>` : ''}
-          <button class="acc-order-btn acc-order-btn--receipt" data-receipt-id="${order.id}">Receipt</button>
+      <div class="account-order-card__items">${itemsHTML}</div>
+      <div class="account-order-card__footer">
+        <div class="account-order-total">Total: <span>${formatPrice(order.total)}</span></div>
+        <div class="account-order-actions">
+          <button class="account-order-btn account-order-btn--details" data-order-id="${order.id}">View Details</button>
+          <button class="account-order-btn account-order-btn--reorder" data-reorder-id="${order.id}">Reorder</button>
+          ${canCancel ? `<button class="account-order-btn account-order-btn--cancel" data-cancel-id="${order.id}">Cancel</button>` : ''}
+          ${canReturn ? `<button class="account-order-btn account-order-btn--cancel" data-return-id="${order.id}">Return</button>` : ''}
+          <button class="account-order-btn account-order-btn--receipt" data-receipt-id="${order.id}">Receipt</button>
         </div>
       </div>
       ${!compact && order.status === 'shipped' ? renderTrackingHTML(order) : ''}
@@ -333,19 +333,19 @@ function renderOrderCardHTML(order, compact) {
 
 function renderTrackingHTML(order) {
   const steps = order.tracking.map(step => `
-    <div class="acc-timeline-step ${step.done ? 'acc-timeline-step--done' : ''} ${step.active ? 'acc-timeline-step--active' : ''}">
-      <div class="acc-timeline-dot"></div>
-      <div class="acc-timeline-info">
-        <div class="acc-timeline-label">${step.label}</div>
-        <div class="acc-timeline-date">${step.date}</div>
+    <div class="account-timeline-step ${step.done ? 'account-timeline-step--done' : ''} ${step.active ? 'account-timeline-step--active' : ''}">
+      <div class="account-timeline-dot"></div>
+      <div class="account-timeline-info">
+        <div class="account-timeline-label">${step.label}</div>
+        <div class="account-timeline-date">${step.date}</div>
       </div>
     </div>
   `).join('');
 
   return `
-    <div class="acc-tracking">
-      <div class="acc-tracking-title">Order Tracking</div>
-      <div class="acc-timeline">${steps}</div>
+    <div class="account-tracking">
+      <div class="account-tracking-title">Order Tracking</div>
+      <div class="account-timeline">${steps}</div>
     </div>
   `;
 }
@@ -376,10 +376,10 @@ function bindOrderCardEvents(container) {
 }
 
 function bindOrderFilters() {
-  document.querySelectorAll('.acc-filter-btn').forEach(btn => {
+  document.querySelectorAll('.account-filter-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      document.querySelectorAll('.acc-filter-btn').forEach(b => b.classList.remove('acc-filter-btn--active'));
-      btn.classList.add('acc-filter-btn--active');
+      document.querySelectorAll('.account-filter-btn').forEach(b => b.classList.remove('account-filter-btn--active'));
+      btn.classList.add('account-filter-btn--active');
       activeOrderFilter = btn.dataset.status;
       renderOrders();
     });
@@ -397,63 +397,63 @@ function openOrderModal(orderId) {
   document.getElementById('orderModalTitle').textContent = `Order ${order.id}`;
 
   const itemsHTML = order.items.map(item => `
-    <div class="acc-order-item" style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
-      <div class="acc-order-item__img">${item.emoji}</div>
-      <div class="acc-order-item__info">
-        <div class="acc-order-item__name">${item.name}</div>
-        <div class="acc-order-item__meta">Qty: ${item.qty}</div>
+    <div class="account-order-item" style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+      <div class="account-order-item__img">${item.emoji}</div>
+      <div class="account-order-item__info">
+        <div class="account-order-item__name">${item.name}</div>
+        <div class="account-order-item__meta">Qty: ${item.qty}</div>
       </div>
-      <div class="acc-order-item__price">${formatPrice(item.price * item.qty)}</div>
+      <div class="account-order-item__price">${formatPrice(item.price * item.qty)}</div>
     </div>
   `).join('');
 
   document.getElementById('orderModalBody').innerHTML = `
-    <div class="acc-order-detail-section">
-      <div class="acc-order-detail-section-title">Order Info</div>
-      <div class="acc-order-detail-grid">
-        <div class="acc-order-detail-row">
-          <span class="acc-order-detail-label">Order ID</span>
-          <span class="acc-order-detail-value" style="font-family:monospace">${order.id}</span>
+    <div class="account-order-detail-section">
+      <div class="account-order-detail-section-title">Order Info</div>
+      <div class="account-order-detail-grid">
+        <div class="account-order-detail-row">
+          <span class="account-order-detail-label">Order ID</span>
+          <span class="account-order-detail-value" style="font-family:monospace">${order.id}</span>
         </div>
-        <div class="acc-order-detail-row">
-          <span class="acc-order-detail-label">Date Placed</span>
-          <span class="acc-order-detail-value">${order.date}</span>
+        <div class="account-order-detail-row">
+          <span class="account-order-detail-label">Date Placed</span>
+          <span class="account-order-detail-value">${order.date}</span>
         </div>
-        <div class="acc-order-detail-row">
-          <span class="acc-order-detail-label">Status</span>
-          <span class="acc-order-status acc-order-status--${getStatusClass(order.status)}" style="display:inline-block">${getStatusLabel(order.status)}</span>
+        <div class="account-order-detail-row">
+          <span class="account-order-detail-label">Status</span>
+          <span class="account-order-status account-order-status--${getStatusClass(order.status)}" style="display:inline-block">${getStatusLabel(order.status)}</span>
         </div>
-        <div class="acc-order-detail-row">
-          <span class="acc-order-detail-label">Payment</span>
-          <span class="acc-order-detail-value">${order.payment}</span>
+        <div class="account-order-detail-row">
+          <span class="account-order-detail-label">Payment</span>
+          <span class="account-order-detail-value">${order.payment}</span>
         </div>
-        <div class="acc-order-detail-row" style="grid-column:1/-1">
-          <span class="acc-order-detail-label">Delivery Address</span>
-          <span class="acc-order-detail-value">${order.address}</span>
+        <div class="account-order-detail-row" style="grid-column:1/-1">
+          <span class="account-order-detail-label">Delivery Address</span>
+          <span class="account-order-detail-value">${order.address}</span>
         </div>
-        <div class="acc-order-detail-row">
-          <span class="acc-order-detail-label">Shipping Method</span>
-          <span class="acc-order-detail-value">${order.shipping}</span>
+        <div class="account-order-detail-row">
+          <span class="account-order-detail-label">Shipping Method</span>
+          <span class="account-order-detail-value">${order.shipping}</span>
         </div>
       </div>
     </div>
-    <div class="acc-order-detail-section">
-      <div class="acc-order-detail-section-title">Items Ordered</div>
+    <div class="account-order-detail-section">
+      <div class="account-order-detail-section-title">Items Ordered</div>
       ${itemsHTML}
       <div style="display:flex;justify-content:space-between;padding:12px 0 0;font-size:15px;font-weight:700;color:#fff;">
         <span>Total</span>
         <span style="color:var(--color-primary,#C8FF00)">${formatPrice(order.total)}</span>
       </div>
     </div>
-    <div class="acc-order-detail-section">
-      <div class="acc-order-detail-section-title">Tracking</div>
-      <div class="acc-timeline">
+    <div class="account-order-detail-section">
+      <div class="account-order-detail-section-title">Tracking</div>
+      <div class="account-timeline">
         ${order.tracking.map(step => `
-          <div class="acc-timeline-step ${step.done ? 'acc-timeline-step--done' : ''} ${step.active ? 'acc-timeline-step--active' : ''}">
-            <div class="acc-timeline-dot"></div>
-            <div class="acc-timeline-info">
-              <div class="acc-timeline-label">${step.label}</div>
-              <div class="acc-timeline-date">${step.date}</div>
+          <div class="account-timeline-step ${step.done ? 'account-timeline-step--done' : ''} ${step.active ? 'account-timeline-step--active' : ''}">
+            <div class="account-timeline-dot"></div>
+            <div class="account-timeline-info">
+              <div class="account-timeline-label">${step.label}</div>
+              <div class="account-timeline-date">${step.date}</div>
             </div>
           </div>
         `).join('')}
@@ -566,7 +566,7 @@ function initProfile() {
     const el = document.getElementById(id);
     if (!el) return;
     el.addEventListener('blur',  () => { const err = validate(el.value.trim()); err ? showError(id, err) : clearError(id); });
-    el.addEventListener('input', () => { if (el.classList.contains('acc-input--error') && !validate(el.value.trim())) clearError(id); });
+    el.addEventListener('input', () => { if (el.classList.contains('account-input--error') && !validate(el.value.trim())) clearError(id); });
   });
 }
 
@@ -578,16 +578,16 @@ function renderAddresses() {
   const grid = document.getElementById('addressesGrid');
 
   grid.innerHTML = addresses.map(addr => `
-    <div class="acc-address-card ${addr.isDefault ? 'acc-address-card--default' : ''}">
-      <div class="acc-address-card__label">
+    <div class="account-address-card ${addr.isDefault ? 'account-address-card--default' : ''}">
+      <div class="account-address-card__label">
         ${addr.label}
-        ${addr.isDefault ? '<span class="acc-address-card__default-badge">Default</span>' : ''}
+        ${addr.isDefault ? '<span class="account-address-card__default-badge">Default</span>' : ''}
       </div>
-      <div class="acc-address-card__text">${addr.text.replace(/\n/g, '<br>')}</div>
-      <div class="acc-address-card__actions">
-        <button class="acc-address-card__btn acc-address-card__btn--edit" data-edit-addr="${addr.id}">Edit</button>
-        ${!addr.isDefault ? `<button class="acc-address-card__btn acc-address-card__btn--default" data-default-addr="${addr.id}">Set Default</button>` : ''}
-        ${!addr.isDefault ? `<button class="acc-address-card__btn acc-address-card__btn--delete"  data-delete-addr="${addr.id}">Delete</button>` : ''}
+      <div class="account-address-card__text">${addr.text.replace(/\n/g, '<br>')}</div>
+      <div class="account-address-card__actions">
+        <button class="account-address-card__btn account-address-card__btn--edit" data-edit-addr="${addr.id}">Edit</button>
+        ${!addr.isDefault ? `<button class="account-address-card__btn account-address-card__btn--default" data-default-addr="${addr.id}">Set Default</button>` : ''}
+        ${!addr.isDefault ? `<button class="account-address-card__btn account-address-card__btn--delete"  data-delete-addr="${addr.id}">Delete</button>` : ''}
       </div>
     </div>
   `).join('');
@@ -595,7 +595,7 @@ function renderAddresses() {
   // Add new card
   grid.innerHTML += `
     <div
-      class="acc-address-card"
+      class="account-address-card"
       id="addNewAddressCard"
       style="border:2px dashed rgba(255,255,255,0.1);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;min-height:140px;cursor:pointer;transition:border-color .2s;"
       onmouseenter="this.style.borderColor='rgba(200,255,0,0.3)'"
@@ -732,7 +732,7 @@ function initAddresses() {
     const el = document.getElementById(id);
     if (!el) return;
     el.addEventListener('blur',  () => { const err = validate(el.value.trim()); err ? showError(id, err) : clearError(id); });
-    el.addEventListener('input', () => { if (el.classList.contains('acc-input--error') && !validate(el.value.trim())) clearError(id); });
+    el.addEventListener('input', () => { if (el.classList.contains('account-input--error') && !validate(el.value.trim())) clearError(id); });
   });
 }
 
@@ -752,19 +752,19 @@ function renderWishlist() {
   }
 
   grid.innerHTML = wishlist.map(item => `
-    <div class="acc-wishlist-card" data-wish-id="${item.id}">
+    <div class="account-wishlist-card" data-wish-id="${item.id}">
       <a href="../shop/product.html?id=${item.id}" style="text-decoration:none;">
-        <div class="acc-wishlist-card__img">${item.emoji}</div>
+        <div class="account-wishlist-card__img">${item.emoji}</div>
       </a>
-      <div class="acc-wishlist-card__body">
-        <div class="acc-wishlist-card__cat">${item.category}</div>
-        <div class="acc-wishlist-card__name">${item.name}</div>
-        <div class="acc-wishlist-card__price-row">
-          <span class="acc-wishlist-card__price">${formatPrice(item.price)}</span>
+      <div class="account-wishlist-card__body">
+        <div class="account-wishlist-card__cat">${item.category}</div>
+        <div class="account-wishlist-card__name">${item.name}</div>
+        <div class="account-wishlist-card__price-row">
+          <span class="account-wishlist-card__price">${formatPrice(item.price)}</span>
         </div>
-        <div class="acc-wishlist-card__actions">
-          <button class="acc-wishlist-card__add-btn" data-wish-add="${item.id}">Add to Cart</button>
-          <button class="acc-wishlist-card__remove-btn" data-wish-remove="${item.id}" aria-label="Remove from wishlist">
+        <div class="account-wishlist-card__actions">
+          <button class="account-wishlist-card__add-btn" data-wish-add="${item.id}">Add to Cart</button>
+          <button class="account-wishlist-card__remove-btn" data-wish-remove="${item.id}" aria-label="Remove from wishlist">
             <svg viewBox="0 0 20 20" fill="currentColor" width="14"><path fill-rule="evenodd" d="M8.75 1A2.75 2.75 0 006 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 10.23 1.482l.149-.022.841 10.518A2.75 2.75 0 007.596 19h4.807a2.75 2.75 0 002.742-2.53l.841-10.52.149.023a.75.75 0 00.23-1.482A41.03 41.03 0 0014 4.193V3.75A2.75 2.75 0 0011.25 1h-2.5zM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4zM8.58 7.72a.75.75 0 00-1.5.06l.3 7.5a.75.75 0 101.5-.06l-.3-7.5zm4.34.06a.75.75 0 10-1.5-.06l-.3 7.5a.75.75 0 101.5.06l.3-7.5z" clip-rule="evenodd"/></svg>
           </button>
         </div>
