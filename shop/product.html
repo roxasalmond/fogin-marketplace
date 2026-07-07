@@ -14,10 +14,10 @@
   <div id="navbar-placeholder"></div>
 
   <main class="pdp">
-    <div class="pdp-container">
+    <div class="product-detail__container">
 
       <!-- Breadcrumb -->
-      <nav class="pdp-breadcrumb" aria-label="Breadcrumb">
+      <nav class="product-detail__breadcrumb" aria-label="Breadcrumb">
         <a href="../index.html">Home</a>
         <span>/</span>
         <a href="catalog.html">Shop</a>
@@ -28,108 +28,108 @@
       </nav>
 
       <!-- ─── MAIN PRODUCT SECTION ─── -->
-      <div class="pdp-main">
+      <div class="product-detail__main">
 
         <!-- LEFT: Image Gallery -->
-        <div class="pdp-gallery">
+        <div class="product-gallery">
 
           <!-- Thumbnail strip -->
-          <div class="pdp-thumbs" id="thumb-strip" role="list">
+          <div class="product-gallery__thumbs" id="thumb-strip" role="list">
             <!-- Injected by JS -->
           </div>
 
           <!-- Main image -->
-          <div class="pdp-main-image-wrap" id="main-image-wrap">
-            <div class="pdp-main-image-inner" id="main-image-inner">
-              <div class="pdp-image-placeholder" id="main-image-placeholder">📦</div>
+          <div class="product-gallery__image-wrap" id="main-image-wrap">
+            <div class="product-gallery__image-inner" id="main-image-inner">
+              <div class="product-gallery__image-placeholder" id="main-image-placeholder">📦</div>
             </div>
 
             <!-- Zoom lens -->
-            <div class="pdp-zoom-lens" id="zoom-lens" hidden></div>
+            <div class="product-gallery__zoom-lens" id="zoom-lens" hidden></div>
 
             <!-- Badges -->
-            <div class="pdp-image-badges" id="image-badges"></div>
+            <div class="product-gallery__image-badges" id="image-badges"></div>
 
             <!-- Angle nav -->
-            <button class="pdp-gallery-nav pdp-gallery-nav--prev" id="prev-image" aria-label="Previous image">
+            <button class="product-gallery__nav product-gallery__nav--prev" id="prev-image" aria-label="Previous image">
               <svg viewBox="0 0 20 20" fill="currentColor" width="18"><path fill-rule="evenodd" d="M11.78 5.22a.75.75 0 010 1.06L8.06 10l3.72 3.72a.75.75 0 11-1.06 1.06l-4.25-4.25a.75.75 0 010-1.06l4.25-4.25a.75.75 0 011.06 0z" clip-rule="evenodd"/></svg>
             </button>
-            <button class="pdp-gallery-nav pdp-gallery-nav--next" id="next-image" aria-label="Next image">
+            <button class="product-gallery__nav product-gallery__nav--next" id="next-image" aria-label="Next image">
               <svg viewBox="0 0 20 20" fill="currentColor" width="18"><path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 011.06 0l4.25 4.25a.75.75 0 010 1.06l-4.25 4.25a.75.75 0 01-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 010-1.06z" clip-rule="evenodd"/></svg>
             </button>
 
             <!-- Dot indicators -->
-            <div class="pdp-gallery-dots" id="gallery-dots"></div>
+            <div class="product-gallery__dots" id="gallery-dots"></div>
           </div>
 
           <!-- Zoom preview -->
-          <div class="pdp-zoom-preview" id="zoom-preview" hidden></div>
+          <div class="product-gallery__zoom-preview" id="zoom-preview" hidden></div>
 
         </div>
 
         <!-- RIGHT: Product Info -->
-        <div class="pdp-info">
+        <div class="product-detail__info">
 
           <!-- Vendor + category -->
-          <div class="pdp-meta">
-            <span class="pdp-category" id="pdp-category">Pod System</span>
-            <span class="pdp-meta-sep">·</span>
-            <a href="#vendorSection" class="pdp-vendor-link" id="pdp-vendor">VapeHub Manila</a>
+          <div class="product-detail__meta">
+            <span class="product-detail__category" id="product-detail__category">Pod System</span>
+            <span class="product-detail__meta-sep">·</span>
+            <a href="#vendorSection" class="product-detail__vendor-link" id="pdp-vendor">VapeHub Manila</a>
           </div>
 
           <!-- Title -->
-          <h1 class="pdp-title" id="pdp-title">Vaporesso XROS 3</h1>
+          <h1 class="product-detail__title" id="product-detail__title">Vaporesso XROS 3</h1>
 
           <!-- Rating -->
-          <div class="pdp-rating">
-            <div class="pdp-stars" id="pdp-stars" aria-label="4.5 out of 5 stars">
+          <div class="product-reviews__rating">
+            <div class="product-reviews__stars" id="product-reviews__stars" aria-label="4.5 out of 5 stars">
               <!-- Injected by JS -->
             </div>
-            <a href="#reviewsSection" class="pdp-rating-count" id="pdp-rating-count">128 reviews</a>
-            <span class="pdp-meta-sep">·</span>
-            <span class="pdp-sold-count" id="pdp-sold-count">342 sold</span>
+            <a href="#reviewsSection" class="product-reviews__rating-count" id="product-reviews__rating-count">128 reviews</a>
+            <span class="product-detail__meta-sep">·</span>
+            <span class="product-detail__sold-count" id="product-detail__sold-count">342 sold</span>
           </div>
 
           <!-- Price -->
-          <div class="pdp-price-block">
-            <span class="pdp-price" id="pdp-price">₱2,499</span>
-            <span class="pdp-original-price" id="pdp-original-price" hidden>₱2,999</span>
-            <span class="pdp-discount-badge" id="pdp-discount-badge" hidden>-17%</span>
+          <div class="product-detail__price-block">
+            <span class="product-detail__price" id="product-detail__price">₱2,499</span>
+            <span class="product-detail__original-price" id="product-detail__original-price" hidden>₱2,999</span>
+            <span class="product-detail__discount-badge" id="product-detail__discount-badge" hidden>-17%</span>
           </div>
 
           <!-- Stock -->
-          <div class="pdp-stock" id="pdp-stock">
-            <span class="pdp-stock-dot pdp-stock-dot--in"></span>
+          <div class="product-detail__stock" id="product-detail__stock">
+            <span class="product-detail__stock-dot product-detail__stock-dot--in"></span>
             In stock · <span id="pdp-stock-qty">24 units</span>
           </div>
 
-          <div class="pdp-divider"></div>
+          <div class="product-detail__divider"></div>
 
           <!-- Variants -->
-          <div class="pdp-variants" id="pdp-variants">
+          <div class="product-variants" id="product-variants">
             <!-- Injected by JS based on product type -->
           </div>
 
           <!-- Quantity -->
-          <div class="pdp-qty-row">
-            <span class="pdp-qty-label">Quantity</span>
-            <div class="pdp-qty">
-              <button class="pdp-qty__btn" id="qty-dec" aria-label="Decrease quantity">−</button>
-              <span class="pdp-qty__val" id="qty-val">1</span>
-              <button class="pdp-qty__btn" id="qty-inc" aria-label="Increase quantity">+</button>
+          <div class="product-qty__row">
+            <span class="product-qty__label">Quantity</span>
+            <div class="product-qty">
+              <button class="product-qty__btn" id="qty-dec" aria-label="Decrease quantity">−</button>
+              <span class="product-qty__val" id="qty-val">1</span>
+              <button class="product-qty__btn" id="qty-inc" aria-label="Increase quantity">+</button>
             </div>
           </div>
 
           <!-- Actions -->
-          <div class="pdp-actions">
-            <button class="pdp-btn-cart" id="add-to-cart-btn">
+          <div class="product-detail__actions">
+            <button class="product-detail__btn-cart" id="add-to-cart-btn">
               <svg viewBox="0 0 20 20" fill="currentColor" width="18">
                 <path d="M6 4.75A.75.75 0 016.75 4h.75v-.25a2.5 2.5 0 015 0V4h.75A.75.75 0 0114 4.75v.5A.75.75 0 0113.25 6h-6.5A.75.75 0 016 5.25v-.5zM4.868 7.5A1 1 0 003.87 8.62l.555 5A1 1 0 005.42 14.5h9.16a1 1 0 00.994-.88l.555-5A1 1 0 0015.132 7.5H4.868z"/>
               </svg>
               Add to Cart
             </button>
-            <button class="pdp-btn-buy" id="buy-now-btn">Buy Now</button>
-            <button class="pdp-btn-wishlist" id="wishlist-btn" aria-label="Add to wishlist">
+            <button class="product-detail__btn-buy" id="buy-now-btn">Buy Now</button>
+            <button class="product-detail__btn-wishlist" id="wishlist-btn" aria-label="Add to wishlist">
               <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" width="20">
                 <path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"/>
               </svg>
@@ -137,16 +137,16 @@
           </div>
 
           <!-- Delivery estimate -->
-          <div class="pdp-delivery">
-            <div class="pdp-delivery-row">
+          <div class="product-detail__delivery">
+            <div class="product-detail__delivery-row">
               <svg viewBox="0 0 20 20" fill="currentColor" width="16"><path d="M6.5 3c-1.051 0-2.093.04-3.125.117A1.49 1.49 0 002 4.607V10.5h9V3H6.5zM14 9.5v-5.5c0-.828.672-1.5 1.5-1.5h.5a2.5 2.5 0 012.5 2.5v1.5h-4.5zM2 11.5v.5c0 .552.448 1 1 1h1a2 2 0 004 0h4a2 2 0 004 0h1c.552 0 1-.448 1-1v-.5H2z"/></svg>
               <span>Standard delivery <strong>₱150</strong> · 3–5 days</span>
             </div>
-            <div class="pdp-delivery-row">
+            <div class="product-detail__delivery-row">
               <svg viewBox="0 0 20 20" fill="currentColor" width="16"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-13a.75.75 0 00-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 000-1.5h-3.25V5z" clip-rule="evenodd"/></svg>
               <span>Order before <strong>12PM</strong> for same-day delivery</span>
             </div>
-            <div class="pdp-delivery-row">
+            <div class="product-detail__delivery-row">
               <svg viewBox="0 0 20 20" fill="currentColor" width="16"><path fill-rule="evenodd" d="M9.661 2.237a.531.531 0 01.678 0 11.5 11.5 0 007.79 3.696.75.75 0 01.61.75v2.565c0 5.275-3.68 9.541-8.43 10.963a.75.75 0 01-.618 0C4.919 18.795 1.25 14.528 1.25 9.25V6.685a.75.75 0 01.61-.75 11.5 11.5 0 007.8-3.698z" clip-rule="evenodd"/></svg>
               <span>Buyer protection guaranteed</span>
             </div>
@@ -156,54 +156,54 @@
       </div>
 
       <!-- ─── TABS SECTION ─── -->
-      <div class="pdp-tabs-section">
+      <div class="product-tabs__section">
 
-        <div class="pdp-tabs" role="tablist">
-          <button class="pdp-tab pdp-tab--active" role="tab" data-tab="description" aria-selected="true">Description</button>
-          <button class="pdp-tab" role="tab" data-tab="specs" aria-selected="false">Specifications</button>
-          <button class="pdp-tab" role="tab" data-tab="reviews" aria-selected="false">Reviews <span class="pdp-tab-badge" id="review-tab-badge">128</span></button>
-          <button class="pdp-tab" role="tab" data-tab="vendor" aria-selected="false">Vendor Info</button>
+        <div class="product-tabs" role="tablist">
+          <button class="product-tabs__tab product-tabs__tab--active" role="tab" data-tab="description" aria-selected="true">Description</button>
+          <button class="product-tabs__tab" role="tab" data-tab="specs" aria-selected="false">Specifications</button>
+          <button class="product-tabs__tab" role="tab" data-tab="reviews" aria-selected="false">Reviews <span class="product-tabs__tab-badge" id="review-tab-badge">128</span></button>
+          <button class="product-tabs__tab" role="tab" data-tab="vendor" aria-selected="false">Vendor Info</button>
         </div>
 
         <!-- Description -->
-        <div class="pdp-tab-panel" id="tab-description" role="tabpanel">
-          <div class="pdp-description" id="pdp-description">
+        <div class="product-tabs__tab-panel" id="tab-description" role="tabpanel">
+          <div class="product-detail__description" id="product-detail__description">
             <!-- Injected by JS -->
           </div>
         </div>
 
         <!-- Specifications -->
-        <div class="pdp-tab-panel" id="tab-specs" role="tabpanel" hidden>
-          <div class="pdp-specs" id="pdp-specs">
+        <div class="product-tabs__tab-panel" id="tab-specs" role="tabpanel" hidden>
+          <div class="product-detail__specs" id="product-detail__specs">
             <!-- Injected by JS -->
           </div>
         </div>
 
         <!-- Reviews -->
-        <div class="pdp-tab-panel" id="tab-reviews" role="tabpanel" hidden>
+        <div class="product-tabs__tab-panel" id="tab-reviews" role="tabpanel" hidden>
           <div class="pdp-reviews" id="reviewsSection">
 
             <!-- Summary -->
-            <div class="pdp-reviews-summary">
-              <div class="pdp-reviews-score">
-                <span class="pdp-reviews-big-score" id="big-score">4.5</span>
-                <div class="pdp-reviews-stars-lg" id="big-stars"></div>
-                <span class="pdp-reviews-total" id="review-total">128 reviews</span>
+            <div class="product-reviews__summary">
+              <div class="product-reviews__score">
+                <span class="product-reviews__big-score" id="big-score">4.5</span>
+                <div class="product-reviews__stars-lg" id="big-stars"></div>
+                <span class="product-reviews__total" id="review-total">128 reviews</span>
               </div>
-              <div class="pdp-reviews-bars" id="review-bars"></div>
+              <div class="product-reviews__bars" id="review-bars"></div>
             </div>
 
             <!-- Individual reviews -->
-            <div class="pdp-reviews-list" id="reviews-list"></div>
+            <div class="product-reviews__list" id="reviews-list"></div>
 
             <!-- Load more -->
-            <button class="pdp-reviews-more" id="load-more-reviews">Load more reviews</button>
+            <button class="product-reviews__more" id="load-more-reviews">Load more reviews</button>
 
           </div>
         </div>
 
         <!-- Vendor -->
-        <div class="pdp-tab-panel" id="tab-vendor" role="tabpanel" hidden>
+        <div class="product-tabs__tab-panel" id="tab-vendor" role="tabpanel" hidden>
           <div class="pdp-vendor-card" id="vendorSection">
             <!-- Injected by JS -->
           </div>
@@ -212,17 +212,17 @@
       </div>
 
       <!-- ─── FREQUENTLY BOUGHT TOGETHER ─── -->
-      <section class="pdp-fbt-section">
-        <h2 class="pdp-section-title">Frequently Bought Together</h2>
-        <div class="pdp-fbt" id="fbt-container">
+      <section class="product-fbt__section">
+        <h2 class="product-detail__section-title">Frequently Bought Together</h2>
+        <div class="product-fbt" id="fbt-container">
           <!-- Injected by JS -->
         </div>
       </section>
 
       <!-- ─── RELATED PRODUCTS ─── -->
-      <section class="pdp-related-section">
-        <h2 class="pdp-section-title">Related Products</h2>
-        <div class="pdp-related-grid" id="related-grid">
+      <section class="related-section">
+        <h2 class="product-detail__section-title">Related Products</h2>
+        <div class="related-grid" id="related-grid">
           <!-- Injected by JS -->
         </div>
       </section>
@@ -231,10 +231,10 @@
   </main>
 
   <!-- ─── ADD TO CART TOAST ─── -->
-  <div class="pdp-toast" id="pdp-toast" hidden>
+  <div class="product-detail__toast" id="product-detail__toast" hidden>
     <svg viewBox="0 0 20 20" fill="currentColor" width="16"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd"/></svg>
     <span id="pdp-toast-msg">Added to cart</span>
-    <a href="cart.html" class="pdp-toast-link">View Cart</a>
+    <a href="cart.html" class="product-detail__toast-link">View Cart</a>
   </div>
 
   <!-- ─── FOOTER JS INJECTED───────────────────────────────────── -->

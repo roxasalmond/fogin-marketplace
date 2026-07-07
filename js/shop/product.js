@@ -49,9 +49,9 @@ function addToCart(id, quantity) {
 function starsHTML(rating) {
   let html = '';
   for (let i = 1; i <= 5; i++) {
-    if (rating >= i)           html += '<span class="pdp-star">★</span>';
-    else if (rating >= i - 0.5) html += '<span class="pdp-star">½</span>';
-    else                        html += '<span class="pdp-star" style="opacity:.2">★</span>';
+    if (rating >= i)           html += '<span class="product-reviews__star">★</span>';
+    else if (rating >= i - 0.5) html += '<span class="product-reviews__star">½</span>';
+    else                        html += '<span class="product-reviews__star" style="opacity:.2">★</span>';
   }
   return html;
 }
@@ -201,7 +201,7 @@ function renderGallery() {
   const thumbStrip = document.getElementById('thumb-strip');
   thumbStrip.innerHTML = product.images.map((img, i) => `
     <div
-      class="pdp-thumb ${i === 0 ? 'pdp-thumb--active' : ''}"
+      class="product-gallery__thumb ${i === 0 ? 'product-gallery__thumb--active' : ''}"
       data-index="${i}"
       role="listitem"
       aria-label="View image ${i + 1}"
@@ -212,13 +212,13 @@ function renderGallery() {
 
   const dots = document.getElementById('gallery-dots');
   dots.innerHTML = product.images.map((_, i) => `
-    <button class="pdp-gallery-dot ${i === 0 ? 'pdp-gallery-dot--active' : ''}" data-index="${i}" aria-label="Image ${i + 1}"></button>
+    <button class="product-gallery__dot ${i === 0 ? 'product-gallery__dot--active' : ''}" data-index="${i}" aria-label="Image ${i + 1}"></button>
   `).join('');
 
   const badges = document.getElementById('image-badges');
   if (product.badge) {
     const labels = { new: 'New', sale: 'Sale', hot: '🔥 Hot', limited: 'Limited' };
-    badges.innerHTML = `<span class="pdp-badge pdp-badge--${product.badge}">${labels[product.badge] || product.badge}</span>`;
+    badges.innerHTML = `<span class="product-detail__badge product-detail__badge--${product.badge}">${labels[product.badge] || product.badge}</span>`;
   }
 
   setActiveImage(0);
@@ -250,22 +250,22 @@ function setActiveImage(idx) {
     }
   }
 
-  document.querySelectorAll('.pdp-thumb').forEach(t => {
-    t.classList.toggle('pdp-thumb--active', Number(t.dataset.index) === idx);
+  document.querySelectorAll('.product-gallery__thumb').forEach(t => {
+    t.classList.toggle('product-gallery__thumb--active', Number(t.dataset.index) === idx);
   });
-  document.querySelectorAll('.pdp-gallery-dot').forEach(d => {
-    d.classList.toggle('pdp-gallery-dot--active', Number(d.dataset.index) === idx);
+  document.querySelectorAll('.product-gallery__dot').forEach(d => {
+    d.classList.toggle('product-gallery__dot--active', Number(d.dataset.index) === idx);
   });
 }
 
 function bindGalleryEvents() {
   document.getElementById('thumb-strip')?.addEventListener('click', e => {
-    const thumb = e.target.closest('.pdp-thumb');
+    const thumb = e.target.closest('.product-gallery__thumb');
     if (thumb) setActiveImage(Number(thumb.dataset.index));
   });
 
   document.getElementById('gallery-dots')?.addEventListener('click', e => {
-    const dot = e.target.closest('.pdp-gallery-dot');
+    const dot = e.target.closest('.product-gallery__dot');
     if (dot) setActiveImage(Number(dot.dataset.index));
   });
 
@@ -289,42 +289,42 @@ function renderInfo() {
   document.getElementById('breadcrumb-category').href = `catalog.html?category_id=${product.category_slug}`;
   document.getElementById('breadcrumb-name').textContent = product.name;
 
-  document.getElementById('pdp-category').textContent = product.category;
+  document.getElementById('product-detail__category').textContent = product.category;
   document.getElementById('pdp-vendor').textContent   = product.vendor;
-  document.getElementById('pdp-title').textContent    = product.name;
+  document.getElementById('product-detail__title').textContent    = product.name;
 
-  document.getElementById('pdp-stars').innerHTML = starsHTML(product.rating);
+  document.getElementById('product-reviews__stars').innerHTML = starsHTML(product.rating);
 
   if (product.reviewCount > 0) {
-    document.getElementById('pdp-rating-count').textContent = `${product.reviewCount} reviews`;
+    document.getElementById('product-reviews__rating-count').textContent = `${product.reviewCount} reviews`;
   } else {
-    document.getElementById('pdp-rating-count').textContent = 'No reviews yet';
+    document.getElementById('product-reviews__rating-count').textContent = 'No reviews yet';
   }
 
   if (product.soldCount > 0) {
-    document.getElementById('pdp-sold-count').textContent = `${product.soldCount} sold`;
+    document.getElementById('product-detail__sold-count').textContent = `${product.soldCount} sold`;
   } else {
-    document.getElementById('pdp-sold-count').closest('.pdp-meta-sep')?.remove();
-    document.getElementById('pdp-sold-count').style.display = 'none';
+    document.getElementById('product-detail__sold-count').closest('.product-detail__meta-sep')?.remove();
+    document.getElementById('product-detail__sold-count').style.display = 'none';
   }
 
-  document.getElementById('pdp-price').textContent = formatPrice(product.price);
+  document.getElementById('product-detail__price').textContent = formatPrice(product.price);
 
   if (product.originalPrice) {
-    document.getElementById('pdp-original-price').textContent = formatPrice(product.originalPrice);
-    document.getElementById('pdp-original-price').hidden = false;
+    document.getElementById('product-detail__original-price').textContent = formatPrice(product.originalPrice);
+    document.getElementById('product-detail__original-price').hidden = false;
     const pct = Math.round((1 - product.price / product.originalPrice) * 100);
-    document.getElementById('pdp-discount-badge').textContent = `-${pct}%`;
-    document.getElementById('pdp-discount-badge').hidden = false;
+    document.getElementById('product-detail__discount-badge').textContent = `-${pct}%`;
+    document.getElementById('product-detail__discount-badge').hidden = false;
   }
 
-  const stockEl = document.getElementById('pdp-stock');
-  const dot     = stockEl?.querySelector('.pdp-stock-dot');
+  const stockEl = document.getElementById('product-detail__stock');
+  const dot     = stockEl?.querySelector('.product-detail__stock-dot');
   const qtyEl   = document.getElementById('pdp-stock-qty');
 
   if (product.stock === 0) {
-    if (dot) dot.className = 'pdp-stock-dot pdp-stock-dot--out';
-    if (stockEl) stockEl.innerHTML = '<span class="pdp-stock-dot pdp-stock-dot--out"></span> Out of stock';
+    if (dot) dot.className = 'product-detail__stock-dot product-detail__stock-dot--out';
+    if (stockEl) stockEl.innerHTML = '<span class="product-detail__stock-dot product-detail__stock-dot--out"></span> Out of stock';
     const addBtn = document.getElementById('add-to-cart-btn');
     const buyBtn = document.getElementById('buy-now-btn');
     if (addBtn) addBtn.disabled = true;
@@ -337,7 +337,7 @@ function renderInfo() {
 // ── Variants ───────────────────────────────────────────────────────────────────
 
 function renderVariants() {
-  const container = document.getElementById('pdp-variants');
+  const container = document.getElementById('product-variants');
   if (!product.variants || !product.variants.length) {
     container.hidden = true;
     return;
@@ -348,12 +348,12 @@ function renderVariants() {
 
     if (v.type === 'color') {
       return `
-        <div class="pdp-variant-group">
-          <div class="pdp-variant-label">${v.label}: <span id="variant-label-${v.label}">${v.options.find(o => o.value === v.default)?.label || ''}</span></div>
-          <div class="pdp-color-chips" data-variant="${v.label}">
+        <div class="product-variants__group">
+          <div class="product-variants__label">${v.label}: <span id="variant-label-${v.label}">${v.options.find(o => o.value === v.default)?.label || ''}</span></div>
+          <div class="product-variants__color-chips" data-variant="${v.label}">
             ${v.options.map(o => `
               <button
-                class="pdp-color-chip ${o.value === v.default ? 'pdp-color-chip--active' : ''} ${!o.available ? 'pdp-chip--out' : ''}"
+                class="product-variants__color-chip ${o.value === v.default ? 'product-variants__color-chip--active' : ''} ${!o.available ? 'product-variants__chip--out' : ''}"
                 style="background:${o.color};"
                 data-value="${o.value}"
                 data-label="${o.label}"
@@ -368,12 +368,12 @@ function renderVariants() {
 
     if (v.type === 'chip') {
       return `
-        <div class="pdp-variant-group">
-          <div class="pdp-variant-label">${v.label}: <span id="variant-label-${v.label}">${v.default}</span></div>
-          <div class="pdp-chips" data-variant="${v.label}">
+        <div class="product-variants__group">
+          <div class="product-variants__label">${v.label}: <span id="variant-label-${v.label}">${v.default}</span></div>
+          <div class="product-variants__chips" data-variant="${v.label}">
             ${v.options.map(o => `
               <button
-                class="pdp-chip ${o.value === v.default ? 'pdp-chip--active' : ''} ${!o.available ? 'pdp-chip--out' : ''}"
+                class="product-variants__chip ${o.value === v.default ? 'product-variants__chip--active' : ''} ${!o.available ? 'product-variants__chip--out' : ''}"
                 data-value="${o.value}"
                 ${!o.available ? 'disabled' : ''}
               >${o.label}</button>
@@ -384,9 +384,9 @@ function renderVariants() {
 
     if (v.type === 'dropdown') {
       return `
-        <div class="pdp-variant-group">
-          <div class="pdp-variant-label">${v.label}</div>
-          <select class="pdp-variant-select" data-variant="${v.label}">
+        <div class="product-variants__group">
+          <div class="product-variants__label">${v.label}</div>
+          <select class="product-variants__select" data-variant="${v.label}">
             ${v.options.map(o => `<option value="${o.value}" ${o.value === v.default ? 'selected' : ''}>${o.label}</option>`).join('')}
           </select>
         </div>`;
@@ -397,33 +397,33 @@ function renderVariants() {
 }
 
 function bindVariantEvents() {
-  document.querySelectorAll('.pdp-chips').forEach(group => {
+  document.querySelectorAll('.product-variants__chips').forEach(group => {
     group.addEventListener('click', e => {
-      const chip = e.target.closest('.pdp-chip');
+      const chip = e.target.closest('.product-variants__chip');
       if (!chip || chip.disabled) return;
       const variantName = group.dataset.variant;
-      group.querySelectorAll('.pdp-chip').forEach(c => c.classList.remove('pdp-chip--active'));
-      chip.classList.add('pdp-chip--active');
+      group.querySelectorAll('.product-variants__chip').forEach(c => c.classList.remove('product-variants__chip--active'));
+      chip.classList.add('product-variants__chip--active');
       selectedVariants[variantName] = chip.dataset.value;
       const label = document.getElementById(`variantLabel-${variantName}`);
       if (label) label.textContent = chip.dataset.value;
     });
   });
 
-  document.querySelectorAll('.pdp-color-chips').forEach(group => {
+  document.querySelectorAll('.product-variants__color-chips').forEach(group => {
     group.addEventListener('click', e => {
-      const chip = e.target.closest('.pdp-color-chip');
+      const chip = e.target.closest('.product-variants__color-chip');
       if (!chip || chip.disabled) return;
       const variantName = group.dataset.variant;
-      group.querySelectorAll('.pdp-color-chip').forEach(c => c.classList.remove('pdp-color-chip--active'));
-      chip.classList.add('pdp-color-chip--active');
+      group.querySelectorAll('.product-variants__color-chip').forEach(c => c.classList.remove('product-variants__color-chip--active'));
+      chip.classList.add('product-variants__color-chip--active');
       selectedVariants[variantName] = chip.dataset.value;
       const label = document.getElementById(`variantLabel-${variantName}`);
       if (label) label.textContent = chip.dataset.label;
     });
   });
 
-  document.querySelectorAll('.pdp-variant-select').forEach(select => {
+  document.querySelectorAll('.product-variants__select').forEach(select => {
     select.addEventListener('change', () => {
       selectedVariants[select.dataset.variant] = select.value;
     });
@@ -453,15 +453,15 @@ function bindQtyEvents() {
 let toastTimer = null;
 
 function showToast(msg) {
-  const toast = document.getElementById('pdp-toast');
+  const toast = document.getElementById('product-detail__toast');
   const msgEl = document.getElementById('pdp-toast-msg');
   if (!toast) return;
   if (toastTimer) clearTimeout(toastTimer);
   msgEl.textContent = msg;
   toast.hidden = false;
-  requestAnimationFrame(() => toast.classList.add('pdp-toast--visible'));
+  requestAnimationFrame(() => toast.classList.add('product-detail__toast--visible'));
   toastTimer = setTimeout(() => {
-    toast.classList.remove('pdp-toast--visible');
+    toast.classList.remove('product-detail__toast--visible');
     setTimeout(() => { toast.hidden = true; }, 260);
   }, 3000);
 }
@@ -479,7 +479,7 @@ function bindActions() {
 
   document.getElementById('wishlist-btn')?.addEventListener('click', e => {
     wishlistActive = !wishlistActive;
-    e.currentTarget.classList.toggle('pdp-btn-wishlist--active', wishlistActive);
+    e.currentTarget.classList.toggle('product-detail__btn-wishlist--active', wishlistActive);
     const svg = e.currentTarget.querySelector('svg');
     svg?.setAttribute('fill', wishlistActive ? 'currentColor' : 'none');
     showToast(wishlistActive ? 'Added to wishlist' : 'Removed from wishlist');
@@ -489,19 +489,19 @@ function bindActions() {
 // ── Tabs ───────────────────────────────────────────────────────────────────────
 
 function renderDescription() {
-  const el = document.getElementById('pdp-description');
+  const el = document.getElementById('product-detail__description');
   if (el) el.innerHTML = product.description;
 }
 
 function renderSpecs() {
-  const el = document.getElementById('pdp-specs');
+  const el = document.getElementById('product-detail__specs');
   if (!el) return;
   if (!product.specs.length) {
     el.innerHTML = '<p>No specifications available.</p>';
     return;
   }
   const rows = product.specs.map(s => `<tr><td>${s.label}</td><td>${s.value}</td></tr>`).join('');
-  el.innerHTML = `<table class="pdp-spec-table">${rows}</table>`;
+  el.innerHTML = `<table class="product-detail__spec-table">${rows}</table>`;
 }
 
 function renderReviews() {
@@ -559,14 +559,14 @@ async function renderVendorCard() {
 }
 
 function bindTabEvents() {
-  document.querySelectorAll('.pdp-tab').forEach(tab => {
+  document.querySelectorAll('.product-tabs__tab').forEach(tab => {
     tab.addEventListener('click', () => {
       const target = tab.dataset.tab;
-      document.querySelectorAll('.pdp-tab').forEach(t => {
-        t.classList.toggle('pdp-tab--active', t.dataset.tab === target);
+      document.querySelectorAll('.product-tabs__tab').forEach(t => {
+        t.classList.toggle('product-tabs__tab--active', t.dataset.tab === target);
         t.setAttribute('aria-selected', t.dataset.tab === target ? 'true' : 'false');
       });
-      document.querySelectorAll('.pdp-tab-panel').forEach(panel => {
+      document.querySelectorAll('.product-tabs__tab-panel').forEach(panel => {
         panel.hidden = panel.id !== `tab-${target}`;
       });
     });
@@ -594,16 +594,16 @@ async function renderRelated() {
     }
 
     grid.innerHTML = related.map(p => `
-      <a href="product.html?id=${p.id}" class="pdp-related-card">
-        <div class="pdp-related-card__img">
+      <a href="product.html?id=${p.id}" class="related-card">
+        <div class="related-card__img">
           ${p.image_url
             ? `<img src="${p.image_url}" alt="${p.name}" style="width:100%;height:100%;object-fit:contain;">`
             : '📦'}
         </div>
-        <div class="pdp-related-card__body">
-          <div class="pdp-related-card__cat">${p.category_name}</div>
-          <div class="pdp-related-card__name">${p.name}</div>
-          <div class="pdp-related-card__price">${p.price_min ? '₱' + parseFloat(p.price_min).toLocaleString('en-PH') : '—'}</div>
+        <div class="related-card__body">
+          <div class="related-card__cat">${p.category_name}</div>
+          <div class="related-card__name">${p.name}</div>
+          <div class="related-card__price">${p.price_min ? '₱' + parseFloat(p.price_min).toLocaleString('en-PH') : '—'}</div>
         </div>
       </a>
     `).join('');
@@ -617,21 +617,21 @@ async function renderRelated() {
 
 function renderFBT() {
   // Hide FBT section — no FBT data from API yet
-  const section = document.querySelector('.pdp-fbt-section');
+  const section = document.querySelector('.product-fbt__section');
   if (section) section.hidden = true;
 }
 
 // ── Loading state ──────────────────────────────────────────────────────────────
 
 function showLoadingState() {
-  document.getElementById('pdp-title').textContent = 'Loading…';
-  document.getElementById('pdp-price').textContent = '—';
+  document.getElementById('product-detail__title').textContent = 'Loading…';
+  document.getElementById('product-detail__price').textContent = '—';
 }
 
 function showErrorState(message) {
-  document.getElementById('pdp-title').textContent = message || 'Product not found';
-  document.getElementById('pdp-price').textContent = '—';
-  document.getElementById('pdp-stock').innerHTML   = '';
+  document.getElementById('product-detail__title').textContent = message || 'Product not found';
+  document.getElementById('product-detail__price').textContent = '—';
+  document.getElementById('product-detail__stock').innerHTML   = '';
   const addBtn = document.getElementById('add-to-cart-btn');
   const buyBtn = document.getElementById('buy-now-btn');
   if (addBtn) addBtn.disabled = true;
