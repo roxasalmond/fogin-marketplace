@@ -1,4 +1,4 @@
-/* ============================================
+﻿/* ============================================
    CHECKOUT PAGE
    js/pages/checkout.js
 ============================================ */
@@ -118,13 +118,13 @@ function renderSummary() {
   const itemsEl = document.getElementById('summary-items');
   if (itemsEl) {
     itemsEl.innerHTML = cartItems.map(item => `
-      <div class="co-summary-item">
-        <div class="co-summary-item__img">📦</div>
-        <div class="co-summary-item__info">
-          <div class="co-summary-item__name">${item.name}</div>
-          <div class="co-summary-item__qty">Qty: ${item.qty}</div>
+      <div class="checkout-summary-item">
+        <div class="checkout-summary-item__img">📦</div>
+        <div class="checkout-summary-item__info">
+          <div class="checkout-summary-item__name">${item.name}</div>
+          <div class="checkout-summary-item__qty">Qty: ${item.qty}</div>
         </div>
-        <div class="co-summary-item__price">${formatPrice(item.price * item.qty)}</div>
+        <div class="checkout-summary-item__price">${formatPrice(item.price * item.qty)}</div>
       </div>
     `).join('');
   }
@@ -212,11 +212,11 @@ function validateAddress() {
 
     const val = el.value.trim();
     if (!val) {
-      el.classList.add('co-input--error');
+      el.classList.add('checkout-input--error');
       if (err) err.textContent = `${label} is required.`;
       valid = false;
     } else {
-      el.classList.remove('co-input--error');
+      el.classList.remove('checkout-input--error');
       if (err) err.textContent = '';
     }
   });
@@ -224,7 +224,7 @@ function validateAddress() {
   // Email format
   const emailEl = document.getElementById('email');
   if (emailEl?.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value)) {
-    emailEl.classList.add('co-input--error');
+    emailEl.classList.add('checkout-input--error');
     document.getElementById('email-error').textContent = 'Enter a valid email address.';
     valid = false;
   }
@@ -232,7 +232,7 @@ function validateAddress() {
   // Phone — PH format
   const phoneEl = document.getElementById('phone');
   if (phoneEl?.value && !/^9\d{9}$/.test(phoneEl.value.replace(/\s/g, ''))) {
-    phoneEl.classList.add('co-input--error');
+    phoneEl.classList.add('checkout-input--error');
     document.getElementById('phone-error').textContent = 'Enter a valid PH number (e.g. 9171234567).';
     valid = false;
   }
@@ -240,7 +240,7 @@ function validateAddress() {
   // ZIP — 4 digits
   const zipEl = document.getElementById('zip-code');
   if (zipEl?.value && !/^\d{4}$/.test(zipEl.value.trim())) {
-    zipEl.classList.add('co-input--error');
+    zipEl.classList.add('checkout-input--error');
     document.getElementById('zip-code-error').textContent = 'ZIP code must be 4 digits.';
     valid = false;
   }
@@ -295,9 +295,9 @@ function renderReview() {
   const container = document.getElementById('review-details');
   if (container) {
     container.innerHTML = blocks.map(b => `
-      <div class="co-review-block">
-        <div class="co-review-block__label">${b.label}</div>
-        <div class="co-review-block__value">${b.value}</div>
+      <div class="checkout-review-block">
+        <div class="checkout-review-block__label">${b.label}</div>
+        <div class="checkout-review-block__value">${b.value}</div>
       </div>
     `).join('');
   }
@@ -440,9 +440,9 @@ function bindEvents() {
   // FIX: was `${input.id}Error` (camelCase concat), real error span IDs are
   // kebab-case (e.g. "first-name-error"), same pattern validateAddress()
   // already uses correctly above.
-  document.querySelectorAll('.co-input').forEach(input => {
+  document.querySelectorAll('.checkout-input').forEach(input => {
     input.addEventListener('input', () => {
-      input.classList.remove('co-input--error');
+      input.classList.remove('checkout-input--error');
       const err = document.getElementById(`${input.id}-error`);
       if (err) err.textContent = '';
     });
