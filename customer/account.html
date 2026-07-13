@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -24,7 +24,7 @@
           <p class="account-hero-email" id="accHeroEmail">juan@email.com</p>
           <span class="account-hero-badge">Verified Buyer</span>
         </div>
-        <button class="btn btn-sm btn-reject" id="logoutBtn">
+        <button class="btn btn--sm btn--danger" id="logoutBtn">
           <svg viewBox="0 0 20 20" fill="currentColor" width="15">
             <path fill-rule="evenodd" d="M3 4.25A2.25 2.25 0 015.25 2h5.5A2.25 2.25 0 0113 4.25v2a.75.75 0 01-1.5 0v-2a.75.75 0 00-.75-.75h-5.5a.75.75 0 00-.75.75v11.5c0 .414.336.75.75.75h5.5a.75.75 0 00.75-.75v-2a.75.75 0 011.5 0v2A2.25 2.25 0 0110.75 18h-5.5A2.25 2.25 0 013 15.75V4.25z" clip-rule="evenodd"/>
             <path fill-rule="evenodd" d="M19 10a.75.75 0 00-.75-.75H8.704l1.048-1.04a.75.75 0 10-1.056-1.062l-2.5 2.5a.75.75 0 000 1.062l2.5 2.5a.75.75 0 101.056-1.061l-1.048-1.04h9.546A.75.75 0 0019 10z" clip-rule="evenodd"/>
@@ -99,7 +99,7 @@
         <div class="account-section">
           <div class="account-section-header">
             <h2 class="account-section-title">Recent Orders</h2>
-            <button class="btn btn-sm btn-tertiary" data-goto="orders">View all</button>
+            <button class="btn btn--sm btn--link" data-goto="orders">View all</button>
           </div>
           <div id="dashRecentOrders"></div>
         </div>
@@ -108,7 +108,7 @@
         <div class="account-section">
           <div class="account-section-header">
             <h2 class="account-section-title">Wishlist</h2>
-            <button class="btn btn-sm btn-tertiary" data-goto="orders">View all</button>
+            <button class="btn btn--sm btn--link" data-goto="orders">View all</button>
           </div>
           <div class="account-wishlist-preview" id="dashWishlistPreview"></div>
         </div>
@@ -139,7 +139,7 @@
           <!-- Avatar section -->
           <div class="account-profile-avatar-section">
             <div class="account-profile-avatar" id="profileAvatar">JD</div>
-            <button class="btn btn-sm btn-secondary-dark">Change Photo</button>
+            <button class="btn btn--sm btn--dark">Change Photo</button>
             <p class="account-avatar-hint">JPG, PNG up to 2MB</p>
           </div>
 
@@ -227,8 +227,8 @@
             </div>
 
             <div class="account-form-actions">
-              <button class="btn btn-primary" id="saveProfileBtn">Save Changes</button>
-              <button class="btn btn-secondary" id="cancelProfileBtn">Cancel</button>
+              <button class="btn btn--primary" id="saveProfileBtn">Save Changes</button>
+              <button class="btn btn--secondary" id="cancelProfileBtn">Cancel</button>
             </div>
           </div>
         </div>
@@ -240,7 +240,7 @@
 
         <div class="account-addresses-header">
           <h2 class="account-section-title">Saved Addresses</h2>
-          <button class="btn btn-secondary" id="addAddressBtn">
+          <button class="btn btn--secondary" id="addAddressBtn">
             <svg viewBox="0 0 20 20" fill="currentColor" width="15"><path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z"/></svg>
             Add New Address
           </button>
@@ -254,7 +254,7 @@
           <div class="account-modal-card">
             <div class="account-modal-header">
               <h3 class="account-modal-title" id="addressModalTitle">Add New Address</h3>
-              <button class="btn btn-icon-only btn-secondary-dark" id="closeAddressModal">
+              <button class="btn btn--icon-only btn--dark" id="closeAddressModal">
                 <svg viewBox="0 0 20 20" fill="currentColor" width="18"><path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z"/></svg>
               </button>
             </div>
@@ -305,8 +305,8 @@
               </div>
             </div>
             <div class="account-modal-footer">
-              <button class="btn btn-secondary-dark" id="cancelAddressModal">Cancel</button>
-              <button class="btn btn-primary" id="saveAddressBtn">Save Address</button>
+              <button class="btn btn--dark" id="cancelAddressModal">Cancel</button>
+              <button class="btn btn--primary" id="saveAddressBtn">Save Address</button>
             </div>
           </div>
         </div>
@@ -317,7 +317,7 @@
       <div class="account-panel" id="tab-wishlist" role="tabpanel" hidden>
         <div class="account-wishlist-header">
           <h2 class="account-section-title">My Wishlist <span class="account-wishlist-count" id="wishlistCount">(4 items)</span></h2>
-          <button class="btn btn-secondary" id="addAllToCartBtn">
+          <button class="btn btn--secondary" id="addAllToCartBtn">
             <svg viewBox="0 0 20 20" fill="currentColor" width="15"><path d="M6 4.75A.75.75 0 016.75 4h.75v-.25a2.5 2.5 0 015 0V4h.75A.75.75 0 0114 4.75v.5A.75.75 0 0113.25 6h-6.5A.75.75 0 016 5.25v-.5zM4.868 7.5A1 1 0 003.87 8.62l.555 5A1 1 0 005.42 14.5h9.16a1 1 0 00.994-.88l.555-5A1 1 0 0015.132 7.5H4.868z"/></svg>
             Add All to Cart
           </button>
@@ -334,7 +334,7 @@
     <div class="account-modal-card account-modal-card--wide">
       <div class="account-modal-header">
         <h3 class="account-modal-title" id="orderModalTitle">Order Details</h3>
-        <button class="btn btn-icon-only btn-secondary-dark" id="closeOrderModal">
+        <button class="btn btn--icon-only btn--dark" id="closeOrderModal">
           <svg viewBox="0 0 20 20" fill="currentColor" width="18"><path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z"/></svg>
         </button>
       </div>

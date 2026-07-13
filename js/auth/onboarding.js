@@ -1,4 +1,4 @@
-/**
+﻿/**
  * ONBOARDING COMPONENT
  * First-time visitor welcome flow
  */
@@ -114,19 +114,19 @@ export function showOnboarding() {
         
         <!-- Navigation -->
         <div class="onboarding__navigation">
-          <button class="btn btn-secondary onboarding__nav-button onboarding__nav-button--prev" data-onboarding-prev>
+          <button class="btn btn--secondary onboarding__nav-button onboarding__nav-button--prev" data-onboarding-prev>
             Previous
           </button>
           
-          <button class="btn btn-tertiary onboarding__nav-button onboarding__nav-button--skip" data-onboarding-skip>
+          <button class="btn btn--link onboarding__nav-button onboarding__nav-button--skip" data-onboarding-skip>
             Skip
           </button>
           
-          <button class="btn btn-primary onboarding__nav-button" data-onboarding-next>
+          <button class="btn btn--primary onboarding__nav-button" data-onboarding-next>
             Next
           </button>
           
-          <button class="btn btn-primary onboarding__nav-button" data-onboarding-finish style="display: none;">
+          <button class="btn btn--primary onboarding__nav-button" data-onboarding-finish style="display: none;">
             Get Started
           </button>
         </div>
