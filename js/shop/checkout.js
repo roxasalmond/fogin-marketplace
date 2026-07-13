@@ -3,6 +3,9 @@
    js/pages/checkout.js
 ============================================ */
 
+import { fetchProductById } from '../utils/api.js';
+import { mapCartProduct } from '../utils/cart-product.js';
+
 // ─── Constants ────────────────────────────
 const CART_KEY = 'foginCart';
 const USER_KEY = 'foginUser';
@@ -30,18 +33,6 @@ const PAYMENT_LABELS = {
   cod:   'Cash on Delivery',
 };
 
-// ─── Sample product DB ────────────────────
-const PRODUCTS_DB = [
-  { id: 1,  name: 'Vaporesso XROS 3',        category: 'Pod System', price: 2499 },
-  { id: 2,  name: 'Uwell Caliburn G3',        category: 'Pod System', price: 1899 },
-  { id: 3,  name: 'Voopoo Drag S Pro',        category: 'Mod Kit',    price: 3499 },
-  { id: 4,  name: 'Mango Ice E-Liquid',       category: 'E-Liquid',   price: 399  },
-  { id: 5,  name: 'Strawberry Milk E-Liquid', category: 'E-Liquid',   price: 399  },
-  { id: 6,  name: 'Smok Nord 5',             category: 'Pod System',  price: 2199 },
-  { id: 7,  name: 'Freemax Maxus 200W',      category: 'Mod Kit',     price: 4999 },
-  { id: 8,  name: 'Nasty Juice Slow Blow',   category: 'E-Liquid',    price: 449  },
-];
-
 // ─── State ────────────────────────────────
 let currentStep = 1;
 let shippingMethod = 'standard';
@@ -68,11 +59,23 @@ function generateOrderId() {
   return 'FG-' + Math.random().toString(36).slice(2, 8).toUpperCase();
 }
 
-function buildCartItems() {
-  return getCart().map(entry => {
-    const p = PRODUCTS_DB.find(x => x.id === Number(entry.id));
-    return p ? { ...p, qty: entry.qty || 1 } : null;
-  }).filter(Boolean);
+// FIX: previously looked up entry.id against a hardcoded local PRODUCTS_DB
+// with fake integer ids 1-8, same bug as cart.js had - real cart entries
+// carry real database ids that never matched, so checkout always saw an
+// empty cart and redirected back to cart.html regardless of what was
+// actually in localStorage. Now fetches each item from the real API.
+async function buildCartItems() {
+  const raw = getCart();
+  const results = await Promise.all(raw.map(async entry => {
+    try {
+      const data = await fetchProductById(entry.id);
+      return { ...mapCartProduct(data), qty: entry.qty || 1 };
+    } catch (err) {
+      console.error(`[checkout] Failed to load product ${entry.id}:`, err);
+      return null;
+    }
+  }));
+  return results.filter(Boolean);
 }
 
 function calcTotals() {
@@ -83,19 +86,22 @@ function calcTotals() {
 }
 
 // ─── Pre-populate address from saved user ─
+// FIX: keys must be the real HTML element IDs (kebab-case for multi-word
+// fields). 'fullName' removed entirely - there is no combined-name input,
+// the form only has separate first-name/last-name fields, so this key
+// never matched anything and never prefilled.
 function prefillAddress() {
   const user = getSavedUser();
   if (!user) return;
 
   const map = {
-    fullName:      user.fullName || user.name || '',
-    phone:         user.phone || '',
-    email:         user.email || '',
-    streetAddress: user.streetAddress || user.address || '',
-    barangay:      user.barangay || '',
-    city:          user.city || '',
-    province:      user.province || '',
-    zipCode:       user.zipCode || user.zip || '',
+    phone:              user.phone || '',
+    email:              user.email || '',
+    'street-address':   user.streetAddress || user.address || '',
+    barangay:           user.barangay || '',
+    city:               user.city || '',
+    province:           user.province || '',
+    'zip-code':         user.zipCode || user.zip || '',
   };
 
   Object.entries(map).forEach(([id, val]) => {
@@ -243,14 +249,24 @@ function validateAddress() {
 }
 
 // ─── Collect address data ──────────────────
+// FIX: store camelCase keys on addressData so they match what renderReview()
+// reads back (addressData.streetAddress, .fullName, .zipCode, etc.) —
+// previously this wrote kebab-case/bracket keys ('street-address',
+// 'full-name') that renderReview never actually read, so every review field
+// silently rendered as undefined.
 function collectAddress() {
-  const fields = ['phone', 'email', 'street-address', 'barangay', 'city', 'province', 'zip-code', 'delivery-notes'];
-  fields.forEach(id => {
-    addressData[id] = document.getElementById(id)?.value?.trim() || '';
-  });
+  addressData.phone         = document.getElementById('phone')?.value?.trim() || '';
+  addressData.email         = document.getElementById('email')?.value?.trim() || '';
+  addressData.streetAddress = document.getElementById('street-address')?.value?.trim() || '';
+  addressData.barangay      = document.getElementById('barangay')?.value?.trim() || '';
+  addressData.city          = document.getElementById('city')?.value?.trim() || '';
+  addressData.province      = document.getElementById('province')?.value?.trim() || '';
+  addressData.zipCode       = document.getElementById('zip-code')?.value?.trim() || '';
+  addressData.deliveryNotes = document.getElementById('delivery-notes')?.value?.trim() || '';
+
   const first = document.getElementById('first-name')?.value?.trim() || '';
   const last  = document.getElementById('last-name')?.value?.trim() || '';
-  addressData['full-name'] = `${first} ${last}`.trim();
+  addressData.fullName = `${first} ${last}`.trim();
 }
 
 // ─── Render review section ─────────────────
@@ -318,18 +334,19 @@ function formatExpiry(input) {
 function bindEvents() {
 
   // ── Step 1: Address → Shipping ──
+  // FIX: all four IDs below were camelCase, real HTML IDs are kebab-case.
   document.getElementById('continue-to-shipping')?.addEventListener('click', () => {
     if (!validateAddress()) return;
     collectAddress();
-    collapseSection('addressForm', 'addressSummary', 'addressSummaryText', 'editAddress');
-    unlockSection('sectionShipping');
+    collapseSection('address-form', 'address-summary', 'address-summary-text', 'edit-address');
+    unlockSection('section-shipping');
     currentStep = 2;
     updateStepIndicator(2);
     renderSummary();
   });
 
   document.getElementById('edit-address')?.addEventListener('click', () => {
-    expandSection('addressForm', 'addressSummary', 'editAddress');
+    expandSection('address-form', 'address-summary', 'edit-address');
   });
 
   // ── Step 2: Shipping → Payment ──
@@ -342,20 +359,24 @@ function bindEvents() {
         return;
       }
     }
-    collapseSection('shippingForm', 'shippingSummary', 'shippingSummaryText', 'editShipping');
-    unlockSection('sectionPayment');
+    collapseSection('shipping-form', 'shipping-summary', 'shipping-summary-text', 'edit-shipping');
+    unlockSection('section-payment');
     currentStep = 2;
     updateStepIndicator(2);
     renderSummary();
   });
 
   document.getElementById('edit-shipping')?.addEventListener('click', () => {
-    expandSection('shippingForm', 'shippingSummary', 'editShipping');
+    expandSection('shipping-form', 'shipping-summary', 'edit-shipping');
   });
 
   // ── Step 3: Payment → Review ──
   document.getElementById('continue-to-review')?.addEventListener('click', () => {
-    collapseSection('paymentForm', 'paymentSummary', 'paymentSummaryText', 'editPayment');
+    collapseSection('payment-form', 'payment-summary', 'payment-summary-text', 'edit-payment');
+    // NOTE: HTML's review section id="sectionReview" (camelCase) - unlike
+    // section-shipping/section-payment above, this one is NOT kebab-case in
+    // the HTML itself, so it's left as-is here to match. Worth reconciling
+    // as part of a future full ID-naming pass, out of scope for this fix.
     unlockSection('sectionReview');
     currentStep = 3;
     updateStepIndicator(3);
@@ -364,7 +385,7 @@ function bindEvents() {
   });
 
   document.getElementById('edit-payment')?.addEventListener('click', () => {
-    expandSection('paymentForm', 'paymentSummary', 'editPayment');
+    expandSection('payment-form', 'payment-summary', 'edit-payment');
   });
 
   // ── Shipping method change ──
@@ -416,18 +437,21 @@ function bindEvents() {
   });
 
   // ── Clear errors on input ──
+  // FIX: was `${input.id}Error` (camelCase concat), real error span IDs are
+  // kebab-case (e.g. "first-name-error"), same pattern validateAddress()
+  // already uses correctly above.
   document.querySelectorAll('.co-input').forEach(input => {
     input.addEventListener('input', () => {
       input.classList.remove('co-input--error');
-      const err = document.getElementById(`${input.id}Error`);
+      const err = document.getElementById(`${input.id}-error`);
       if (err) err.textContent = '';
     });
   });
 }
 
 // ─── Init ─────────────────────────────────
-function init() {
-  cartItems = buildCartItems();
+async function init() {
+  cartItems = await buildCartItems();
 
   if (cartItems.length === 0) {
     // Nothing in cart — redirect back

@@ -3,25 +3,14 @@
    js/pages/cart.js
 ============================================ */
 
+import { fetchProductById, fetchProducts } from '../utils/api.js';
+import { mapCartProduct } from '../utils/cart-product.js';
+import { esc } from '../../../fogin-shared/js/core/sanitize.js';
+
 // ─── Constants ────────────────────────────
 const CART_KEY = 'foginCart';
 const FREE_SHIPPING_THRESHOLD = 2000;
 const SHIPPING_FEE = 150;
-
-// ─── Sample product data (replace with API later) ────
-const PRODUCTS_DB = [
-  { id: 1,  name: 'Vaporesso XROS 3',       category: 'Pod System',  price: 2499, image: null, vendor: 'VapeHub Manila',    vendorId: 'v1' },
-  { id: 2,  name: 'Uwell Caliburn G3',       category: 'Pod System',  price: 1899, image: null, vendor: 'VapeHub Manila',    vendorId: 'v1' },
-  { id: 3,  name: 'Voopoo Drag S Pro',       category: 'Mod Kit',     price: 3499, image: null, vendor: 'CloudChasers PH',  vendorId: 'v2' },
-  { id: 4,  name: 'Mango Ice E-Liquid',      category: 'E-Liquid',    price: 399,  image: null, vendor: 'LiquidLab PH',     vendorId: 'v3' },
-  { id: 5,  name: 'Strawberry Milk E-Liquid',category: 'E-Liquid',    price: 399,  image: null, vendor: 'LiquidLab PH',     vendorId: 'v3' },
-  { id: 6,  name: 'Smok Nord 5',            category: 'Pod System',   price: 2199, image: null, vendor: 'CloudChasers PH',  vendorId: 'v2' },
-  { id: 7,  name: 'Freemax Maxus 200W',     category: 'Mod Kit',      price: 4999, image: null, vendor: 'VapeHub Manila',   vendorId: 'v1' },
-  { id: 8,  name: 'Nasty Juice Slow Blow',  category: 'E-Liquid',     price: 449,  image: null, vendor: 'LiquidLab PH',     vendorId: 'v3' },
-];
-
-// Featured products for empty state
-const FEATURED_PRODUCTS = PRODUCTS_DB.slice(0, 4);
 
 // ─── Cart State ───────────────────────────
 let cartItems = [];
@@ -52,22 +41,30 @@ function saveCart(items) {
   window.dispatchEvent(new Event('fogin:cart-updated'));
 }
 
-function getProductById(id) {
-  return PRODUCTS_DB.find(p => p.id === Number(id)) || null;
-}
-
 function getVendorInitials(name) {
   return name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
 }
 
-// ─── Build cart items with product data ───
-function buildCartItems() {
+// ─── Build cart items from real product data ──────────────────────────
+// FIX: previously looked up entry.id against a hardcoded local PRODUCTS_DB
+// with fake integer ids 1-8. Real cart entries (added via catalog.js/
+// product.js) carry real database ids, which never matched - every item
+// was silently filtered out, leaving the cart page empty while the navbar
+// badge (which just sums raw qty, no product lookup) showed the correct
+// count. Now fetches each item's real data from the API, same as
+// shop/product.js does for a single product.
+async function buildCartItems() {
   const raw = getCart();
-  return raw.map(entry => {
-    const product = getProductById(entry.id);
-    if (!product) return null;
-    return { ...product, qty: entry.qty || 1 };
-  }).filter(Boolean);
+  const results = await Promise.all(raw.map(async entry => {
+    try {
+      const data = await fetchProductById(entry.id);
+      return { ...mapCartProduct(data), qty: entry.qty || 1 };
+    } catch (err) {
+      console.error(`[cart] Failed to load product ${entry.id}:`, err);
+      return null;
+    }
+  }));
+  return results.filter(Boolean);
 }
 
 // ─── Totals ───────────────────────────────
@@ -104,16 +101,16 @@ function groupByVendor(items) {
 function renderCartItem(item) {
   const isSelected = selectedIds.has(item.id);
   const imageHTML = item.image
-    ? `<img src="${item.image}" alt="${item.name}" class="cart-item__image">`
+    ? `<img src="${esc(item.image)}" alt="${esc(item.name)}" class="cart-item__image">`
     : `<div class="cart-item__image-placeholder">📦</div>`;
 
   return `
-    <div class="cart-item" data-id="${item.id}">
+    <div class="cart-item" data-id="${esc(item.id)}">
       <input
         type="checkbox"
         class="cart-item__checkbox"
-        data-id="${item.id}"
-        aria-label="Select ${item.name}"
+        data-id="${esc(item.id)}"
+        aria-label="Select ${esc(item.name)}"
         ${isSelected ? 'checked' : ''}
       >
 
@@ -122,8 +119,8 @@ function renderCartItem(item) {
       </div>
 
       <div class="cart-item__info">
-        <span class="cart-item__category">${item.category}</span>
-        <span class="cart-item__name">${item.name}</span>
+        <span class="cart-item__category">${esc(item.category)}</span>
+        <span class="cart-item__name">${esc(item.name)}</span>
         <span class="cart-item__variant">In stock</span>
         <span class="cart-item__price-mobile">${formatPrice(item.price * item.qty)}</span>
       </div>
@@ -133,12 +130,12 @@ function renderCartItem(item) {
         <span class="cart-item__original-price">${formatPrice(item.price)} each</span>
 
         <div class="cart-qty">
-          <button class="cart-qty__btn" data-action="decrease" data-id="${item.id}" aria-label="Decrease quantity" ${item.qty <= 1 ? 'disabled' : ''}>−</button>
+          <button class="cart-qty__btn" data-action="decrease" data-id="${esc(item.id)}" aria-label="Decrease quantity" ${item.qty <= 1 ? 'disabled' : ''}>−</button>
           <span class="cart-qty__value" aria-label="Quantity">${item.qty}</span>
-          <button class="cart-qty__btn" data-action="increase" data-id="${item.id}" aria-label="Increase quantity">+</button>
+          <button class="cart-qty__btn" data-action="increase" data-id="${esc(item.id)}" aria-label="Increase quantity">+</button>
         </div>
 
-        <button class="cart-item__remove" data-action="remove" data-id="${item.id}" aria-label="Remove ${item.name}">
+        <button class="cart-item__remove" data-action="remove" data-id="${esc(item.id)}" aria-label="Remove ${esc(item.name)}">
           <svg viewBox="0 0 16 16" fill="currentColor" width="12">
             <path d="M5.5 5.5A.5.5 0 016 6v6a.5.5 0 01-1 0V6a.5.5 0 01.5-.5zm2.5 0a.5.5 0 01.5.5v6a.5.5 0 01-1 0V6a.5.5 0 01.5-.5zm3 .5a.5.5 0 00-1 0v6a.5.5 0 001 0V6z"/>
             <path fill-rule="evenodd" d="M14.5 3a1 1 0 01-1 1H13v9a2 2 0 01-2 2H5a2 2 0 01-2-2V4h-.5a1 1 0 010-2h3.5a1 1 0 011-1h2a1 1 0 011 1H13.5a1 1 0 011 1zM4.118 4L4 4.059V13a1 1 0 001 1h6a1 1 0 001-1V4.059L11.882 4H4.118z" clip-rule="evenodd"/>
@@ -156,7 +153,7 @@ function renderVendorGroup(group) {
     <div class="cart-vendor-group">
       <div class="cart-vendor-header">
         <div class="cart-vendor-avatar">${getVendorInitials(group.vendorName)}</div>
-        <span class="cart-vendor-name">${group.vendorName}</span>
+        <span class="cart-vendor-name">${esc(group.vendorName)}</span>
         <span class="cart-vendor-badge">Verified Vendor</span>
       </div>
       ${itemsHTML}
@@ -164,21 +161,28 @@ function renderVendorGroup(group) {
   `;
 }
 
-function renderEmptyFeatured() {
-  return FEATURED_PRODUCTS.map(p => `
-    <article class="product-card" data-empty-add="${p.id}">
+// FIX: previously showed FEATURED_PRODUCTS = PRODUCTS_DB.slice(0, 4) - the
+// same fake stub data. Clicking "Add to Cart" here would have re-added a
+// fake id, perpetuating the exact bug this rewrite fixes. Now takes real
+// items from fetchProducts(), same shape catalog.js already renders cards
+// from (price_min, image_url, category_name).
+function renderEmptyFeatured(products) {
+  return products.map(p => `
+    <article class="product-card" data-empty-add="${esc(p.id)}">
       <div class="product-card__img-wrap">
-        <div class="product-card__img-placeholder">📦</div>
+        ${p.image_url
+          ? `<img src="${esc(p.image_url)}" alt="${esc(p.name)}" style="width:100%;height:100%;object-fit:contain;">`
+          : `<div class="product-card__img-placeholder">📦</div>`}
       </div>
       <div class="product-card__body">
-        <div class="product-card__vendor">${p.category}</div>
-        <h3 class="product-card__name">${p.name}</h3>
+        <div class="product-card__vendor">${esc(p.category_name || '')}</div>
+        <h3 class="product-card__name">${esc(p.name)}</h3>
         <div class="product-card__price-row">
-          <span class="product-card__price">${formatPrice(p.price)}</span>
+          <span class="product-card__price">${p.price_min ? formatPrice(parseFloat(p.price_min)) : '—'}</span>
         </div>
       </div>
       <div class="product-card__footer">
-        <button class="product-card__add" data-empty-add="${p.id}">Add to Cart</button>
+        <button class="product-card__add" data-empty-add="${esc(p.id)}">Add to Cart</button>
       </div>
     </article>
   `).join('');
@@ -253,7 +257,7 @@ function updateSelectAll() {
   }
 }
 
-function render() {
+async function render() {
   const container    = document.getElementById('cart-items-container');
   const layout       = document.getElementById('cart-layout');
   const emptyState   = document.getElementById('cart-empty');
@@ -266,8 +270,14 @@ function render() {
 
     const featuredContainer = document.getElementById('empty-cart-products');
     if (featuredContainer) {
-      featuredContainer.innerHTML = renderEmptyFeatured();
-      bindEmptyCartEvents(featuredContainer);
+      try {
+        const data = await fetchProducts({ limit: 4 });
+        featuredContainer.innerHTML = renderEmptyFeatured(data.items || []);
+        bindEmptyCartEvents(featuredContainer);
+      } catch (err) {
+        console.error('[cart] Failed to load featured products:', err);
+        featuredContainer.innerHTML = '';
+      }
     }
     return;
   }
@@ -286,31 +296,34 @@ function render() {
 }
 
 // ─── Item Actions ─────────────────────────
-function updateQty(id, delta) {
+// FIX: removed Number(id) coercion throughout this file. Cart entry ids are
+// real database ids (strings, likely UUIDs) - Number('some-uuid') is NaN,
+// which would never match anything even after the product-lookup fix above.
+async function updateQty(id, delta) {
   const raw = getCart();
-  const idx = raw.findIndex(i => i.id === Number(id));
+  const idx = raw.findIndex(i => i.id === id);
   if (idx === -1) return;
   raw[idx].qty = Math.max(1, (raw[idx].qty || 1) + delta);
   saveCart(raw);
-  cartItems = buildCartItems();
-  render();
+  cartItems = await buildCartItems();
+  await render();
 }
 
-function removeItem(id) {
-  const raw = getCart().filter(i => i.id !== Number(id));
-  selectedIds.delete(Number(id));
+async function removeItem(id) {
+  const raw = getCart().filter(i => i.id !== id);
+  selectedIds.delete(id);
   saveCart(raw);
-  cartItems = buildCartItems();
-  render();
+  cartItems = await buildCartItems();
+  await render();
 }
 
-function removeSelected() {
+async function removeSelected() {
   if (selectedIds.size === 0) return;
-  const raw = getCart().filter(i => !selectedIds.has(Number(i.id)));
+  const raw = getCart().filter(i => !selectedIds.has(i.id));
   selectedIds.clear();
   saveCart(raw);
-  cartItems = buildCartItems();
-  render();
+  cartItems = await buildCartItems();
+  await render();
 }
 
 // ─── Bind item-level events after render ──
@@ -318,20 +331,20 @@ function bindItemEvents() {
   const container = document.getElementById('cart-items-container');
   if (!container) return;
 
-  container.addEventListener('click', (e) => {
+  container.addEventListener('click', async (e) => {
     const btn = e.target.closest('[data-action]');
     if (!btn) return;
-    const id = Number(btn.dataset.id);
+    const id = btn.dataset.id;
     const action = btn.dataset.action;
-    if (action === 'increase') updateQty(id, 1);
-    if (action === 'decrease') updateQty(id, -1);
-    if (action === 'remove') removeItem(id);
+    if (action === 'increase') await updateQty(id, 1);
+    if (action === 'decrease') await updateQty(id, -1);
+    if (action === 'remove') await removeItem(id);
   });
 
   container.addEventListener('change', (e) => {
     const checkbox = e.target.closest('.cart-item__checkbox');
     if (!checkbox) return;
-    const id = Number(checkbox.dataset.id);
+    const id = checkbox.dataset.id;
     if (checkbox.checked) selectedIds.add(id);
     else selectedIds.delete(id);
     updateSelectAll();
@@ -340,17 +353,17 @@ function bindItemEvents() {
 
 // ─── Global for empty state add to cart ───
 function bindEmptyCartEvents(container) {
-  container.addEventListener('click', (e) => {
+  container.addEventListener('click', async (e) => {
     const btn = e.target.closest('[data-empty-add]');
     if (!btn) return;
-    const id = Number(btn.dataset.emptyAdd);
+    const id = btn.dataset.emptyAdd;
     const raw = getCart();
     const existing = raw.find(i => i.id === id);
     if (existing) existing.qty += 1;
     else raw.push({ id, qty: 1 });
     saveCart(raw);
-    cartItems = buildCartItems();
-    render();
+    cartItems = await buildCartItems();
+    await render();
   });
 }
 
@@ -401,7 +414,7 @@ function bindBulkActions() {
     }
     // Re-check all checkboxes
     document.querySelectorAll('.cart-item__checkbox').forEach(cb => {
-      cb.checked = selectedIds.has(Number(cb.dataset.id));
+      cb.checked = selectedIds.has(cb.dataset.id);
     });
     updateSelectAll();
   });
@@ -418,13 +431,13 @@ function bindCheckout() {
 }
 
 // ─── Init ─────────────────────────────────
-function init() {
-  cartItems = buildCartItems();
+async function init() {
+  cartItems = await buildCartItems();
 
   // Pre-select all by default
   cartItems.forEach(i => selectedIds.add(i.id));
 
-  render();
+  await render();
   bindVoucherEvents();
   bindBulkActions();
   bindCheckout();
